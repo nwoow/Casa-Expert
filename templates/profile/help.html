@@ -1,0 +1,52 @@
+{% extends 'base/base.html' %}
+
+{% block body %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="my-5 mt-5">
+                <h3>Help Center</h3>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            {% include 'profile/sidebar.html' %}
+        </div>
+        <div class="col-md-8 mb-5">
+            <form class="form-a" >
+                <p class="titlle">Any Query</p>
+                <p class="message fw-bold  text-white">Helpline No. : <a href="tel:919297884500" class="text-white">
+                        +91 92978 84500
+                    </a></p>
+
+                <label>
+                    <input class="input" type="text"  required name="name" pattern="[A-Za-z\s]+" title="Please enter a valid name (letters and spaces only)">
+                    <span>Name</span>
+                </label>
+
+                <label>
+                    <input class="input" type="email"  required name="email">
+                    <span>Email</span>
+                </label>
+
+                <label>
+                    <input class="input" type="tel"  required name="phone" pattern="[0-9]+" title="Please enter a valid name (numbers only)" maxlength="10">
+                    <span>Mobile No.</span>
+                </label>
+                <label>
+                    <input class="input" type="text" required maxlength="500">
+                    <span>Message Us</span>
+                </label>
+                <button class="submit" type="submit">Submit</button>
+            </form>
+
+
+
+        </div>
+    </div>
+
+</div>
+{% endblock body %}

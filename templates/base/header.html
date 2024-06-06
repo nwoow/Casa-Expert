@@ -1,0 +1,198 @@
+<!-- Navbar Area -->
+<div class="navbar-area two fixed-top">
+    <!-- Menu For Mobile Device -->
+    <div class="mobile-nav">
+        <a href="/" class="logo">
+            <img src="/static/whitelogo.png" alt="Logo">
+        </a>
+    </div>
+
+    <!-- Menu For Desktop Device -->
+    <div class="main-nav">
+        
+        <div class="container">
+            <nav class="navbar navbar-expand-md navbar-light">
+                <a class="navbar-brand" href="/">
+                    <img src="/static/casalogo.png" width="200px" alt="Logo">
+                </a>
+                <div class="collapse navbar-collapse mean-menu" id="navbarSupportedContent">
+                    <ul class="navbar-nav">
+                        <li id="gallery-nav-item" class="nav-item">
+                            <a href="{% url 'gallery' %}" class="nav-link {% if request.resolver_match.url_name == 'gallery' %}active{% endif %} ">Gallery</a>
+                        </li>
+                        <li id="register-nav-item" class="nav-item">
+                            <a href="{% url 'register_as_a_professional' %}" class="nav-link {% if request.resolver_match.url_name == 'register_as_a_professional' %}active{% endif %}">Register as a professional</a>
+                        </li>
+                        <li id="contact-nav-item" class="nav-item">
+                            <a href="{% url 'contact' %}" class="nav-link {% if request.resolver_match.url_name == 'contact' %}active{% endif %}">Contact</a>
+                        </li>
+                        <li class="nav-item">
+                            {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a href="{% url 'ulogout' %}" class="nav-link">Logout</a>
+                        </li>
+                        {% else %}
+                        <a href="#" type="button" class="nav-link" data-bs-toggle="modal"
+                            data-bs-target="#staticBackdrop">
+                            Login/Sign Up
+                        </a>
+                        {% endif %}
+                        <div class=" me-2">
+
+                        </div>
+                        </li>
+                    </ul>
+                    <div class="side-nav me-2">
+                        {% if cart_count %}
+                        <span class="cartcount">{{cart_count}}</span>
+                        {% else %}
+                        <span></span>
+                        {% endif %}
+                        <a href="/cart" style="font-size: 25px;"><i class='bx bxs-cart bx-tada'></i></a>
+
+                    </div>
+                    {% if user.is_authenticated %}
+                    <div class="side-nav me-2">
+                        <a href="/profile" style="font-size: 25px;"><i class='bx bxs-user bx-tada'></i></a>
+                    </div>
+                    {% endif %}
+                    <div class="side-nav me-2">
+                        <a href="tel:+9192978 84500" style="font-size: 25px;"><i
+                                class='bx bxs-phone-call bx-tada'></i></a>
+                    </div>
+                </div>
+
+            </nav>
+        </div>
+    </div>
+</div>
+<!-- End Navbar Area -->
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" {% if message %} area-model="true" {% else %} aria-hidden="true" {% endif %}>
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content login-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Login/Sign up</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+            </div>
+
+            <div class="modal-body login-body">
+                <div class="alert alert-success px-2" id="showalert" style="display: none;">
+                </div>
+                <form action="{% url 'verifyotp' %}" method="post" id="yourFormId">
+                    {% csrf_token %}
+
+                    <div class="form-group text-center">
+                        <div class="d-flex login-contact" style="height: 50px!important;">
+                            <span>+91 <i class='bx bx-chevron-down' sty></i></span>
+                            <input type="tel" id="form_mobile_number" class="form-control number-form"
+                                placeholder="Enter  Mobile Number" name="phone_number" required maxlength="10"
+                                oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                        </div>
+                        <div class="form-group mt-4 mb-3" style="text-align: left!important;">
+                            <label class="check-con">
+                                <input type="checkbox">
+
+                            </label>
+                        </div>
+                    </div>
+                   
+                    <div class="form-group otp_div_form" id="otp_div" style="display: none;">
+                        <input type="text" id="form_otp" class="form-control number-form" placeholder="Enter OTP"
+                            name="otp">
+                        <button type="button" onclick="verifyotp()"
+                            class="btn btn-success confirm_btn_form mt-5 mb-5 d-block mx-auto" >Confirm</button>
+                    </div>
+                    <div class="form-group text-center">
+                        <span class="button-69" onclick="sendotp()">
+                            <span class="p-3">Send OTP</span>
+                        </span>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    function sendotp() {
+        var phone_number = document.getElementById('form_mobile_number').value
+        const showalert = document.getElementById('showalert')
+        const otp_div = document.getElementById('otp_div')
+        console.log(phone_number)
+        let request = new XMLHttpRequest();
+        request.open("POST", '/api/user-login/', true);
+        request.setRequestHeader('Content-Type', 'application/json');
+        request.onreadystatechange = function () {
+            showalert.style.display = "inline"
+            if (this.readyState === 4 && this.status === 200) {
+                const response = JSON.parse(this.responseText)
+                console.log(response)
+                if (response.status === 200) {
+                    showalert.innerHTML = `<b>${response.message}</b>`
+                    otp_div.style.display = "inline"
+                }
+                else {
+                    showalert.innerHTML = "<b>Something Wrong</b>"
+                }
+            } else {
+                showalert.innerHTML = "<b>Something Wrong</b>"
+            }
+            setTimeout(() => {
+                showalert.style.display = "none"
+            }, 2000)
+        };
+        var data = {
+            'phone_number': phone_number
+        }
+        var jsonData = JSON.stringify(data);
+        console.log(jsonData)
+        request.send(jsonData);
+    }
+    function verifyotp() {
+        var phone_number = document.getElementById('form_mobile_number').value
+        const showalert = document.getElementById('showalert')
+        const otp_div = document.getElementById('otp_div')
+        const form_otp = document.getElementById('form_otp').value
+        console.log(phone_number)
+        let request = new XMLHttpRequest();
+        request.open("POST", '/api/verify-otp/', true);
+        request.setRequestHeader('Content-Type', 'application/json');
+        request.onreadystatechange = function () {
+            showalert.style.display = "inline"
+            if (this.readyState === 4 && this.status === 200) {
+                const response = JSON.parse(this.responseText)
+                console.log(response)
+                if (response.status === 200) {
+                    showalert.innerHTML = `<b>${response.message}</b>`
+                    otp_div.style.display = "inline"
+                    document.getElementById('yourFormId').submit()
+                }
+                else {
+                    showalert.innerHTML = `<b>${response.message}</b>`
+                }
+            } else {
+                showalert.innerHTML = `<b>${response.message}</b>`
+            }
+            setTimeout(() => {
+                showalert.style.display = "none"
+            }, 2000)
+        };
+        var data = {
+            'phone_number': phone_number,
+            'otp': form_otp
+        }
+        var jsonData = JSON.stringify(data);
+        console.log(jsonData)
+        request.send(jsonData);
+    }
+
+</script>
+
+

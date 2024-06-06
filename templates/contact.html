@@ -1,0 +1,206 @@
+{% extends 'base/base.html' %}
+
+{% block body %}
+    <!-- Page Title -->
+    <div class="page-title-area">
+        <div class="d-table">
+            <div class="d-table-cell">
+                <div class="container">
+                    <div class="title-item">
+                        <h2>Contact</h2>
+                        <ul>
+                            <li>
+                                <a href="\">Home</a>
+                            </li>
+                            <li>
+                                <i class='bx bx-chevrons-right'></i>
+                            </li>
+                            <li>
+                                <span>Contact</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Page Title -->
+
+    <!-- Location -->
+    <div class="location-area pt-100 pb-70">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6 col-lg-4">
+                    <div class="location-item">
+                        <i class='bx bx-phone-call'></i>
+                        <h3>Contact Number</h3>
+                        <span>Dial And Get Solution:</span>
+                        <a href="tel:+919297884500">+91 92978 84500</a>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-4">
+                    <div class="location-item">
+                        <i class='bx bx-location-plus'></i>
+                        <h3>Our Location</h3>
+                        <span>Find Our Office:</span>
+                        <span>Abhiyanta Nagar Bailey Road, Danapur, Patna-801503</span>
+                    </div>
+                </div>
+                <div class="col-sm-6 offset-sm-3 offset-lg-0 col-lg-4">
+                    <div class="location-item">
+                        <i class='bx bx-mail-send'></i>
+                        <h3>Our Email</h3>
+                        <span>Mail Us Anytime:</span>
+                        <a href="mailto:customerservices@casaxprt.com">customerservices@casaxprt.com</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Location -->
+
+    <!-- Contact -->
+    <div class="contact-area pb-100">
+        <div class="container">
+            <div class="section-title">
+                <h2>Get In Touch</h2>
+            </div>
+            <form  action="" method="post">
+                {% csrf_token %}
+                <div class="row" id="contactForm">
+                    <div class="col-sm-6 col-lg-6">
+                        <div class="form-group">
+                            <label>Name</label>
+                            <input type="text" name="name" id="name" class="form-control" required
+                                data-error="Please enter your name">
+                            <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-lg-6">
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" name="email" id="email" class="form-control" required
+                                data-error="Please enter your email">
+                            <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-lg-6">
+                        <div class="form-group">
+                            <label>Phone</label>
+                            <input type="tel" name="phone" id="phone_number" required
+                                data-error="Please enter your number" class="form-control">
+                            <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-lg-6">
+                        <div class="form-group">
+                            <label>Subject</label>
+                            <input type="text" name="subject" id="msg_subject" class="form-control" required
+                                data-error="Please enter your subject">
+                            <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                    <div class="alert alert-danger" id="charLimitAlert" style="display: none;">
+                        Maximum 500 characters allowed.
+                    </div>
+                    <div class="col-md-12 col-lg-12">
+                        <div class="form-group">
+                            <label>Message</label>
+                            <textarea name="message" class="form-control" id="message" cols="30" rows="8" required
+                                data-error="Write your message"></textarea>
+                            <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                    
+                    
+
+                    <div class="col-lg-12 col-md-12">
+                        <div class="form-group">
+                            <div class="form-check agree-label">
+                                <input name="gridCheck" value="I agree to the terms and privacy policy."
+                                    class="form-check-input" type="checkbox" id="gridCheck" required>
+
+                                <label class="form-check-label" for="gridCheck">
+                                    Accept <a href="terms-and-conditions">Terms & Conditions</a> And <a
+                                        href="privacy-policy.html">Privacy Policy.</a>
+                                </label>
+                                <div class="help-block with-errors gridCheck-error"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 col-lg-12">
+                        <button type="submit" class="cmn-btn btn">
+                            Send Message
+                        </button>
+                        <div id="msgSubmit" class="h3 text-center hidden"></div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- End Contact -->
+
+    <!-- Map -->
+    <!-- <div class="map-area pb-100">
+        <div class="container-fluid">
+            <iframe id="map"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3597.6406892502614!2d85.05032637579748!3d25.61685331457451!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39ed57637bea25f9%3A0x578b23710bdc54ff!2sCASA%20EXPERT!5e0!3m2!1sen!2sin!4v1695799423967!5m2!1sen!2sin"
+                allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+        </div>
+    </div> -->
+    <!-- End Map -->
+
+    <!-- ! Message letters Alert box show -->
+    <script>
+        document.getElementById('message').addEventListener('input', function () {
+            var maxLength = 500;
+            var currentLength = this.value.length;
+            var remainingLength = maxLength - currentLength;
+    
+            if (remainingLength < 0) {
+                document.getElementById('charLimitAlert').style.display = 'block';
+                this.value = this.value.substring(0, maxLength);
+            } else {
+                document.getElementById('charLimitAlert').style.display = 'none';
+            }
+        });
+    </script>
+     <!-- ! Message letters Alert box show -->
+
+    <!-- !CONTACT FORM VALIDATION -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var nameInput = document.getElementById('name');
+        var phoneInput = document.getElementById('phone_number');
+
+        nameInput.addEventListener('input', function () {
+            var name = this.value.trim();
+            if (!/^[a-zA-Z\s]+$/.test(name)) {
+                this.setCustomValidity('Please enter a valid name');
+            } else {
+                this.setCustomValidity('');
+            }
+        });
+
+        phoneInput.addEventListener('input', function () {
+            var phone = this.value.trim();
+            if (!/^\d{10}$/.test(phone)) {
+                if (/[^\d]/.test(phone)) {
+                    alert('Please enter only numbers in the phone number field');
+                } else {
+                    this.setCustomValidity('Please enter a valid 10-digit phone number');
+                }
+            } else {
+                this.setCustomValidity('');
+            }
+        });
+    });
+</script>
+    <!-- !CONTACT FORM VALIDATION -->
+
+{% endblock body %}

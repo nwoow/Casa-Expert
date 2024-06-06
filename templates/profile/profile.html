@@ -1,0 +1,61 @@
+{% extends 'base/base.html' %}
+
+{% block body %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="my-5 mt-5">
+                <h3 class="text-black mt-3">Profile</h3>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container my-5">
+
+    <div class="row">
+        <div class="col-lg-3 col-md-4 col-sm-12">
+            {% include 'profile/sidebar.html' %}
+        </div>
+        <div class="col-lg-9 col-md-8 col-sm-12">
+
+            <form action="" method="post">
+                {% csrf_token %}
+               
+                <div class="border p-3 mb-3 rounded">
+                    <label for="name" class="form-label">Full Name:</label>
+                    <input type="text" class="form-control profil_forms" id="name" placeholder="Enter your Name" name="name"
+                           value="{{ user.full_name }}" required pattern="[A-Za-z\s]+" title="Please enter a valid name (letters and spaces only)">
+                    <div id="name-error" style="display:none;color:red;">Please enter a valid name (letters and spaces only).</div>
+                </div>
+
+                <div class="border p-3 mb-3 rounded">
+                    <label for="phone" class="form-label">Phone Number:</label>
+                    <input type="text" class="form-control" id="phone" value="{{ user.phone_number }}" readonly>
+                </div>
+
+                <div class="border p-3 mb-3 rounded">
+                    <label for="email" class="form-label">Email:</label>
+                    <input type="email" class="form-control profil_forms" id="email" placeholder="Enter your Email" name="email"
+                        value="{{ user.email }}" required>
+                </div>
+
+                <div class="border p-3">
+                    <button class="button-50 rounded mt-3" type="submit">Update Profile</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    document.getElementById('myForm').addEventListener('submit', function (event) {
+        var nameInput = document.getElementById('name');
+        if (!nameInput.checkValidity()) {
+            event.preventDefault();
+            document.getElementById('name-error').style.display = 'block';
+        } else {
+            document.getElementById('name-error').style.display = 'none';
+        }
+    });
+</script>
+
+{% endblock body %}

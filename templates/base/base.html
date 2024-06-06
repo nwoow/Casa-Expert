@@ -1,0 +1,183 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/static/assets/css/bootstrap.min.css">
+    <!-- Meanmenu CSS -->
+    <link rel="stylesheet" href="/static/assets/css/meanmenu.css">
+    <!-- Boxicons CSS -->
+    <link rel="stylesheet" href="/static/assets/css/boxicons.min.css">
+    <!-- Odometer CSS -->
+    <link rel="stylesheet" href="/static/assets/css/odometer.min.css">
+    <!-- Popup CSS -->
+    <link rel="stylesheet" href="/static/assets/css/magnific-popup.min.css">
+    <!-- Owl Carousel -->
+    <link rel="stylesheet" href="{% static 'owl/assets/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'owl/assets/owl.theme.default.min.css' %}">
+    <!-- Nice Select CSS -->
+    <link rel="stylesheet" href="/static/assets/css/nice-select.min.css">
+    <!-- Style CSS -->
+    <link rel="stylesheet" href="/static/assets/css/style.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <!-- Responsive CSS -->
+    <link rel="stylesheet" href="/static/assets/css/responsive.css">
+    <!-- Theme Dark CSS -->
+    <!-- <link rel="stylesheet" href="/static/assets/css/theme-dark.css"> -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <title>CASA EXPERT</title>
+
+    <link rel="icon" type="image/png" href="/static/assets/img/favicon.png">
+</head>
+
+<body>
+
+    {% include 'base/header.html'%}    
+    {% block body %}
+    
+    {% endblock body %}
+   <h3>
+    {{activetab}}
+   </h3>
+    {% include 'base/footer.html' %}
+
+    
+ 
+    <!-- GetButton.io widget -->
+    <script type="text/javascript">
+        (function () {
+            var options = {
+                call: "+919297884500", // Call phone number
+                whatsapp: "+919297884500", // WhatsApp number
+                call_to_action: "Message us", // Call to action
+                button_color: "#FDB139", // Color of button
+                position: "left", // Position may be 'right' or 'left'
+                order: "call,whatsapp", // Order of buttons
+                pre_filled_message: "Hello, how may we help you?\nJust send us a message now to\nget assistance.", // WhatsApp pre-filled message
+            };
+            var proto = 'https:', host = "getbutton.io", url = proto + '//static.' + host;
+            var s = document.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = url + '/widget-send-button/js/init.js';
+            s.onload = function () { WhWidgetSendButton.init(host, proto, options); };
+            var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x);
+        })();
+    </script>
+    <!-- /GetButton.io widget -->
+
+    <!-- Essential JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+        integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="/static/assets/js/bootstrap.bundle.min.js"></script>
+    <script defer="/static/assets/js/bootstrap.min.js"></script>
+    <!-- Form Validator JS -->
+    <script src="/static/assets/js/form-validator.min.js"></script>
+    <!-- Contact JS -->
+    <script src="/static/assets/js/contact-form-script.js"></script>
+    <!-- Ajax Chip JS -->
+    <script src="/static/assets/js/jquery.ajaxchimp.min.js"></script>
+    <!-- Meanmenu JS -->
+    <script src="/static/assets/js/jquery.meanmenu.js"></script>
+    <!-- Odometer JS -->
+    <script src="/static/assets/js/odometer.min.js"></script>
+    <script src="/static/assets/js/jquery.appear.js"></script>
+    <!-- Popup JS -->
+    <script src="/static/assets/js/jquery.magnific-popup.min.js"></script>
+    <!-- Owl Carousel -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"
+        integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- Nice Select JS -->
+    <script src="/static/assets/js/jquery.nice-select.min.js"></script>
+    <!-- Thumb SLider JS -->
+    <script src="/static/assets/js/thumb-slide.js"></script>
+    <!-- Custom JS -->
+    <script src="/static/assets/js/custom.js"></script>
+    <script src="/static/assets/js/selectCity.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-element-bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        $('.owl-carousel').owlCarousel({
+            loop: true,
+            margin: 10,
+            nav: true,
+            center: true,
+            dots: false,
+            autoplay: true,
+            autoplayTimeout: 5000,
+            autoplayHoverPause: true,
+            responsive: {
+                0: {
+                    items: 2
+                },
+                600: {
+                    items: 3
+                },
+                1200: {
+                    items: 5
+                }
+            }
+
+        });
+        $('.play').on('click', function () {
+            owl.trigger('play.owl.autoplay', [3000])
+        })
+        $('.stop').on('click', function () {
+            owl.trigger('stop.owl.autoplay')
+        })
+    </script>
+
+    <script>
+
+        $(".qty-btn").on("click", function () {
+            console.log("function called")
+            var $this = $(this);
+            var oldValue = $this.siblings("input").val();
+            if ($this.hasClass("plus")) {
+                var newVal = parseFloat(oldValue) + 1;
+            } else {
+                // Don't allow decrementing below zero
+                if (oldValue > 1) {
+                    var newVal = parseFloat(oldValue) - 1;
+                } else {
+                    newVal = 1;
+                }
+            }
+            $this.siblings("input").val(newVal);
+        });
+
+    </script>
+    <script>
+        AOS.init({
+            offset: 120, // offset (in px) from the original trigger point
+            delay: 4000, // values from 0 to 3000, with step 50ms
+            duration: 2000, // values from 0 to 3000, with step 50ms
+        });
+    </script>
+    <script>
+        function inc_cart(puid,qty){
+            const location = window.location.origin
+            pqty = +qty + 1
+            console.log(pqty)
+            window.location.href = window.location.origin+`/add-to-cart?uid=${puid}&quantity=${pqty}`
+        }
+        function dec_cart(puid,qty){
+            const location = window.location.origin
+            pqty = +qty - 1
+            console.log(pqty)
+            if(qty==='1'){
+                console.log(qty)
+            }
+            else{
+                window.location.href = window.location.origin+`/add-to-cart?uid=${puid}&quantity=${pqty}`
+            }
+            
+        }
+    </script>
+</body>
+
+</html>

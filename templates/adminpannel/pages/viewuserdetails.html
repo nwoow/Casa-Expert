@@ -1,0 +1,225 @@
+{% extends 'adminpannel/base.html' %}
+
+{% block body %}
+{% include 'adminpannel/loader.html' %}
+<div id="main-wrapper">
+    <!-- header -->
+    {% include 'adminpannel/header.html' %}
+    <!-- #/ header -->
+    <!-- sidebar -->
+    {% include 'adminpannel/sidebar.html' %}
+    <!-- #/ sidebar -->
+    <div class="content-body">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-xl-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="text-center">
+                                <h2>userdet Details</h2>
+                                <hr>
+                            </div>
+                            <div class="d-flex">
+                                <div class="col-md-5">Full Name : </div>
+                                <div class="col-md-7">
+                                    {{userdet.full_name}}
+                                </div>
+                            </div>
+                            <div class="d-flex">
+                                <div class="col-md-5">Mobile : </div>
+                                <div class="col-md-7">
+                                    {{userdet.phone_number}}
+                                </div>
+                            </div>
+                            <div class="d-flex">
+                                <div class="col-md-5">Email ID : </div>
+                                <div class="col-md-7">
+                                    {{userdet.email}}
+                                </div>
+                            </div>
+                            <!-- <div class="text-center my-2">
+                                <button type="button" class="btn btn-primary" data-toggle="modal"
+                                    data-target="#userModal">
+                                    Edit userdet Details
+                                </button>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-xl-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="text-center">
+                                <h2>userdet Address</h2>
+                                <hr>   
+                            </div>
+                            <div class="d-flex">
+                                <div class="col-md-5">Full Name : </div>
+                                <div class="col-md-7">
+                                    {{userdet.address.name}}
+                                </div>
+                            </div>
+                            <div class="d-flex">
+                                <div class="col-md-5">Address Line : </div>
+                                <div class="col-md-7">
+                                    {{userdet.address.addressline}}
+                                </div>
+                            </div>
+                            <div class="d-flex">
+                                <div class="col-md-5">Locality : </div>
+                                <div class="col-md-7">
+                                    {{userdet.address.locality}}
+                                </div>
+                            </div>
+                            <div class="d-flex">
+                                <div class="col-md-5">City : </div>
+                                <div class="col-md-7">
+                                    {{userdet.address.city}}
+                                </div>
+                            </div>
+                            <div class="d-flex">
+                                <div class="col-md-5">Zipcode : </div>
+                                <div class="col-md-7">
+                                    {{userdet.address.zipcode}}
+                                </div>
+                            </div>
+                            <div class="d-flex">
+                                <div class="col-md-5">State : </div>
+                                <div class="col-md-7">
+                                    {{userdet.address.state}}
+                                </div>
+                            </div>
+                            <div class="d-flex">
+                                <div class="col-md-5">Phone : </div>
+                                <div class="col-md-7">
+                                    {{userdet.address.phone}}
+                                </div>
+                            </div>
+                            <div class="d-flex">
+                                <div class="col-md-5">Email : </div>
+                                <div class="col-md-7">
+                                    {{userdet.address.email}}
+                                </div>
+                            </div>
+                            <!-- <div class="text-center my-2">
+                                <button type="button" class="btn btn-primary" data-toggle="modal"
+                                    data-target="#presaddModal">
+                                    Add/Update
+                                </button>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="active-member">
+                        <div class="table-responsive">
+                            <table class="table table-xs">
+                                <thead>
+                                    <tr>
+                                        <th>Work Details</th>
+                                        <th>Time Slot</th>
+                                       
+                                        <th>Quantity</th>
+                                        <th>Assign to</th>
+                                        <th>Status</th>                    
+                                    </tr>
+                                </thead>
+                                <tbody>          
+                                    {% for b in userdet.booking_set.all %}
+                                    <tr>
+                                        <td>{{b.product.product_name}}</td>
+                                        <td>{{b.booking_time}} {{b.time_slot.start_time}}</td>
+                                        <td>{{b.quantity}}</td>
+                                        <td>{{b.assign_work}}</td>
+                                        <td>{{b.status}}</td>     
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% include 'adminpannel/copywrite.html' %}
+</div>
+
+
+<!-- edit user details -->
+<div class="modal fade mt-5" id="userModal" tabindex="-1" role="dialog" aria-labelledby="userModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="userModalLabel">Edit User Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <input type="hidden" value="{{userdet.id}}" name="uid">
+                    <input type="text" class="form-control my-2" placeholder="Full Name" name="full_name"
+                        value="{{userdet.full_name}}" required>
+                    <input type="text" class="form-control my-2" placeholder="Mobile No" name="mobile"
+                        value="{{userdet.phone_number}}" required>
+                    <input type="text" class="form-control my-2" placeholder="Email ID" name="email"
+                        value="{{userdet.email}}" required>
+
+                </div>
+                <div class=" text-center my-2">
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!-- present address from here -->
+<div class="modal fade mt-5" id="presaddModal" tabindex="-1" role="dialog" aria-labelledby="presaddModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="presaddModalLabel">Edit userdet Address</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="{% url 'add_address' %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <input type="hidden" value="{{userdet.id}}" name="uid">
+                    <input type="text" class="form-control my-2" value="{{userdet.address.name}}" placeholder="Full Name"
+                        name="name" required>
+                    <input type="text" class="form-control my-2" value="{{userdet.address.addressline}}"
+                        placeholder="Address line" name="addressline" required>
+                    <input type="text" class="form-control my-2" value="{{userdet.address.locality}}"
+                        placeholder="Locality" name="locality" required>
+                    <input type="text" class="form-control my-2" value="{{userdet.address.city}}" placeholder="City"
+                        name="city" required>
+                    <input type="text" class="form-control my-2" value="{{userdet.address.zipcode}}"
+                        placeholder="Pincode" name="zipcode" required>
+                    <input type="text" class="form-control my-2" value="{{userdet.address.state}}" placeholder="State"
+                        name="state" required>
+                    <input type="text" class="form-control my-2" value="{{userdet.address.phone}}" placeholder="Phone"
+                        name="phone" required>
+                    <input type="text" class="form-control my-2" value="{{userdet.address.email}}" placeholder="Email ID"
+                        name="email" required>
+                </div>
+                <div class=" text-center my-2">
+                    <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock body %}

@@ -1,0 +1,33 @@
+{% extends 'adminpannel/base.html' %}
+
+{% block body %}
+{% include 'adminpannel/loader.html' %}
+<div id="main-wrapper">
+    <!-- header -->
+    {% include 'adminpannel/header.html' %}
+    <!-- #/ header -->
+    <!-- sidebar -->
+    {% include 'adminpannel/sidebar.html' %}
+    <!-- #/ sidebar -->
+    <div class="content-body">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-xl-6">
+                    <div class="card p-5">
+                        <form action="" method="post">
+                            {% csrf_token %}
+                            {{form}}
+                            <div class="text-center my-1">
+                                <button  class="btn btn-info">Submit</button>
+                            </div>
+                        </form>
+                    </div>  
+                </div>            
+            </div>         
+        </div>
+    </div>
+    {% include 'adminpannel/copywrite.html' %}
+</div>
+
+{% endblock body %}
+

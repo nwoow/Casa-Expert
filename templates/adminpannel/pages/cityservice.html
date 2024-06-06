@@ -1,0 +1,44 @@
+{% extends 'adminpannel/base.html' %}
+
+{% block body %}
+{% include 'adminpannel/loader.html' %}
+<div id="main-wrapper">
+    <!-- header -->
+    {% include 'adminpannel/header.html' %}
+    <!-- #/ header -->
+    <!-- sidebar -->
+    {% include 'adminpannel/sidebar.html' %}
+    <!-- #/ sidebar -->
+    <div class="content-body">
+        <div class="container">
+            <a href="{% url 'addcity' %}" class="btn btn-warning">Add City</a>
+            <p><b>Note: <span class="text-danger">Select City (Ctrl+ click) or
+            (Shift + Click) </span></b></p>
+            <div class="">
+                <hr>
+                {% for c in cityser %}
+                <div class="row">
+                    <div class="col-md-2">
+                        <h3>{{c.city_name}}</h3>
+                    </div>
+                    <div class="col-md-9">
+                        {% for s in c.category.all %}
+                        <span>
+                            {{forloop.counter}}
+                            {{s.category_name}}</span>
+                        {% endfor %}
+                    </div>
+                    <div class="col-md-1">
+                        <a href="{% url 'editcityservice' c.uid %}" class="btn btn-warning my-1">Edit</a><br>
+                        <a href="{% url 'delcityservice' c.uid %}" class="btn btn-danger"><b>X</b></a>
+                    </div>
+                </div>
+                <hr>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% include 'adminpannel/copywrite.html' %}
+</div>
+
+{% endblock body %}

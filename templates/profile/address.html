@@ -1,0 +1,104 @@
+{% extends 'base/base.html' %}
+
+{% block body %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="my-5 mt-5">
+                <h3>Address</h3>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            {% include 'profile/sidebar.html' %}
+        </div>
+        <div class="col-md-5">
+            <div class=" text-dark p-4 mb-5">
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <div class="border p-2">
+                        <label for="exampleFormControlInput2" class="form-label fw-bold" style='color:#237d9d'><i
+                                class='bx bxs-user  me-3 border p-2'
+                                style='color:#237d9d; border-color: #237d9d!important;'></i>
+                            Name:</label>
+                        <input type="text" class="form-control profil_forms" id="exampleFormControlInput2"
+                            placeholder="Enter your Name" name="full_name" value="{{user.address.name}}" required
+                            pattern="[A-Za-z\s]+" title="Please enter a valid name (letters and spaces only)">
+                    </div>
+
+                    <div class="border p-2">
+                        <label for="exampleFormControlInput2" class="form-label fw-bold" style='color:#9d232a'><i
+                                class='bx bx-map-pin  border p-2 me-3'
+                                style='color:#9d232a ;border-color: #9d232a!important;'></i> Address:</label>
+                        <input type="text" class="form-control profil_forms" id="exampleFormControlInput2"
+                            placeholder="Enter your address" name="address" value="{{user.address.addressline}}"
+                            required>
+                    </div>
+
+                    <div class="border p-2">
+                        <label for="exampleFormControlInput2" class="form-label fw-bold" style='color:#ff0000 '><i
+                                class=' bx bxs-map  border p-2 me-3'
+                                style='color:#ff0000 ;border-color: #ff0000!important;'></i> Locality:</label>
+                        <input type="text" class="form-control profil_forms" id="exampleFormControlInput2"
+                            placeholder="Enter your Locality" name="locality" value="{{user.address.locality}}"
+                            required>
+                    </div>
+                    <div class="border p-2">
+                        <label for="exampleFormControlInput2" class="form-label fw-bold" style='color:#ff0000'><i
+                                class='bx bxs-map  border p-2 me-3'
+                                style='color:#ff0000 ;border-color: #ff0000!important;'></i> City:</label>
+                        <input type="text" class="form-control profil_forms" id="exampleFormControlInput2"
+                            placeholder="Enter your City" name="city" value="{{user.address.city}}" required>
+                    </div>
+                    <div class="border p-2">
+                        <label for="exampleFormControlInput2" class="form-label fw-bold" style='color:#ff0000'><i
+                                class='bx bxs-map  border p-2 me-3'
+                                style='color:#ff0000 ;border-color: #ff0000!important;'></i> Zipcode:</label>
+                        <input type="text" class="form-control profil_forms" id="exampleFormControlInput2"
+                            placeholder="Enter your Zipcode" name="zipcode" value="{{user.address.zipcode}}" required>
+                    </div>
+                    <div class="border p-2">
+                        <label for="exampleFormControlInput2" class="form-label fw-bold" style='color:#ff0000'><i
+                                class='bx bxs-map  border p-2 me-3'
+                                style='color:#ff0000 ;border-color: #ff0000!important;'></i> State:</label>
+                        <input type="text" class="form-control profil_forms" id="exampleFormControlInput2"
+                            placeholder="Enter your State" name="state" value="{{user.address.state}}" required>
+                    </div>
+                    <div class="border p-2">
+                        <label for="exampleFormControlInput2" class="form-label fw-bold" style='color:#00ff60'><i
+                                class='bx bxs-envelope  border p-2 me-3'
+                                style='color:#00ff60 ;border-color: #00ff60!important;'></i> Email:</label>
+                        <input type="text" class="form-control profil_forms" id="exampleFormControlInput2"
+                            placeholder="Enter your Email" name="email" value="{{user.address.email}}" required>
+                    </div>
+                    <div class="border p-2">
+                        <label for="exampleFormControlInput2" class="form-label fw-bold" style='color:#0008ff'><i
+                                class='bx bxs-phone  border p-2 me-3'
+                                style='color:#0008ff ;border-color: #0008ff !important;'></i> Phone:</label>
+                        <input type="tel" class="form-control profil_forms" id="exampleFormControlInput2"
+                            placeholder="Enter your Phone" name="mobile" value="{{user.address.phone}}" required maxlength="10"
+                            pattern="[0-9]+" title="Please enter a valid name (numbers only)">
+                    </div>
+                    <!-- <div class=" border p-2">
+                        <label for="exampleFormControlInput3" class="form-label"><img
+                                src="/static/assets/img/timm.webp" alt="loaction images"> Slot:</label>
+                        <input type="datetime-local" class="form-control profil_forms" id="exampleFormControlInput3"
+                            name="meeting-time">
+                    </div> -->
+                    <div class=" border p-2">
+                        <button class="button-50 d-block w-100 rounded mt-3" type="submit">Pay
+                            Add Address</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+
+{% endblock body %}

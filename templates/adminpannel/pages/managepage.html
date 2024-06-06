@@ -1,0 +1,146 @@
+{% extends 'adminpannel/base.html' %}
+
+{% block body %}
+{% include 'adminpannel/loader.html' %}
+<div id="main-wrapper">
+    <!-- header -->
+    {% include 'adminpannel/header.html' %}
+    <!-- #/ header -->
+    <!-- sidebar -->
+    {% include 'adminpannel/sidebar.html' %}
+    <!-- #/ sidebar -->
+    <div class="content-body">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-lg-4 col-xl-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="card-body">
+                                <div class="text-center">
+                                    Add Service Name Slider
+                                </div>
+                                <hr>
+                                <form action="" method="post" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    <div class=" d-flex  align-items-end">
+                                        <div class="mx-1">
+                                            <input type="text" class="form-control" placeholder="Service Name"
+                                                name="servicename" required>
+                                        </div>
+                                        <div class="d-flex align-items-end mx-1">
+                                            <button style="height: 40px;" type="submit"
+                                                class="btn btn-dark">Submit</button>
+                                        </div>
+                                    </div>
+                                </form>
+                                <hr>
+                                {% for s in service_name %}
+                                <a href="{% url 'managepage' %}?serviceuid={{s.uid}}">
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <span>{{forloop.counter}}</span>
+                                            <span>{{s.service_name}}</span>
+                                            <span>Click on Product</span>
+                                        </div>
+                                        <div>
+                                            <a href="{% url 'delservicename' s.uid %}" class="btn btn-danger"><b>X</b></a>
+                                        </div>
+                                    </div>
+                                </a>
+                                <hr>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-lg-8 col-xl-8">
+                    {% if oneservice %}
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="card-body">
+                                <div class="">
+                                    Add Product List Service Name Slider  <b>{{oneservice.service_name}}</b>
+                                </div>
+                                <hr>
+                                <form action="{% url 'addserviceproduct' %}" method="post" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    <input type="hidden" value="{{oneservice.uid}}" name="serviceuid">
+                                    <div class=" d-flex  align-items-end">
+                                        <div>
+                                            <select name="categoryuid" id="getcat" class="form-control" onChange="getProduct()">
+                                                <option value="">-Select Category-</option>
+                                                {% for c in allcategory %}
+                                                <option value="{{c.uid}}">{{c.category_name}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <select name="productuid" class="form-control mx-1" id="inputProduct">
+                                                <option value="">-Select Product-</option>
+                                            </select>
+                                        </div>
+                                        <div class="d-flex align-items-end mx-1">
+                                            <button style="height: 40px;" type="submit"
+                                                class="btn btn-dark">Submit</button>
+                                        </div>
+                                    </div>
+                                </form>
+                                <hr>
+                                {% for s in servicep %}
+                                <div class="d-flex justify-content-between">
+                                    <div class="d-flex">
+                                        <div>
+                                            <span>{{forloop.counter}}:-</span>
+                                            
+                                        </div>
+                                        <div>
+                                            <span>{{s.category.category_name}}</span>
+                                        </div>
+                                        <div>
+                                            <span>{{s.product.product_name}}</span>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <a href="{% url 'delserviceproduct' s.uid %}" class="btn btn-danger"><b>X</b></a>
+                                    </div>
+                                </div>
+                                <hr>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            
+            </div>
+        </div>
+    </div>
+
+    {% include 'adminpannel/copywrite.html' %}
+</div>
+
+<script>
+    function getProduct() {           
+            const inputCat = document.getElementById('getcat').value         
+            document.getElementById("inputProduct").length=0
+            inputProduct = document.getElementById('inputProduct')
+            let request = new XMLHttpRequest();
+            request.open("GET", `getallproduct?cat=${inputCat}`);
+            request.onreadystatechange = function () {
+                if (this.readyState === 4 && this.status === 200) {
+                    const prodlist = JSON.parse(this.responseText)
+                    console.log(inputProduct)
+                    inputProduct.options[inputProduct.options.length] = new Option("--Select Product--", "");
+                    prodlist.map((items) => {
+                        inputProduct.options[inputProduct.options.length] = new Option(items.product_name, items.uid);
+                    })
+                } else {
+                    console.log('remove')
+                }
+            };
+            request.send();
+        }
+</script>
+{% endblock body %}

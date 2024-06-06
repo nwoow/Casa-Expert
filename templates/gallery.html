@@ -1,0 +1,152 @@
+{% extends 'base/base.html' %}
+{% block body %}
+<!-- Page Title -->
+<div class="page-title-area">
+  <div class="d-table">
+    <div class="d-table-cell">
+      <div class="container">
+        <div class="title-item">
+          <h2>Gallery</h2>
+          <ul>
+            <li>
+              <a href="/">Home</a>
+            </li>
+            <li>
+              <i class="bx bx-chevrons-right"></i>
+            </li>
+            <li>
+              <span>Gallery</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End Page Title -->
+<div class="container pt-100 pb-70">
+  <!-- Images Filter Buttons Section -->
+  <!-- <div class="row mt-5" id="filter-buttons">
+    <div class="col-12 text-center">
+      <button class="btn-warning mb-2 me-1 active" data-filter="all">
+        Show All
+      </button>
+      <button class="btn-warning mb-2 mx-1" data-filter="nature">
+        Renovation
+      </button>
+      <button class="btn-warning mb-2 mx-1" data-filter="cars">
+        HomeServices
+      </button>
+      <button class="btn-warning mb-2 mx-1" data-filter="people">
+        Business Services
+      </button>
+    </div>
+  </div> -->
+  <!-- Filterable Images / Cards Section -->
+  <div class="row px-2 mt-4" id="filterable-cards">
+    <div class="col-sm-6 col-lg-6 card" data-name="nature">
+      <div class="project-item">
+        <div class="project-top">
+          <a href="#">
+            <img src="/static/assets/img/gallery/g28001.webp" alt="Project" />
+          </a>
+        </div>
+        <h3>
+          <a href="#">Interior Service</a>
+        </h3>
+        <a href="#">View Project</a>
+      </div>
+    </div>
+    <div class="col-sm-6 col-lg-6 card" data-name="nature">
+      <div class="project-item">
+        <div class="project-top two">
+          <a href="#">
+            <img src="/static/assets/img/gallery/g1.webp" alt="Project" />
+          </a>
+        </div>
+        <h3>
+          <a href="#">Office Interior</a>
+        </h3>
+        <a href="#">View Project</a>
+      </div>
+      <div class="project-item">
+        <div class="project-top two">
+          <a href="#">
+            <img src="/static/assets/img/gallery/g2.webp" alt="Project" />
+          </a>
+        </div>
+        <h3>
+          <a href="#">Office Interior</a>
+        </h3>
+        <a href="#">View Project</a>
+      </div>
+    </div>
+    <div class="col-sm-6 col-lg-6 card" data-name="cars">
+      <div class="project-item">
+        <div class="project-top">
+          <a href="#">
+            <img src="/static/assets/img/gallery/g3.webp" alt="Project" />
+          </a>
+        </div>
+        <h3>
+          <a href="#">Main Office</a>
+        </h3>
+        <a href="#">View Project</a>
+      </div>
+    </div>
+    <div class="col-sm-6 col-lg-6 card" data-name="cars">
+      <div class="project-item">
+        <div class="project-top">
+          <a href="#">
+            <img src="/static/assets/img/gallery/g4.webp" alt="Project" />
+          </a>
+        </div>
+        <h3>
+          <a href="#">Cleaning Service</a>
+        </h3>
+        <a href="#">View Project</a>
+      </div>
+    </div>
+    <!-- -------------------------------------------------------- -->
+    <div class="col-sm-6 col-lg-6 card" data-name="people">
+      <div class="project-item">
+        <div class="project-top">
+          <a href="#">
+            <img src="/static/assets/img/gallery/g28002.webp" alt="Project" />
+          </a>
+        </div>
+        <h3>
+          <a href="#">Bathroom Cleaning Service</a>
+        </h3>
+        <a href="#">View Project</a>
+      </div>
+    </div>
+    <div class="col-sm-6 col-lg-6 card" data-name="people">
+      <div class="project-item">
+        <div class="project-top two">
+          <a href="#">
+            <img src="/static/assets/img/gallery/g5.webp" alt="Project" />
+          </a>
+        </div>
+        <h3>
+          <a href="#">Office Cleaning</a>
+        </h3>
+        <a href="#">View Project</a>
+      </div>
+      <div class="project-item">
+        <div class="project-top two">
+          <a href="#">
+            <img src="/static/assets/img/gallery/g6.webp" alt="Project" />
+          </a>
+        </div>
+        <h3>
+          <a href="#">Office Cleaning Service</a>
+        </h3>
+        <a href="#">View Project</a>
+      </div>
+    </div>
+    <!-- -------------------------------------------------------- -->
+  </div>
+</div>
+
+{% endblock body %}

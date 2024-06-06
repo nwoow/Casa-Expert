@@ -1,0 +1,243 @@
+{% extends 'adminpannel/base.html' %}
+
+{% block body %}
+{% include 'adminpannel/loader.html' %}
+<div id="main-wrapper">
+    <!-- header -->
+    {% include 'adminpannel/header.html' %}
+    <!-- #/ header -->
+    <!-- sidebar -->
+    {% include 'adminpannel/sidebar.html' %}
+    <!-- #/ sidebar -->
+    <div class="content-body">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 col-xl-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-around align-items-center">
+                                <div>
+                                    Add Sub Category
+                                </div>
+                                <div>
+                                    Size of Images: 600 x 400
+                                </div>
+                            </div>
+                            <hr>
+                            <form action="" method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <div class="row d-flex  align-items-end">
+                                    <div class="mx-2">
+                                        <label for="">Sub Category Title</label>
+                                        <input type="text" class="form-control" name="title">
+                                    </div>
+                                    <div class="mx-2">
+                                        <label for="">Select Category</label>
+                                        <select name="subcategory" id="" class="form-control">
+                                            <option value="">--select--</option>
+                                            {% for c in category %}
+                                            <option value="{{c.uid}}">{{c.category_name}}</option>
+                                            {% endfor %}
+                                        </select>
+                                        <!-- <input type="text" class="form-control" name="subcategory"> -->
+                                    </div>
+
+                                    <div class="mx-2">
+                                        <label for="">Image</label>
+                                        <input type="file" class="form-control" name="image">
+                                    </div>
+                                    <div class="mx-2">
+                                        <label for="">No of Slot</label>
+                                        <input type="text" class="form-control" name="slot">
+                                    </div>
+                                    <div class="d-flex align-items-end mx-2">
+
+                                        <button style="height: 40px;" type="submit" class="btn btn-dark">Submit</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="active-member">
+                                <div class="table-responsive">
+                                    <table class="table table-xs">
+                                        <thead>
+                                            <tr>
+                                                <th>No</th>
+                                                <th>Image</th>
+                                                <th>Sub Category Name</th>
+                                                <th>Category Name</th>
+                                                <th>No of Slot</th>
+                                                <th>Status</th>
+                                                <th>Action</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for sc in sub_category %}
+                                            <tr>
+                                                <td><span>{{forloop.counter}}</span>
+                                                </td>
+                                                <td>
+                                                    <img src="{{sc.subcategory_image.url}}" style="width: 50px;" alt="">
+                                                </td>
+                                                <td>{{sc.category_name}}</td>
+                                                <td>{{sc.category.category_name}}</td>
+                                                <td>{{sc.no_of_slot}}</td>
+                                                <td>
+                                                    {% if sc.is_publish %}
+                                                    <a href="{% url 'change_status' %}?type=subcategory&uid={{sc.uid}}"><i
+                                                            class="fa fa-circle text-success f-s-12 m-r-10"></i>
+                                                        Publish</a>
+                                                    {% else %}
+                                                    <a href="{% url 'change_status' %}?type=subcategory&uid={{sc.uid}}"><i
+                                                            class="fa fa-circle-o text-danger f-s-12 m-r-10"></i> Not
+                                                        Publish</a>
+                                                    {% endif %}
+                                                </td>
+
+                                                <td>
+                                                    <button type="button" class="btn btn-warning" data-toggle="modal"
+                                                        data-target="#{{sc.uid}}Modal">
+                                                        Slider Image
+                                                    </button>
+                                                    <a class="btn btn-info" href="{% url 'addtimeslot' sc.uid %}">Add
+                                                        Time Slot</a>
+
+                                                    
+                                                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                                                        data-target="#{{sc.uid}}editModal">
+                                                        <i class="mdi mdi-pencil"></i>
+                                                    </button>
+
+
+                                                    <a class="btn btn-danger" href="{% url 'delsubcategory' sc.uid %}">
+                                                        <b>X</b></a>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    {% for sc in sub_category %}
+    <!-- Modal -->
+    <div class="modal fade my-5" id="{{sc.uid}}Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" style="max-width: 620px;" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Slider Images (Note-<span class="text-danger"><b>
+                                Size: 636 x 450) </b></span></h5>
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        {% for i in sc.subcategory_images.all %}
+                        <div class="col-md-6 d-flex">
+                            <div>
+                                <img style="width: 100%;" src="{{i.image.url}}" alt="">
+                            </div>
+                            <div>
+                                <a href="{% url 'delsubcategoryimage' i.uid %}">
+                                    <span class="btn btn-danger px-2">X</span>
+                                </a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        <div class="col-md-12">
+
+                        </div>
+                        <form action="{% url 'addsubcategoryimage' %}" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="modal-footer">
+                                <input type="hidden" value="{{sc.uid}}" name="sc_uid">
+                                <input type="file" class="form-control" name="image">
+                                <button type="submit" class="btn btn-primary">Add</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modal -->
+    <div class="modal fade my-5" id="{{sc.uid}}editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" style="max-width: 620px;" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Update sub category (Note-<span class="text-danger"><b>
+                                Size: 600 x 400) </b></span></h5>
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="d-flex justify-content-center">
+                        <form action="{% url 'updatesubcategory' %}" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <input type="hidden" value="{{sc.uid}}" name="sc_uid">
+                            <div class="text-center">
+                                <div class="my-2">
+                                    <label for="">Sub Category Title</label>
+                                    <input type="text" class="form-control" value="{{sc.category_name}}" name="title">
+                                </div>
+                                <div class="my-2">
+                                    <label for="">Select Category</label>
+                                    <select name="subcategory" id="" class="form-control">
+                                        <option value="{{sc.category.uid}}">{{sc.category.category_name}}</option>
+                                        {% for c in category %}
+                                        <option value="{{c.uid}}">{{c.category_name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <!-- <input type="text" class="form-control" name="subcategory"> -->
+                                </div>
+
+                                <div class="my-2">
+                                    <label for="">Image (if don't wnat to change image please don't Chose file)</label>
+                                    <input type="file" class="form-control" name="image">
+                                </div>
+                                <div class="my-2">
+                                    <label for="">No of Slot</label>
+                                    <input type="text" class="form-control" name="slot" value="{{sc.no_of_slot}}">
+                                </div>
+                                <div class="d-flex justify-content-center my-2">
+
+                                    <button style="height: 40px;" type="submit" class="btn btn-dark">Submit</button>
+                                </div>
+                            </div>
+                        </form>
+                        
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    {% endfor %}
+
+    {% include 'adminpannel/copywrite.html' %}
+</div>
+{% endblock body %}

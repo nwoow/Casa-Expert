@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <!-- Meanmenu CSS -->
+    <link rel="stylesheet" href="assets/css/meanmenu.css">
+    <!-- Boxicons CSS -->
+    <link rel="stylesheet" href="assets/css/boxicons.min.css">
+    <!-- Odometer CSS -->
+    <link rel="stylesheet" href="assets/css/odometer.min.css">
+    <!-- Popup CSS -->
+    <link rel="stylesheet" href="assets/css/magnific-popup.min.css">
+    <!-- Owl Carousel -->
+    <link rel="stylesheet" href="assets/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="assets/css/owl.theme.default.min.css">
+    <!-- Nice Select CSS -->
+    <link rel="stylesheet" href="assets/css/nice-select.min.css">
+    <!-- Style CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <!-- Responsive CSS -->
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <!-- Theme Dark CSS -->
+    <link rel="stylesheet" href="assets/css/theme-dark.css">
+
+    <title>Casa XPRT</title>
+
+    <link rel="icon" type="image/png" href="assets/img/favicon.png">
+    <style>
+        .ribbon {
+            position: absolute;
+            left: -5px;
+            top: -5px;
+            z-index: 1;
+            overflow: hidden;
+            width: 75px;
+            height: 75px;
+            text-align: right;
+        }
+
+        .ribbon span {
+            font-size: 10px;
+            font-weight: bold;
+            color: #FFF;
+            text-transform: uppercase;
+            text-align: center;
+            line-height: 20px;
+            transform: rotate(-45deg);
+            -webkit-transform: rotate(-45deg);
+            width: 100px;
+            display: block;
+            background: #79A70A;
+            background: linear-gradient(#F70505 0%, #8F0808 100%);
+            box-shadow: 0 3px 10px -5px rgba(0, 0, 0, 1);
+            position: absolute;
+            top: 19px;
+            left: -21px;
+        }
+
+        .ribbon span::before {
+            content: "";
+            position: absolute;
+            left: 0px;
+            top: 100%;
+            z-index: -1;
+            border-left: 3px solid #8F0808;
+            border-right: 3px solid transparent;
+            border-bottom: 3px solid transparent;
+            border-top: 3px solid #8F0808;
+        }
+
+        .ribbon span::after {
+            content: "";
+            position: absolute;
+            right: 0px;
+            top: 100%;
+            z-index: -1;
+            border-left: 3px solid transparent;
+            border-right: 3px solid #8F0808;
+            border-bottom: 3px solid transparent;
+            border-top: 3px solid #8F0808;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Preloader -->
+    <div class="loader">
+        <div class="d-table">
+            <div class="d-table-cell">
+                <div class="spinner">
+                    <img src="casalogo.png" alt="" width="300px">
+                    <div class="rect1"></div>
+                    <div class="rect2"></div>
+                    <div class="rect3"></div>
+                    <div class="rect4"></div>
+                    <div class="rect5"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Preloader -->
+    <!-- Navbar Area -->
+    <div class="navbar-area two fixed-top">
+        <!-- Menu For Mobile Device -->
+        <div class="mobile-nav">
+            <a href="index.html" class="logo">
+                <img src="whitelogo.png" alt="Logo">
+            </a>
+        </div>
+
+        <!-- Menu For Desktop Device -->
+        <div class="main-nav">
+            <div class="container">
+                <nav class="navbar navbar-expand-md navbar-light">
+                    <a class="navbar-brand" href="index.html">
+                        <img src="casalogo.png" width="200px" alt="Logo">
+                    </a>
+                    <div class="collapse navbar-collapse mean-menu" id="navbarSupportedContent">
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a href="index.html" class="nav-link">Home</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="about.html" class="nav-link">About</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="service-details.html" class="nav-link ">Services</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="gallery.html" class="nav-link ">Gallery</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="contact.html" class="nav-link">Contact</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="sign-in.html" class="nav-link  active">Login/Sign Up</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="regisAsAProfessional.html" class="nav-link">Register As a Professional</a>
+                            </li>
+
+
+
+                        </ul>
+                        <div class="side-nav me-2">
+                            <a href="tel:+9192978 84500"><i class='bx bxs-phone-call bx-tada '></i> CAll US</a>
+                        </div>
+
+                    </div>
+
+                </nav>
+            </div>
+        </div>
+    </div>
+    <!-- End Navbar Area -->
+
+    <!-- Page Title -->
+    <div class="page-title-area">
+        <div class="d-table">
+            <div class="d-table-cell">
+                <div class="container">
+                    <div class="title-item">
+                        <h2>Sign In</h2>
+                        <ul>
+                            <li>
+                                <a href="index.html">Home</a>
+                            </li>
+                            <li>
+                                <i class='bx bx-chevrons-right'></i>
+                            </li>
+                            <li>
+                                <span>Sign Up</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Page Title -->
+
+    <!-- User Form -->
+    <section class="container forms conta">
+        <!-- Signup Form -->
+        <div class="form signup">
+            <div class="ribbon"><span>Casa Xprt</span></div>
+            <div class="form-content">
+                <h2>Signup</h2>
+                <form action="/no.php" method="post">
+                    <div class="field input-field">
+                        <input type="text" placeholder="Enter Name" class="input" name="name" required>
+                    </div>
+                    <div class="field input-field">
+                        <input type="email" placeholder="Enter Email" class="input" name="email" required>
+                    </div>
+                    <div class="field input-field">
+                        <input type="tel" placeholder="Enter Phone" class="input" name="phone" required>
+                    </div>
+                    <div class="field input-field">
+                        <input type="text" name="selectCity" placeholder="Enter City Name" required class="input">
+                    </div>
+                    <div class="field input-field">
+                        <input type="password" placeholder="Create password" class="password" required>
+                        <i class='bx bx-hide eye-icon'></i>
+                    </div>
+                    <div class="field input-field">
+                        <input type="password" placeholder="Confirm password" class="password" required>
+                        <i class='bx bx-hide eye-icon'></i>
+                    </div>
+                    <div class="field button-field">
+                        <button>Signup</button>
+                    </div>
+                </form>
+                <div class="line"></div>
+                <div class="form-link">
+                    <span>Already have an account? <a href="#" class="link login-link">Login</a></span>
+                </div>
+            </div>
+
+
+        </div>
+        <!-- ============== -->
+
+        <div class="form login">
+            <div class="ribbon"><span>Casa Xprt</span></div>
+            <div class="form-content">
+                <h2>Login</h2>
+                <form action="/no.php" method="post">
+                    <div class="field input-field">
+                        <input type="Text" placeholder="Enter Your Mobile Number" class="input" name="number" required>
+                    </div>
+
+                    <div class="field button-field">
+                        <button>Send OTP</button>
+                    </div>
+                </form>
+                <div class="line"></div>
+                <div class="form-link">
+                    <span>Don't have an account? <a href="#" class="link signup-link">Signup</a></span>
+                </div>
+            </div>
+
+
+        </div>
+    </section>
+    <!-- End User Form -->
+
+    <!-- Footer -->
+    <footer class="pt-100">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6 col-lg-3">
+                    <div class="footer-item">
+                        <div class="footer-logo">
+                            <a href="index.html">
+                                <img src="whitelogo.png" width="200" alt="Logo">
+                            </a>
+                            <p>Your trusted partner for plumbing, electrician, carpentry, renovations, and more. We
+                                provide expert services with a commitment to quality and customer satisfaction.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-3">
+                    <div class="footer-item">
+                        <div class="footer-company">
+                            <h3>Company</h3>
+                            <ul>
+                                <li>
+                                    <a href="about.html" target="_blank">About</a>
+                                </li>
+                                <li>
+                                    <a href="service-details.html" target="_blank">Services</a>
+                                </li>
+                                <li>
+                                    <a href="regisAsAProfessional.html" target="_blank">Register As a Professional</a>
+                                </li>
+                                <li>
+                                    <a href="gallery.html" target="_blank">Gallery</a>
+                                </li>
+                                <li>
+                                    <a href="blog.html" target="_blank">Blogs</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-3">
+                    <div class="footer-item">
+                        <div class="footer-company">
+                            <h3>Support</h3>
+                            <ul>
+
+                                <li>
+                                    <a href="privacy-policy.html" target="_blank">Privacy Policy</a>
+                                </li>
+                                <li>
+                                    <a href="terms-and-conditions.html" target="_blank">Terms & Conditions</a>
+                                </li>
+
+                                <li>
+                                    <a href="contact.html" target="_blank">Contact</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-3">
+                    <div class="footer-item">
+                        <div class="footer-contact">
+                            <h3>Contact Info</h3>
+                            <ul>
+
+                                <li>
+                                    <span>Email:</span>
+                                    <a href="mailto:Customerservice@casaxprt.com"
+                                        target="_blank">customerservices@casaxprt.com</a>
+                                </li>
+                                <li>
+                                    <span>Phone:</span>
+                                    <a href="tel:+919297884500" target="_blank">+91 92978 84500</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="footer-social">
+                            <ul>
+                                <li>
+                                    <a href="http://www.facebook.com/casaxprt" target="_blank">
+                                        <i class='bx bxl-facebook'></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://twitter.com/casaxprt" target="_blank">
+                                        <i class='bx bxl-twitter'></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://www.linkedin.com/in/casaxprt" target="_blank">
+                                        <i class='bx bxl-linkedin'></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://www.instagram.com/casaxprt" target="_blank">
+                                        <i class='bx bxl-instagram'></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright-area">
+                <p>Copyright @ 2023 &nbsp;&nbsp;&nbsp;<img src="whitelogo.png" width="100" alt="Logo"></p>
+                <!-- <p>Designed By <a href="https://ghosting.in/" target="_blank"><img src="assets/img/GHOSTING.png"
+                            width="40" alt="ghosting tech"> Ghosting Tech</a></p> -->
+            </div>
+        </div>
+    </footer>
+    <!-- End Footer -->
+    <!-- GetButton.io widget -->
+    <script type="text/javascript">
+        (function () {
+            var options = {
+                call: "+919297884500", // Call phone number
+                whatsapp: "+919297884500", // WhatsApp number
+                call_to_action: "Message us", // Call to action
+                button_color: "#FF6550", // Color of button
+                position: "left", // Position may be 'right' or 'left'
+                order: "call,whatsapp", // Order of buttons
+                pre_filled_message: "Hello, how may we help you?\nJust send us a message now to\nget assistance.", // WhatsApp pre-filled message
+            };
+            var proto = 'https:', host = "getbutton.io", url = proto + '//static.' + host;
+            var s = document.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = url + '/widget-send-button/js/init.js';
+            s.onload = function () { WhWidgetSendButton.init(host, proto, options); };
+            var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x);
+        })();
+    </script>
+    <!-- /GetButton.io widget -->
+
+
+    <!-- Essential JS -->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
+    <!-- Form Validator JS -->
+    <script src="assets/js/form-validator.min.js"></script>
+    <!-- Contact JS -->
+    <script src="assets/js/contact-form-script.js"></script>
+    <!-- Ajax Chip JS -->
+    <script src="assets/js/jquery.ajaxchimp.min.js"></script>
+    <!-- Meanmenu JS -->
+    <script src="assets/js/jquery.meanmenu.js"></script>
+    <!-- Odometer JS -->
+    <script src="assets/js/odometer.min.js"></script>
+    <script src="assets/js/jquery.appear.js"></script>
+    <!-- Popup JS -->
+    <script src="assets/js/jquery.magnific-popup.min.js"></script>
+    <!-- Owl Carousel -->
+    <script src="assets/js/owl.carousel.min.js"></script>
+    <!-- Nice Select JS -->
+    <script src="assets/js/jquery.nice-select.min.js"></script>
+    <!-- Thumb SLider JS -->
+    <script src="assets/js/thumb-slide.js"></script>
+    <!-- Custom JS -->
+    <script src="assets/js/custom.js"></script>
+    <script>
+        const forms = document.querySelector(".forms"),
+            pwShowHide = document.querySelectorAll(".eye-icon"),
+            links = document.querySelectorAll(".link");
+
+        pwShowHide.forEach(eyeIcon => {
+            eyeIcon.addEventListener("click", () => {
+                let pwFields = eyeIcon.parentElement.parentElement.querySelectorAll(".password");
+
+                pwFields.forEach(password => {
+                    if (password.type === "password") {
+                        password.type = "text";
+                        eyeIcon.classList.replace("bx-hide", "bx-show");
+                        return;
+                    }
+                    password.type = "password";
+                    eyeIcon.classList.replace("bx-show", "bx-hide");
+                })
+            })
+        })
+        links.forEach(link => {
+            link.addEventListener("click", e => {
+                e.preventDefault(); //preventing form submit
+                forms.classList.toggle("show-signup");
+            })
+        })
+    </script>
+</body>
+
+</html>

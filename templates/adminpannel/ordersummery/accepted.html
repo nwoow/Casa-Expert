@@ -1,0 +1,156 @@
+{% extends 'adminpannel/base.html' %}
+
+{% block body %}
+{% include 'adminpannel/loader.html' %}
+<div id="main-wrapper">
+    <!-- header -->
+    {% include 'adminpannel/header.html' %}
+    <!-- #/ header -->
+    <!-- sidebar -->
+    {% include 'adminpannel/sidebar.html' %}
+    <!-- #/ sidebar -->
+    <div class="content-body">
+        <div class="container">
+            <div class="row">
+                {% include 'base/alerts.html' %}
+                <div class="col-lg-12 col-xl-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="active-member">
+                                <div class="table-responsive">
+                                    <table class="table table-xs">
+                                        <thead>
+                                            <tr>
+                                                <th style="width: 30px;">Invoice No</th>
+                                                <th>Product Name</th>
+                                                <th>Contact Info</th>
+                                                <th style="width: 30px;">Price X Quantity</th>
+                                                <th style="width: 30px;">Total Amount</th>
+                                                <th style="width: 20px;">Payment Status</th>
+                                                <th style="width: 50px;">Current Status</th>
+                                                <th style="width: 100px;">View</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for b in booking %}
+                                            <tr>
+                                                <th scope="row">{{b.invoice_no}}</th>
+                                                <td>
+                                                    {{b.product.product_name}}
+                                                </td>
+                                                <td><i class="mdi mdi-phone"></i> {{b.user.phone_number}}
+                                                    {% if b.user.email %}
+                                                    <br>
+                                                    <i class="mdi mdi-email"></i>{{b.user.email}}
+                                                    {% endif %}
+                                                </td>
+                                                <td>{{b.product.dis_price}} X {{b.quantity}}</td>
+                                                <td>{{b.paid_amount}}</td>
+                                                <td>{% if b.is_paid %}
+                                                    PAID
+                                                    {% else %}
+                                                    UNPAID
+                                                    {% endif %}</td>
+                                                <td>{{b.status}}
+                                                    <br>
+                                                    <!-- {% if b.otp_time %}
+                                                    work started :
+                                                    {{b.otp_time}}
+                                                    {% endif %} -->
+                                                </td>
+
+                                                <td>
+                                                    <button type="button" class="btn btn-warning" data-toggle="modal"
+                                                        data-target="#{{b.uid}}Modal">
+                                                        view
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+    {% for b in booking %}
+    <!-- Modal -->
+    <div class="modal fade my-5" id="{{b.uid}}Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" style="max-width: 620px;" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Booking Details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div>Invoice : {{b.invoice_no}}</div>
+                            <div>Product Name : {{b.product.product_name}}</div>
+
+                            <div>Time Slot : {{b.time_slot.start_time}}</div>
+                            <div>Booking time : {{b.booking_time}}</div>
+                            <div>Quantity : {{b.quantity }}</div>
+                            <div>Trans Id : {{b.transactionId}}</div>
+                            <div>Amount : {{b.paid_amount}}</div>
+                            <div>Payment Status : {% if b.is_paid %}
+                                PAID
+                                {% else %}
+                                UNPAID
+                                {% endif %}</div>
+
+                        </div>
+                        <div class="col-md-6">
+
+                            <div>Name : {{b.name}}</div>
+                            <div>Address : {{b.addressline}}</div>
+                            <div>Locality : {{b.locality}}</div>
+                            <div>City : {{b.city}}</div>
+                            <div>PinCode : {{b.zipcode}}</div>
+                            <div>State : {{b.state}}</div>
+                            <div>Mobile : {{b.phone}}</div>
+                            <div>Email : {{b.email}}</div>
+
+                        </div>
+                        <div class="col-md-12">
+                            <div>
+                                <b>Assigned to  : {{b.assign_work.phone_number}}-{{b.assign_work.full_name}}-{{b.assign_work.address.city}} </b>
+                            </div>
+                            <div>
+                                <b>Status : {{b.staff_status}}</b>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <div class="modal-footer">
+                        <input type="hidden" value="{{b.uid}}" name="booking_uid">
+                        <select name="staff" id="" class="form-control">
+                            <option value="">--select staff--</option>
+                            {% for s in b.all_staff %}
+                            <option value="{{s.id}}">{{s.phone_number}}-{{s.full_name}}-{{s.address.city}}</option>
+                            {% endfor %}
+                        </select>
+                        <button type="submit" class="btn btn-primary">Assign Task</button>
+                    </div>
+                </form>
+                
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+    {% include 'adminpannel/copywrite.html' %}
+</div>
+{% endblock body %}

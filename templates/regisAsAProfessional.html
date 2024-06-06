@@ -1,0 +1,177 @@
+{% extends 'base/base.html' %}
+
+{% block body %}
+    <!-- Page Title -->
+    <div class="page-title-area regisAsAProfessional">
+        <div class="d-table">
+            <div class="d-table-cell">
+                <div class="container">
+                    <div class="title-item">
+                        <h2>Earn More. Earn Respect.<br> Safe Ensured.</h2>
+                        <p class="text-white">Join 40,000+ partners across India, USA, Singapore, <br>
+                            UAE and many more</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Page Title -->
+    <!-- Subscribe -->
+    <div class="subscribe-area">
+        <div class="subscribe-wrap">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-12">
+                        <div class="section-title">
+                            <h2 class="text-white">Share your WhatsApp number and we'll reach out via our WhatsApp
+                                Business Account.</h2>
+                            <P style="font-size: 25px; color: aliceblue;">Welcome to Our Family 😉</P>
+                        </div>
+                    </div>
+                    <div class="m-auto" style="max-width: 400px;">
+                        <form id="myForm" data-toggle="validator" action="" method="post">
+                            {% csrf_token %}
+                            <div class="newsletter-form">
+                                <input type="tel" class="form-control" placeholder="Enter your Mobile No." name="phone"
+                                       required autocomplete="off" maxlength="10"
+                                       pattern="[0-9]{10}" title="Please enter a 10-digit number">
+                                <div id="error" style="display:none;color:red;">Please enter a valid 10-digit number.</div>
+                                <button class="btn cmn-btn" type="submit" onclick="validateForm(event)">
+                                    Join Us Today!
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function validateForm(event) {
+            var phoneInput = document.querySelector('input[name="phone"]');
+            if (!phoneInput.checkValidity()) {
+                event.preventDefault();
+                document.getElementById("error").style.display = "block";
+            } else {
+                document.getElementById("error").style.display = "none";
+            }
+        }
+    </script>
+    
+    <!-- End Subscribe -->
+    <!-- Choose -->
+    <div class="choose-area two pt-100 pb-70">
+        <div class="choose-shape">
+            <img src="/static/assets/img/home-one/choose1.png" alt="Shape">
+            <img src="/static/assets/img/home-one/banner-shape3.png" alt="Shape">
+        </div>
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <img src="/static/assets/img/home-two/allServices.webp" alt="Choose">
+                </div>
+                <div class="col-lg-6">
+                    <div class="choose-contact two">
+                        <div class="section-title">
+                            <span class="sub-title">About Us</span>
+                            <h2>Certified Cleaning Service Company Over 15 years</h2>
+                        </div>
+                        <p>Welcome to Casa Expert, your partner in creating better living spaces and memorable
+                            experiences.
+                            With a passion for excellence, we bring a diverse range of services to your doorstep. Our
+                            skilled professionals specialize in plumbing, electrical work, carpentry, renovations, and
+                            more. We understand the importance of a comfortable and secure home, which is why we offer
+                            solutions like pest control and home appliance installations.</p>
+                        <p>Our commitment to quality is unwavering. We take pride in delivering top-notch services that
+                            exceed expectations. Whether it's a leaky faucet or a grand event, we approach every task
+                            with dedication and attention to detail. Our team is driven by a shared vision: to enhance
+                            the way you live and celebrate.
+                            At Casa Expert, we value the trust our clients place in us. Your satisfaction is our
+                            priority,
+                            and we strive to make your journey with us smooth and rewarding. Join us as we transform
+                            spaces, build connections, and create lasting impressions. Discover the Casa Expert
+                            difference
+                            today.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <!-- End Choose -->
+
+    <!-- Counter -->
+    <div class="counter-area four">
+        <div class="counter-wrap">
+            <div class="container">
+                <div class="text-center text-white">
+                    <h2 class="text-white">Join Casa Xprt Company to change your life</h2>
+                    <p class="text-white">Casa Xprt Company is an app-based marketplace that empowers professionals like
+                        you to become
+                        your own boss</p>
+                </div>
+                <div class="row ">
+
+                    <div class="col-6 col-sm-6 col-lg-3 mt-3">
+                        <div class="counter-item">
+                            <h3 class="text-white">
+                                <span class="odometer" data-count="15">00</span>
+                            </h3>
+                            <p>Years Experienced</p>
+                        </div>
+                    </div>
+                    <div class="col-6 col-sm-6 col-lg-3 mt-3">
+                        <div class="counter-item">
+                            <h3 class="text-white">
+                                <span class="odometer" data-count="156">00</span>
+                            </h3>
+                            <p>Happy Clients</p>
+                        </div>
+                    </div>
+                    <div class="col-6 col-sm-6 col-lg-3 mt-3">
+                        <div class="counter-item">
+                            <h3 class="text-white">
+                                <span class="odometer" data-count="756">00</span>
+                            </h3>
+                            <p>Project Completed</p>
+                        </div>
+                    </div>
+                    <div class="col-6 col-sm-6 col-lg-3 mt-3">
+                        <div class="counter-item">
+                            <h3 class="text-white">
+                                <span class="odometer" data-count="22">00</span>
+                            </h3>
+                            <p>Active Project</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Counter -->
+
+    <!-- Watch -->
+    <section class="watch-area ptb-100">
+        <div class="container">
+            <div class="section-title">
+                <h2>Watch The Full Video To Know More About Us</h2>
+            </div>
+            <div class="watch-item">
+                <div class="d-table">
+                    <div class="d-table-cell">
+                        <div class="video-wrap">
+                            <a href="/static/assets/img/gallery/VID-20231003-WA0001.mp4" class="popup-youtube">
+                                <i class='bx bx-play'></i>
+                            </a>
+                        </div>
+                        <div class="watch-content">
+                            <h3>We Love The Work</h3>
+                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Watch -->
+{% endblock %}

@@ -1,0 +1,216 @@
+{% extends 'adminpannel/base.html' %}
+{% block body %}
+{% include 'adminpannel/loader.html' %}
+<div id="main-wrapper">
+    <!-- header -->
+    {% include 'adminpannel/header.html' %}
+    <!-- #/ header -->
+    <!-- sidebar -->
+    {% include 'adminpannel/sidebar.html' %}
+    <!-- #/ sidebar -->
+    <!-- content body -->
+    <div class="content-body">
+        <div class="container">
+            <div class="row page-titles">
+                <div class="col p-0">
+                    <h4>Hello, <span>Welcome here</span></h4>
+                </div>
+                <div class="col p-0">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a>
+                        </li>
+                        <li class="breadcrumb-item active">Dashboard</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="card lola-card">
+                        <div class="card-body">
+                            <h4>Pending Order<span class="pull-right"><i
+                                        class="ion-android-download f-s-30 text-primary"></i></span></h4>
+                            <h6 class="m-t-20 f-s-14">{{pending_count}}</h6>
+                            <div class="progress m-t-0 h-7px lola-pro">
+                                <div role="progressbar"
+                                    class="progress-bar bg-primary wow animated progress-animated w-50pc h-7px"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="card lola-card">
+                        <div class="card-body">
+                            <h4>Assign Work <span class="pull-right"><i
+                                        class="ion-android-upload f-s-30 text-success"></i></span></h4>
+                            <h6 class="m-t-20 f-s-14">{{assign_work_count}}</h6>
+                            <div class="progress m-t-0 h-7px lola-pro">
+                                <div role="progressbar"
+                                    class="progress-bar bg-success wow animated progress-animated w-90pc h-7px"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3">
+                    <div class="card lola-card">
+                        <div class="card-body">
+                            <h4>Staff Accepted<span class="pull-right"><i
+                                        class="ion-android-list f-s-30 text-danger"></i></span></h4>
+                            <h6 class="m-t-20 f-s-14">{{staff_accepted_count}}</h6>
+                            <div class="progress m-t-0 h-7px lola-pro">
+                                <div role="progressbar"
+                                    class="progress-bar bg-danger wow animated progress-animated w-65pc h-7px"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3">
+                    <div class="card lola-card">
+                        <div class="card-body">
+                            <h4>Staff Canceled<span class="pull-right"><i
+                                        class="ion-android-list f-s-30 text-danger"></i></span></h4>
+                            <h6 class="m-t-20 f-s-14">{{staff_canceled_count}}</h6>
+                            <div class="progress m-t-0 h-7px lola-pro">
+                                <div role="progressbar"
+                                    class="progress-bar bg-danger wow animated progress-animated w-65pc h-7px"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="card lola-card">
+                        <div class="card-body">
+                            <h4>Completed Task<span class="pull-right"><i
+                                        class="ion-android-list f-s-30 text-danger"></i></span></h4>
+                            <h6 class="m-t-20 f-s-14">{{completed_count}}</h6>
+                            <div class="progress m-t-0 h-7px lola-pro">
+                                <div role="progressbar"
+                                    class="progress-bar bg-danger wow animated progress-animated w-65pc h-7px"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="card lola-card">
+                        <div class="card-body">
+                            <h4>Canceled<span class="pull-right"><i
+                                        class="ion-android-list f-s-30 text-danger"></i></span></h4>
+                            <h6 class="m-t-20 f-s-14">{{cancel_count}}</h6>
+                            <div class="progress m-t-0 h-7px lola-pro">
+                                <div role="progressbar"
+                                    class="progress-bar bg-danger wow animated progress-animated w-65pc h-7px"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="card lola-card">
+                        <div class="card-body">
+                            <h4>No of Category <span class="pull-right"><i
+                                        class="ion-android-list f-s-30 text-danger"></i></span></h4>
+                            <h6 class="m-t-20 f-s-14">{{category_count}}</h6>
+                            <div class="progress m-t-0 h-7px lola-pro">
+                                <div role="progressbar"
+                                    class="progress-bar bg-danger wow animated progress-animated w-65pc h-7px"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="card lola-card">
+                        <div class="card-body">
+                            <h4>No of Sub Category <span class="pull-right"><i
+                                        class="ion-android-list f-s-30 text-danger"></i></span></h4>
+                            <h6 class="m-t-20 f-s-14">{{sub_category_count}}</h6>
+                            <div class="progress m-t-0 h-7px lola-pro">
+                                <div role="progressbar"
+                                    class="progress-bar bg-danger wow animated progress-animated w-65pc h-7px"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3">
+                    <div class="card lola-card">
+                        <div class="card-body">
+                            <h4>No of Products<span class="pull-right"><i
+                                        class="ion-android-list f-s-30 text-danger"></i></span></h4>
+                            <h6 class="m-t-20 f-s-14">{{products_count}}</h6>
+                            <div class="progress m-t-0 h-7px lola-pro">
+                                <div role="progressbar"
+                                    class="progress-bar bg-danger wow animated progress-animated w-65pc h-7px"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="card lola-card">
+                    <div class="card-body">
+                        <h4>Not of City<span class="pull-right"><i
+                                    class="ion-android-list f-s-30 text-danger"></i></span></h4>
+                        <h6 class="m-t-20 f-s-14">{{cityservice_count}}</h6>
+                        <div class="progress m-t-0 h-7px lola-pro">
+                            <div role="progressbar"
+                                class="progress-bar bg-danger wow animated progress-animated w-65pc h-7px"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                
+                
+            </div>
+            
+            <!-- <div class="row">
+                <div class="col-lg-12 col-xl-12">
+                    <div class="card lola-card">
+                        <div class="card-body">
+                            <div class="active-member">
+                                <div class="table-responsive">
+                                    <table class="table table-xs">
+                                        <thead>
+                                            <tr>
+                                                <th>Top Active Members</th>
+                                                <th>Views</th>
+                                                <th>Country</th>
+                                                <th>Status</th>
+                                                <th>Comments</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <img src="/static/assetss/images/avatar/1.jpg"
+                                                        class="w-40px rounded-circle m-r-10" alt="">Arden Karn
+                                                </td>
+                                                <td><span>125</span>
+                                                </td>
+                                                <td>United States</td>
+                                                <td><i class="fa fa-circle-o text-success f-s-12 m-r-10"></i> Active
+                                                </td>
+                                                <td><span>84</span>
+                                                </td>
+                                            </tr>
+                                           
+                                           
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+           
+        </div>
+        <!-- #/ container -->
+    </div>
+    <!-- #/ content body -->
+    {% include 'adminpannel/copywrite.html' %}
+</div>
+{% endblock body %}

@@ -1,0 +1,779 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block body %}
+
+<!-- Banner -->
+<div class="banner-area three">
+  <div class="banner-shape">
+    <img src="/static/assets/img/home-three/banner.jpg" alt="Banner" />
+    <!-- <img src="/static/assets/img/home-one/banner-shape1.png" alt="Shape"> -->
+    <img src="/static/assets/img/home-three/banner-shape1.png" alt="Shape" />
+    <img src="/static/assets/img/home-one/banner-shape3.png" alt="Shape" />
+    <img src="/static/assets/img/home-one/banner-shape4.png" alt="Shape" />
+    <img src="/static/assets/img/home-one/banner-shape5.png" alt="Shape" />
+    <!-- <img src="/static/assets/img/home-one/banner-shape6.png" alt="Shape"> -->
+  </div>
+  <div class="d-table">
+    <div class="d-table-cell">
+      <div class="container">
+        <div class="banner-text">
+          <h1><span>CASA EXPERT</span> <br />Service Agency In The Town</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End Banner -->
+<!-- Services -->
+<div class="service-are two">
+  <div class="d-table">
+    <div class="d-table-cell">
+      <div class="container" style="max-width: 1000px">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="wrapper-ct mb-2" onclick="showlocationpopup()">
+              <div class="select-btn" id="add">
+                {% if address %}
+                <span>{{address}}</span>
+                {% else %}
+                <span></span>
+                {% endif %}
+                <i class="bx bx-current-location"></i>
+                <img src="/static/assets/img/india.png" alt="bharat flag" width="20px" />
+              </div>
+              <div class="content-ct">
+                <div class="search">
+                  <i class="uil uil-search"></i>
+                  <input spellcheck="false" type="text" placeholder="Search" class="input-ct" />
+                </div>
+                <ul class="options-ct">
+
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-8">
+            <div class="search-bar">
+              <svg xmlns="http://www.w3.org/2000/svg" style="display: none">
+                <symbol xmlns="http://www.w3.org/2000/svg" id="sbx-icon-search-3" viewBox="0 0 40 41">
+                  <path
+                    d="M26.51 28.573c-2.803 2.34-6.412 3.748-10.35 3.748C7.236 32.32 0 25.087 0 16.16 0 7.236 7.235 0 16.16 0c8.926 0 16.16 7.235 16.16 16.16 0 4.213-1.61 8.048-4.25 10.925L40 39.015l-1.524 1.524L26.51 28.572zm-10.35 2.132c8.033 0 14.545-6.512 14.545-14.544S24.193 1.617 16.16 1.617 1.617 8.128 1.617 16.16c0 8.033 6.512 14.545 14.545 14.545z"
+                    fill-rule="evenodd" />
+                </symbol>
+                <symbol xmlns="http://www.w3.org/2000/svg" id="sbx-icon-clear-3" viewBox="0 0 20 20">
+                  <path
+                    d="M8.114 10L.944 2.83 0 1.885 1.886 0l.943.943L10 8.113l7.17-7.17.944-.943L20 1.886l-.943.943-7.17 7.17 7.17 7.17.943.944L18.114 20l-.943-.943-7.17-7.17-7.17 7.17-.944.943L0 18.114l.943-.943L8.113 10z"
+                    fill-rule="evenodd" />
+                </symbol>
+              </svg>
+
+              <form novalidate="novalidate" onsubmit="return false;" class="searchbox sbx-custom">
+                <div role="search" class="sbx-custom__wrapper">
+                  <input type="search" name="search" placeholder="Search for services" autocomplete="off"
+                    required="required" class="sbx-custom__input" id="searchbox" />
+                  <button type="submit" title="Submit your search query." onclick="searchfun()"
+                    class="sbx-custom__submit">
+                    <svg role="img" aria-label="Search">
+                      <use xlink:href="#sbx-icon-search-3"></use>
+                    </svg>
+                  </button>
+                  <button type="reset" title="Clear the search query." class="sbx-custom__reset">
+                    <svg role="img" aria-label="Reset">
+                      <use xlink:href="#sbx-icon-clear-3"></use>
+                    </svg>
+                  </button>
+                </div>
+              </form>
+              <script type="text/javascript">
+                document
+                  .querySelector('.searchbox [type="reset"]')
+                  .addEventListener("click", function () {
+                    this.parentNode.querySelector("input").focus();
+                  });
+
+                function searchfun() {
+                  const searchtext = document.getElementById('searchbox').value
+                  const addr = document.getElementById('add').innerText
+                  console.log(searchtext)
+                  console.log('function click')
+                  window.location.href = "?address=" + addr + "&query=" + searchtext
+                }
+              </script>
+            </div>
+          </div>
+          <p class="text-center src text-white">
+            <span>Electrician</span>, <span>Plumber</span>, <span>Water Purifier</span>,
+            <span>Etc..</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End Services -->
+
+<!-- Counter -->
+<div class="counter-area three">
+  <div class="counter-wrap service-wrap">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="row">
+            {% for cat in category|slice:"0:6" %}
+            <div class="col-md-2 col-4 mb-3">
+              <div class="ser-boxes text-center" type="button" data-bs-toggle="offcanvas" data-bs-target="#{{cat.slug}}"
+                aria-controls="{{cat.slug}}">
+                <img src="{{cat.category_image.url}}" alt="plumber image" width="40" />
+                <h6 class="mt-2">{{cat.category_name}}</h6>
+              </div>
+            </div>
+            {% empty %}
+            <div class="text-center">
+              <h3>Looks like we aren't here yet in {{address}}</h3>
+            </div>
+            {% endfor %}
+
+            <div class="holaa">
+              {% for cat in category|slice:"6:12" %}
+              <div class="ser-boxes text-center" type="button" data-bs-toggle="offcanvas" data-bs-target="#{{cat.slug}}"
+                aria-controls="{{cat.slug}}">
+                <img src="{{cat.category_image.url}}" alt="" width="40" />
+                <h6 class="mt-2">{{cat.category_name}}</h6>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- off canvas part -->
+
+{% for cat in category %}
+<div class="offcanvas offcanvas-end" tabindex="-1" id="{{cat.slug}}" aria-labelledby="{{cat.slug}}" style="overflow: auto;">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="{{cat.slug}}">{{cat.category_name}}</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+
+  {% for subcat in cat.sub_category.all %}
+  {% if subcat.is_publish %}
+  <hr />
+  <a href="{% url 'service' subcat.slug %}" class="offcanvas-body off-body">
+    <p>
+      <img src="{{subcat.subcategory_image.url}}" width="60" height="40" alt="image" />
+      <span class="off-p">{{subcat.category_name}}</span>
+    </p>
+    <i class="bx bxs-chevrons-right bx-tada" style="color: #c51f1f"></i>
+  </a>
+  {% endif %}
+  {% endfor %}
+</div>
+<!-- -------------------------- -->
+{% endfor %}
+
+<!-- End Counter -->
+<section class="slider-service pt-100 pb-70">
+  <div class="container">
+    <div class="row">
+      <h2 class="mostBooked">Most Booked Services</h2>
+      <div class="col-md-12">
+        <div class="owl-carousel owl-theme owll">
+          {% for m in most_booked_services %}
+          <div class="item">
+            <a href="{% url 'service' m.sub_category.slug %}">
+              {% if m.image %}
+              <img src="{{m.image.url}}" alt="Bathroom Cleaning" class="mb-3" />
+              {% endif %}
+              <h6>{{m.product_name}}</h6>
+              <svg width="20px" height="100%" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                  d="M18.333 10a8.333 8.333 0 11-16.667 0 8.333 8.333 0 0116.667 0zm-7.894-4.694A.476.476 0 009.999 5a.476.476 0 00-.438.306L8.414 8.191l-2.977.25a.48.48 0 00-.414.342.513.513 0 00.143.532l2.268 2.033-.693 3.039a.51.51 0 00.183.518.458.458 0 00.528.022L10 13.298l2.548 1.629a.458.458 0 00.527-.022.51.51 0 00.184-.518l-.693-3.04 2.268-2.032a.513.513 0 00.143-.532.48.48 0 00-.415-.342l-2.976-.25-1.147-2.885z"
+                  fill="red"></path>
+              </svg>
+              <!-- <span>{% if m.average_rating %} {{m.average_rating}} {% endif %}({{m.total_reviews}} Ratings)</span> -->
+              <p>₹{{m.dis_price}}</p>
+            </a>
+          </div>
+          {% endfor %}
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<hr class="style5" />
+<!-- End most book slider -->
+<!-- Start slider1 -->
+<section class="slider1">
+  {% for s in service %}
+  <div class="container">
+    <h2>{{s.service_name}}</h2>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="owl-carousel owl-theme owll">
+          {% for ps in s.servicetype.all %}
+          <div class="item">
+            <a href="{% url 'service' ps.product.sub_category.slug %}">
+              <img src="{{ps.product.image.url}}" alt="painting" class="mb-3" />
+              <h6 class="text-center">{{ps.product.product_name}}</h6>
+            </a>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr class="style5" />
+  {% endfor %}
+</section>
+
+<!-- Choose -->
+<section class="about-area two pt-100 pb-70">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-6">
+        <div class="about-content">
+          <div class="section-title">
+            <span class="sub-title">Why Choose Us</span>
+            <h2>We Are Dedicated To Do Your Work</h2>
+          </div>
+          <p>
+            Choose Casa Expert for expert services! From plumbing to events, our
+            skilled team ensures top-notch quality, reliability, and a seamless
+            experience, making us your all-in-one solution.
+          </p>
+          <ul>
+            <li>
+              <i class="bx bx-check"></i>
+              We Provide Qualified & Expert
+            </li>
+            <li>
+              <i class="bx bx-check"></i>
+              Safe Work & Satisfaction
+            </li>
+            <li>
+              <i class="bx bx-check"></i>
+              Quick Response & 24/7 Support
+            </li>
+            <li>
+              <i class="bx bx-check"></i>
+              Less Time Done More
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="choose-img">
+          <img src="/static/assets/img/home-two/allServices.webp" alt="all services" data-aos="fade-right"/>
+          <!-- <img src="/static/assets/img/home-two/all-services.jpg" alt="Choose"> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End Choose -->
+<!-- banner-services -->
+<section class="banner-service">
+  <div class="ENdDW3jQ">
+    <div class="v70iryFl xBZ0gsA2 WUKMBEMS">
+      <div class="vDZkweKT ON2yd34q">
+        <div class="Y6LzyabM">
+          <div class="f2D3Z5v0">
+            <div class="EQxRuUQL jnvqOnnx">
+              <img class="WrIZYN_y" src="/static/assets/img/services/banser.webp" alt="" itemscope=""
+                itemprop="image" />
+            </div>
+            <div class="WTTjuUMp">
+              <div class="mLIfujSJ"></div>
+            </div>
+          </div>
+        </div>
+        <div class="ODUE4R5D">
+          <div class="gOD1YAeV">
+            <p class="nlRj2W7H">
+              Your One-Stop Solution for Household Needs: Casa Expert Services
+            </p>
+            <p class="cafHazPm">
+              "Expert Solutions for Home Maintenance, Repair, and Upgrades"
+            </p>
+          </div>
+          <div class="rPwt27dA N_VFvsg3">
+            <p class="h_JJnaut">Select a service</p>
+            <div class="gaGO_8rt">
+              <div class="Se5q76eM">
+                <a href="" class="wWZbRnGj">
+                  <div title="Services" style="border-width: 1px">
+                    <div class="EQxRuUQL QSMy6mW7">
+                      <img class="QSMy6mW7" src="/static/assets/img/services/girl.png" alt="Service image" itemscope=""
+                        itemprop="image" />
+                    </div>
+                    <p class="nlRj2W7H">Services</p>
+                  </div>
+                </a>
+                <a href="" class="wWZbRnGj">
+                  <div title="Cleaning Service" style="border-width: 1px">
+                    <div class="EQxRuUQL QSMy6mW7">
+                      <img class="QSMy6mW7" src="/static/assets/img/services/ser1.png" alt="Cleaning image" itemscope=""
+                        itemprop="image" />
+                    </div>
+                    <p class="nlRj2W7H">Cleaning</p>
+                  </div>
+                </a>
+                <a href="" class="wWZbRnGj">
+                  <div title="Plumbing Service" style="border-width: 1px">
+                    <div class="EQxRuUQL QSMy6mW7">
+                      <img class="QSMy6mW7" src="/static/assets/img/services/ser-2.webp" alt="Plumber boy image"
+                        itemscope="" itemprop="image" />
+                    </div>
+                    <p class="nlRj2W7H">Plumbing</p>
+                  </div>
+                </a>
+                <a href="" class="wWZbRnGj">
+                  <div title="Renovation Service" style="border-width: 0px">
+                    <div class="EQxRuUQL QSMy6mW7">
+                      <img class="QSMy6mW7" src="/static/assets/img/services/ser-3.webp" alt="House renovation Image"
+                        itemscope="" itemprop="image" />
+                    </div>
+                    <p class="nlRj2W7H">House Renovation</p>
+                  </div>
+                </a>
+              </div>
+              <div class="Se5q76eM">
+                <a href="" class="wWZbRnGj">
+                  <div title="Electrician Service" style="border-width: 1px">
+                    <div class="EQxRuUQL QSMy6mW7">
+                      <img class="QSMy6mW7" src="/static/assets/img/services/ser-4.webp" alt="Electric Bulb"
+                        itemscope="" itemprop="image" />
+                    </div>
+                    <p class="nlRj2W7H">Electrician</p>
+                  </div>
+                </a>
+                <a href="" class="wWZbRnGj">
+                  <div title="Taxi Service" style="border-width: 1px">
+                    <div class="EQxRuUQL QSMy6mW7">
+                      <img class="QSMy6mW7" src="/static/assets/img/services/ser-5.webp" alt="car image" itemscope=""
+                        itemprop="image" />
+                    </div>
+                    <p class="nlRj2W7H">Outstation Taxi</p>
+                  </div>
+                </a>
+                <a href="" class="wWZbRnGj">
+                  <div title="Events Service" style="border-width: 1px">
+                    <div class="EQxRuUQL QSMy6mW7">
+                      <img class="QSMy6mW7" src="/static/assets/img/services/ser-6.webp" alt="car image" itemscope=""
+                        itemprop="image" />
+                    </div>
+                    <p class="nlRj2W7H">Events Planning</p>
+                  </div>
+                </a>
+                <a href="" class="wWZbRnGj">
+                  <div title="Repair Service" style="border-width: 1px">
+                    <div class="EQxRuUQL QSMy6mW7">
+                      <img class="QSMy6mW7" src="/static/assets/img/services/ser-7.webp" alt="Repair image" itemscope=""
+                        itemprop="image" />
+                    </div>
+                    <p class="nlRj2W7H">Repair Services</p>
+                  </div>
+                </a>
+              </div>
+              <div class="bubbles">
+                <img src="bubbles/bubble.png" alt="" />
+                <img src="bubbles/bubble.png" alt="" />
+                <img src="bubbles/bubble.png" alt="" />
+                <img src="bubbles/bubble.png" alt="" />
+                <img src="bubbles/bubble.png" alt="" />
+                <img src="bubbles/bubble.png" alt="" />
+                <img src="bubbles/bubble.png" alt="" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End banner-services -->
+<section id="slider">
+  <div class="d-flex justify-content-center p-5">
+    <img style="width: 40%" src="/static/assets/img/error-shape2.png" alt="" />
+  </div>
+  <div class="imagebox">
+    <label for="s1" id="slide1"><img class="img1" src="/static/assets/img/icons/s1.webp" alt="" /></label>
+    <label for="s2" id="slide2"><img class="img2" src="/static/assets/img/icons/s2.webp" alt="" /></label>
+    <label for="s3" id="slide3"><img class="img3" src="/static/assets/img/icons/s4.webp" alt="" /></label>
+    <label for="s4" id="slide4"><img class="img4" src="/static/assets/img/icons/s3.webp" alt="" /></label>
+    <label for="s5" id="slide5"><img class="img5" src="/static/assets/img/icons/s6.webp" alt="" /></label>
+  </div>
+  <div class="radiobutton">
+    <input type="radio" name="slider" id="s1" onchange="checkFun()" />
+    <input type="radio" name="slider" id="s2" onchange="checkFun()" />
+    <input type="radio" name="slider" id="s3" onchange="checkFun()" checked />
+    <input type="radio" name="slider" id="s4" onchange="checkFun()" />
+    <input type="radio" name="slider" id="s5" onchange="checkFun()" />
+  </div>
+</section>
+<!-- Counter -->
+<div class="counter-area three">
+  <div class="counter-wrap">
+    <div class="container">
+      <div class="row">
+        <div class="col-6 col-sm-6 col-lg-3 ser-box">
+          <div class="counter-item">
+            <img src="/static/assets/img/main-services/experience (1).png" alt="" />
+            <h3>
+              <span class="odometer" data-count="4">00</span>
+            </h3>
+            <p>Years Experienced</p>
+          </div>
+        </div>
+        <div class="col-6 col-sm-6 col-lg-3 ser-box">
+          <div class="counter-item">
+            <img src="/static/assets/img/main-services/client.png" alt="" />
+            <h3>
+              <span class="odometer" data-count="156">00</span>
+            </h3>
+            <p>Happy Clients</p>
+          </div>
+        </div>
+        <div class="col-6 col-sm-6 col-lg-3 ser-box">
+          <div class="counter-item">
+            <img src="/static/assets/img/main-services/facebook-verified.png" alt="" />
+            <h3>
+              <span class="odometer" data-count="56">00</span>
+            </h3>
+            <p>Project Completed</p>
+          </div>
+        </div>
+        <div class="col-6 col-sm-6 col-lg-3 ser-box">
+          <div class="counter-item">
+            <img src="/static/assets/img/main-services/work-in-progress.png" alt="" />
+            <h3>
+              <span class="odometer" data-count="22">00</span>
+            </h3>
+            <p>Active Project</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End Counter -->
+<!-- Estimate -->
+<div class="estimate-area ptb-100">
+  <div class="container">
+    <div class="estimate-content">
+      <div class="section-title">
+        <h2>Let's Find A Estimate On Your Project</h2>
+      </div>
+      <form method="post" action="" id="bookingForm">
+        {% csrf_token %}
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="form-group">
+              <input type="text" class="form-control form-control-home" placeholder="Your Name" name="name" required
+                pattern="[A-Za-z ]+" title="Please enter a valid name (letters and spaces only)" />
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="form-group">
+              <input type="email" class="form-control form-control-home" placeholder="Your Email" name="email"
+                required />
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="form-group">
+              <input type="text" class="form-control form-control-home" placeholder="Enter City Name" name="city_name"
+                required pattern="[A-Za-z ]+" title="Please enter a valid city name (letters and spaces only)" />
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="form-group">
+              <input type="text" class="form-control form-control-home" placeholder="Services" name="service"
+                required />
+            </div>
+          </div>
+          <div class="col-lg-12">
+            <div class="form-group">
+              <textarea id="your-message" rows="6" class="form-control form-control-home" placeholder="Your Message"
+                name="message" required maxlength="500"></textarea>
+            </div>
+          </div>
+          <div class="col-lg-12">
+            <button type="submit" class="btn cmn-btn">Book A Schedule</button>
+          </div>
+        </div>
+      </form>
+
+
+
+    </div>
+  </div>
+</div>
+<!-- End Estimate -->
+<!-- Review -->
+<section class="review-area ptb-100">
+  <div class="review-shape">
+    <img src="/static/assets/img/home-one/banner-shape6.png" alt="Shape" />
+  </div>
+  <div class="container">
+    <div class="section-title">
+      <span class="sub-title">Clients Review</span>
+      <h2>What clients Say About Us</h2>
+    </div>
+    <div class="review-slider owl-theme owl-carousel">
+      <div class="review-item">
+        <img src="/static/assets/img/testi/two.png" alt="Review" />
+        <h3>Nikhil Ranjan</h3>
+        <span>Business Man</span>
+        <ul>
+          <li>
+            <i class="bx bxs-star checked"></i>
+          </li>
+          <li>
+            <i class="bx bxs-star checked"></i>
+          </li>
+          <li>
+            <i class="bx bxs-star checked"></i>
+          </li>
+          <li>
+            <i class="bx bxs-star checked"></i>
+          </li>
+          <li>
+            <i class="bx bxs-star checked"></i>
+          </li>
+        </ul>
+        <p>
+          "Casaxprt made our company event a hit! Their planning was top-notch,
+          ensuring everything flowed smoothly."
+        </p>
+      </div>
+      <div class="review-item">
+        <img src="/static/assets/img/testi/one.png" alt="Review" />
+        <h3>Adarsh Verma</h3>
+        <span>Photographer</span>
+        <ul>
+          <li>
+            <i class="bx bxs-star checked"></i>
+          </li>
+          <li>
+            <i class="bx bxs-star checked"></i>
+          </li>
+          <li>
+            <i class="bx bxs-star checked"></i>
+          </li>
+          <li>
+            <i class="bx bxs-star checked"></i>
+          </li>
+          <li>
+            <i class="bx bxs-star checked"></i>
+          </li>
+        </ul>
+        <p>
+          "Thanks to Casaxprt, my property feels safer with their CCTV setup.
+          They're reliable and professional."
+        </p>
+      </div>
+      <div class="review-item">
+        <img src="/static/assets/img/testi/three.png" alt="Review" />
+        <h3>Mannat Singh</h3>
+        <span>Software Developer</span>
+        <ul>
+          <li>
+            <i class="bx bxs-star checked"></i>
+          </li>
+          <li>
+            <i class="bx bxs-star checked"></i>
+          </li>
+          <li>
+            <i class="bx bxs-star checked"></i>
+          </li>
+          <li>
+            <i class="bx bxs-star checked"></i>
+          </li>
+          <li>
+            <i class="bx bxs-star checked"></i>
+          </li>
+        </ul>
+        <p>
+          "Attending a Casaxprt event was fantastic! They know how to create an
+          amazing atmosphere and organize seamlessly."
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End Review -->
+<!-- Projects -->
+<section class="project-area pt-100 pb-70">
+  <div class="project-shape">
+    <img src="/static/assets/img/home-one/banner-shape5.png" alt="Shape" />
+    <img src="/static/assets/img/home-one/project-shape1.png" alt="Shape" />
+  </div>
+  <div class="container">
+    <div class="section-title">
+      <span class="sub-title">Our Projects</span>
+      <h2>Have A Quick Look Some Of Our Works & Services</h2>
+    </div>
+    <div class="row">
+      <div class="col-sm-6 col-lg-6">
+        <div class="project-item">
+          <div class="project-top">
+            <a href="">
+              <img src="/static/assets/img/services/wedd-5.webp" alt="Project" />
+            </a>
+          </div>
+          <h3>
+            <a href="">Event & Wedding</a>
+          </h3>
+          <a href="">View Project</a>
+        </div>
+      </div>
+      <div class="col-sm-6 col-lg-6">
+        <div class="project-item">
+          <div class="project-top two">
+            <a href="/">
+              <img src="/static/assets/img/services/plumbing-1.png" alt="Project" />
+            </a>
+          </div>
+          <h3>
+            <a href="/">Plumbing</a>
+          </h3>
+          <a href="/">View Project</a>
+        </div>
+        <div class="project-item">
+          <div class="project-top two">
+            <a href="/">
+              <img src="/static/assets/img/services/paint-2.png" alt="Project" />
+            </a>
+          </div>
+          <h3>
+            <a href="/">House Painting</a>
+          </h3>
+          <a href="/">View Project</a>
+        </div>
+      </div>
+      <div class="col-sm-6 col-lg-6">
+        <div class="project-item">
+          <div class="project-top">
+            <a href="">
+              <img src="/static/assets/img/services/cleaninng-3.png" alt="Project" />
+            </a>
+          </div>
+          <h3>
+            <a href="/">Home Cleaning Service</a>
+          </h3>
+          <a href="/">View Project</a>
+        </div>
+      </div>
+      <div class="col-sm-6 col-lg-6">
+        <div class="project-item">
+          <div class="project-top">
+            <a href="/">
+              <img src="/static/assets/img/services/cons-4.png" alt="Project" />
+            </a>
+          </div>
+          <h3>
+            <a href="/">Construction</a>
+          </h3>
+          <a href="/">View Project</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End Projects -->
+<style>
+  .popup {
+
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    z-index: 999;
+  }
+
+  .cta-btn {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+</style>
+
+<!-- Modal -->
+<div class="popup" id="popup">
+  <div class="popup-content">
+    <div class="d-flex justify-content-center align-items-center gap-3">
+      <div>
+        <input type="text" class="sbx-custom__input py-3" id="enterlocation" placeholder="Enter Your Locations...">
+      </div>
+      <div>
+        <button class="btn btn-info" onclick="searchlocation()" style="border-radius: 50px;">Search</button>
+      </div>
+    </div>
+    <br>
+    <div class="my-2" onclick="getLocation()" style="cursor: pointer;">
+      <i class='bx bx-current-location' style="color: red;"></i>
+     <span class="text-danger"> Use Current Location</span>
+    </div>
+  </div>
+</div>
+
+<script>
+  const wrapper = document.querySelector(".wrapper-ct")
+  selectBtn = wrapper.querySelector(".select-btn").innerText
+  const popup = document.getElementById('popup');
+
+  function showlocationpopup(){
+    console.log('box open')
+    popup.style.display = 'block';
+  }
+
+  if (selectBtn) {
+    console.log("hai")
+    popup.style.display = 'none';
+  }
+  else {
+    console.log("nahi hai")
+    popup.style.display = 'block';
+    getLocation()
+  }
+
+  function getLocation() {
+    console.log("uselocation called")
+    if (navigator.geolocation) {
+      navigator.geolocation.watchPosition(showPosition);
+    } else {
+      x.innerHTML = "Geolocation is not supported by this browser.";
+    }
+  }
+  function showPosition(position) {
+    console.log(position.coords.latitude, position.coords.longitude)
+    console.log('goback buttom')   
+    popup.style.display = 'none';
+    window.location.href = "?lt=" + position.coords.latitude + "&lg=" + position.coords.longitude
+  }
+  function searchlocation(){
+    const enterlocation = document.getElementById('enterlocation').value
+    window.location.href ="?address="+enterlocation
+  }
+
+  function goBack() {
+    console.log('goback buttom')
+    popup.style.display = 'none';
+  }
+
+</script>
+<!--! FORMS VALIDATION -->
+
+{% endblock body %}
