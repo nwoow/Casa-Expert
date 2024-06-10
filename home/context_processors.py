@@ -4,7 +4,7 @@ def product_in_cart(request):
     cart = request.session.get('cart') 
     product = []
     totalamount = 0
-    if cart:
+    if cart:    
         for k in cart:
             try:
                 queryset =Product.objects.get(uid=k)

@@ -22,9 +22,8 @@
                                         <thead>
                                             <tr>
                                                 <th style="width: 30px;">Invoice No</th>
-                                                <th>Product Name</th>
+                                                <th>Client Name</th>
                                                 <th>Contact Info</th>
-                                                <th style="width: 30px;">Price X Quantity</th>
                                                 <th style="width: 30px;">Total Amount</th>
                                                 <th style="width: 20px;">Payment Status</th>
                                                 <th style="width: 50px;">Current Status</th>
@@ -36,7 +35,7 @@
                                             <tr>
                                                 <th scope="row">{{b.invoice_no}}</th>
                                                 <td>
-                                                    {{b.product.product_name}}
+                                                    {{b.name}}
                                                 </td>
                                                 <td><i class="mdi mdi-phone"></i> {{b.user.phone_number}}
                                                     {% if b.user.email %}
@@ -44,7 +43,6 @@
                                                     <i class="mdi mdi-email"></i>{{b.user.email}}
                                                     {% endif %}
                                                 </td>
-                                                <td>{{b.product.dis_price}} X {{b.quantity}}</td>
                                                 <td>{{b.paid_amount}}</td>
                                                 <td>{% if b.is_paid %}
                                                     PAID
@@ -94,7 +92,6 @@
 
                             <div>Time Slot : {{b.time_slot.start_time}}</div>
                             <div>Booking time : {{b.booking_time}}</div>
-                            <div>Quantity : {{b.quantity }}</div>
                             <div>Trans Id : {{b.transactionId}}</div>
                             <div>Amount : {{b.paid_amount}}</div>
                             <div>Payment Status : {% if b.is_paid %}
@@ -119,6 +116,25 @@
                         <div class="col-md-12">
                             Notes : {{b.notes}}
                         </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        {% for p in b.booking_product.all %}
+                        <div class="col-md-6">
+                            <div class="d-flex">
+                                <div>
+                                    <img style="width: 70px;" src="{{p.product.image.url}}" alt="">
+                                </div>
+                                <div class="mx-2">
+                                    <span>{{p.product.product_name}}</span>
+                                    <br>
+                                    <span>Rs. {{p.product.dis_price}}</span>
+                                    <br>
+                                    <span>Quantity : {{p.quantity}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
                     </div>
                 </div>
                 <form action="" method="post">

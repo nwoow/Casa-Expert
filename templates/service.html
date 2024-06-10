@@ -98,9 +98,9 @@
                         </div>
                     </div>
                     <div class="details-project">
-                  
+
                         <h3 class="fw-bold ServiceHEAD">Frequently Booked</h3>
-                     
+
                         <br>
                         <div class="row">
                             {% for service in subcategory.products.all %}
@@ -118,12 +118,12 @@
                                             </svg>
                                             <span>{% if service.average_rating %} {{service.average_rating}}{% endif %}
                                                 ({{service.total_reviews}} Ratings)</span>
-                                                
-                                            <p class="mt-2 headPara"> <svg width="20" height="100%" viewBox="0 0 24 24" fill="#545454"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" fill="#545454">
-                                                </path>
-                                            </svg> ₹{{service.dis_price}}</p>
+
+                                            <p class="mt-2 headPara"> <svg width="20" height="100%" viewBox="0 0 24 24"
+                                                    fill="#545454" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" fill="#545454">
+                                                    </path>
+                                                </svg> ₹{{service.dis_price}}</p>
                                             <hr>
                                             <div style="width: 400px;" class="serviceP">
                                                 {{service.product_description|safe}}
@@ -141,31 +141,36 @@
                                                     <a style="cursor: pointer; width: 72px;" class="add-to-cart pluss"
                                                         onclick="document.getElementById('form{{forloop.counter}}').submit();">Add</a>
 
-                                                     <!-- !view cart +1- -->
-                                                     {% if service|get_cart_tag:request.session.cart %}
-                                                     <a class="wrapper-plus add-to-cart">
-                                                        <span class="minus" onclick="dec_cart('{{service.uid}}','{{service|get_cart_tag:request.session.cart}}')" >-</span>
-                                                        <span class="num" id="count"> 
-                                                            <input type="text" class="input-qty" value="{{service|get_cart_tag:request.session.cart}}" name="quantity">
+                                                    <!-- !view cart +1- -->
+                                                    {% if service|get_cart_tag:request.session.cart %}
+                                                    <a class="wrapper-plus add-to-cart">
+                                                        <span class="minus"
+                                                            onclick="dec_cart('{{service.uid}}','{{service|get_cart_tag:request.session.cart}}')">-</span>
+                                                        <span class="num" id="count">
+                                                            <input type="text" class="input-qty"
+                                                                value="{{service|get_cart_tag:request.session.cart}}"
+                                                                name="quantity">
                                                         </span>
-                                                        <span class="plus" onclick="inc_cart('{{service.uid}}','{{service|get_cart_tag:request.session.cart}}')">+</span>
+                                                        <span class="plus"
+                                                            onclick="inc_cart('{{service.uid}}','{{service|get_cart_tag:request.session.cart}}')">+</span>
                                                     </a>
                                                     {% endif %}
                                                     <!-- !view cart +1- -->
 
-                                                    <a href="{% url 'cart' %}" class="serviceViewCart"><span class="count"></span>
-                                                        
-                                                            {% if request.session.cart %}
-                                                            <p class="serv-cart">{{service|get_cart_tag:request.session.cart}}</p>
-                                              
-                                                            {% endif %}
-                                                    View Cart
+                                                    <a href="{% url 'cart' %}" class="serviceViewCart"><span
+                                                            class="count"></span>
+
+                                                        {% if request.session.cart %}
+                                                        <p class="serv-cart">
+                                                            {{service|get_cart_tag:request.session.cart}}</p>
+
+                                                        {% endif %}
+                                                        View Cart
                                                     </a>
-                                                   
                                                 </div>
                                                 <input type="hidden" style="width: 50px;" class="input-qty" value="1"
                                                     name="quantity">
-                                                
+
                                             </form>
 
                                         </div>
@@ -233,40 +238,37 @@
                             <div class="related-inner">
                                 <div class="card text-center border border-success">
                                     <div class="card-body">
-
                                         <h5 class="card-title">CART</h5>
                                         <hr>
                                         {% for p in product_in_cart %}
-                                        <div>
+                                            <div>
+                                                <div class="">
+                                                    <div>
+                                                        {{p.product_name}}
+                                                    </div>
 
-                                            <div class="">
-                                                <div>
-                                                    {{p.product_name}}
                                                 </div>
-                                                {% if user.is_authenticated %}
-                                                <div class="">
-                                                    <div class="text-center">
-                                                        <a
-                                                            href="{% url 'checkout' %}?uid={{p.uid}}&quantity={{p.quantity}}">
-                                                            <button type="button" class="button-69 mt-2">View Cart</button>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                                {% else %}
-                                                <div class="">
-                                                    <div class="text-center">
-                                                        <a href="#" data-bs-toggle="modal"
-                                                            data-bs-target="#staticBackdrop">
-                                                            <button type="button" class="button-69 mt-2">Checkout</button>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                                {% endif %}
+                                            </div>
+                                                              
+                                            <hr>
+                                        {% endfor %}
+                                        {% if user.is_authenticated %}
+                                        <div class="">
+                                            <div class="text-center">
+                                                <a href="{% url 'checkout' %}">
+                                                    <button type="button" class="button-69 mt-2">Checkout</button>
+                                                </a>
                                             </div>
                                         </div>
-                                        <hr>
-
-                                        {% endfor %}
+                                        {% else %}
+                                        <div class="">
+                                            <div class="text-center">
+                                                <a href="#" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                                    <button type="button" class="button-69 mt-2">Checkout</button>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        {% endif %}
                                     </div>
                                 </div>
                             </div>
@@ -276,7 +278,7 @@
                             <div class="card text-center border border-danger">
                                 <div class="card-body">
                                     <h5 class="card-title">CART</h5>
-                                   <img src="/static/assets/img/cart.png" alt="carts" width="50">
+                                    <img src="/static/assets/img/cart.png" alt="carts" width="50">
                                     <p class="card-text">No items in your Cart</p>
 
                                 </div>
@@ -612,7 +614,7 @@
                         <!-- ============================================ -->
                         <div class="read-more-btn">View More Offers <i class='bx bxs-chevron-down'></i></div>
                     </div>
-                  
+
                     <div class="call widget-item">
                         <h3>Call Now</h3>
                         <a href="tel:+919297884500">+91 92978 84500</a>

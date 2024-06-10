@@ -72,7 +72,8 @@ def home(request):
         category = Category.objects.filter(is_publish=True).filter(city_service__city_name__iexact=address)
         print("category",category)
         service = Service.objects.filter(is_publish=True).filter(servicetype__category__city_service__city_name__iexact=address).distinct()
-        most_booked_services = Product.objects.filter(is_publish=True).filter(booking_set__city__iexact = address).annotate(num_bookings=Count('booking_set')).order_by('-num_bookings')[:10]
+        # most_booked_services = Product.objects.filter(is_publish=True).filter(booking_set__city__iexact = address).annotate(num_bookings=Count('booking_set')).order_by('-num_bookings')[:10]
+        most_booked_services = Product.objects.filter(is_publish=True)
         if query:
             product = Product.objects.filter(is_publish=True).filter(sub_category__category__city_service__city_name__iexact=address).filter(product_name__icontains=query)
             context ={'category':category,"product":product}
@@ -109,15 +110,24 @@ def add_to_cart(request):
     uid = request.GET.get('uid')
     quantity = request.GET.get('quantity')
     product = Product.objects.get(uid=uid)
+    # if product.sub_category == 
     cart = request.session.get('cart')  
     if cart:
-        desc = cart.get(uid)
-        if desc:
-            print('product in cart')
-            cart[uid] = quantity
+        psubcategory = Product.objects.get(uid=list(cart)[0])
+        if product.sub_category == psubcategory.sub_category:
+            print("hai")
+            desc = cart.get(uid)
+            if desc:
+                print('product in cart')
+                cart[uid] = quantity
+            else:
+                print('product not in cart')
+                cart[uid] = quantity
         else:
-            print('product not in cart')
-            cart[uid] = quantity
+            print('nahi h')
+            del request.session['cart']
+            cart ={}  
+            cart[uid]=quantity
     else:
         cart ={}  
         cart[uid]=quantity
@@ -134,8 +144,6 @@ def deletesessioncart(request,uid):
 
 @login_required(login_url="userlogin")
 def checkout(request):
-    uid = request.GET.get("uid") 
-    qty = request.GET.get('quantity')
     if request.method == "POST":        
         booking_date = request.POST['booking_date']
         print(booking_date)
@@ -170,29 +178,41 @@ def checkout(request):
             address.phone= phone
             address.email =email
             address.save()
-
-        product = Product.objects.get(uid= uid)
-        
+        cart = request.session.get('cart') 
+        product = []
+        totalamount = 0
+        if cart:
+            for k in cart:
+                queryset =Product.objects.get(uid=k)
+                queryset.quantity = cart[k]
+                if queryset.quantity:
+                    totalamount = totalamount + (queryset.dis_price*int(queryset.quantity))
+                else:
+                    pass
+                product.append(queryset) 
+        print(totalamount)
         if cod:
             booking = Booking(
                 user = request.user,
-                product = product,
-                quantity = qty,
                 time_slot = TimeSlot.objects.get(uid=time_slot),
                 booking_time = booking_date,
                 name=name,addressline=saddress,locality=locality,city=city,zipcode=zipcode,
                 state=state,phone=phone,email=email,
-                paid_amount = product.dis_price * int(qty),
+                paid_amount = totalamount,
                 transactionId = "cod",
                 merchantTransactionId="cod"
             )
             booking.save()
-            cart = request.session['cart']
-            del cart[str(uid)]
-            request.session["cart"] = cart
+            for p in product:
+                bookingproduct = BookingProduct(
+                        booking= booking,
+                        product=p,
+                        quantity=p.quantity
+                    )
+                bookingproduct.save()           
+            del request.session['cart']
             return redirect('thankyou')
         else:
-            totalamount = product.dis_price * int(qty)
             data = {
                 "merchantId":config('MERCHANT_ID'),
                 "merchantTransactionId": 'MT'+ phone + str(random.randint(10000, 99999)),
@@ -232,7 +252,7 @@ def checkout(request):
             merchantTransactionId = response['data']['merchantTransactionId']  
             booking = Booking(
                 user = request.user,
-                product = product,
+                # product = product,
                 quantity = qty,
                 time_slot = TimeSlot.objects.get(uid=time_slot),
                 booking_time = booking_date,
@@ -243,22 +263,29 @@ def checkout(request):
                 is_paid=False,
                 )
             booking.save()
+            for p in product:
+                bookingproduct = BookingProduct(
+                        booking= booking,
+                        product=p,
+                        quantity=p.quantity
+                    )
+                bookingproduct.save()          
+            del request.session['cart']
             print(booking)
             return redirect(paymenturl)
-
     sdate = request.GET.get('sdate')   
-    checkout_prod = Product.objects.get(uid=uid)
+    cart = request.session.get('cart')  
+    if cart:
+        product = Product.objects.get(uid=list(cart)[0])
+        sub_cat = product.sub_category
+    else:
+        return redirect('cart')
     if sdate:
         act_date = convet_date(sdate)
     else:
         current_date = datetime.now()
         act_date = current_date.strftime("%Y-%m-%d") 
-    print(act_date)
     current_date = datetime.now().date()
-    print(current_date)
-    print(str(current_date)==str(act_date))
-    # Create a list of the next four days
-    # next_four_days = [current_date + timedelta(days=i) for i in range(4)]
     next_four_days = [
         {
             'date': current_date + timedelta(days=i),
@@ -266,16 +293,14 @@ def checkout(request):
         }
         for i in range(4)
     ]
-    print(next_four_days)
-    time_slot = TimeSlot.objects.filter(service=checkout_prod.sub_category)
+    time_slot = TimeSlot.objects.filter(service=sub_cat)
     for t in time_slot:
-        get_booking = Booking.objects.filter(product__sub_category=checkout_prod.sub_category).filter(booking_time =act_date).filter(time_slot=t).count()
-        if get_booking < checkout_prod.sub_category.no_of_slot:
+        get_booking = Booking.objects.filter(time_slot__service=sub_cat).filter(booking_time =act_date).filter(time_slot=t).count()
+        if get_booking < sub_cat.no_of_slot:
             t.availble=True
         else:
             t.availble=False
-    totalprice = checkout_prod.dis_price*int(qty)
-    context = {'prod':checkout_prod,'qty':qty,"time_slot":time_slot,'next_four_days':next_four_days,'totalprice':totalprice,'act_date':act_date}
+    context = {"time_slot":time_slot,'next_four_days':next_four_days,'act_date':act_date}
     return  render(request,'checkout.html',context)
 
 

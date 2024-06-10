@@ -66,17 +66,14 @@ class Booking(BaseModel):
     invoice_no = models.CharField(max_length=40)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     assign_work = models.ForeignKey(User, on_delete=models.SET_NULL,related_name="assign_work",null=True,blank=True)
-    product = models.ForeignKey(Product,on_delete=models.SET_NULL ,related_name="booking_set" ,null=True,blank=True)
     time_slot = models.ForeignKey(TimeSlot, on_delete=models.SET_NULL ,null=True,blank=True)
-    booking_time = models.DateField()
-    quantity = models.PositiveIntegerField(default=1)
+    booking_time = models.DateField()  
     merchantTransactionId = models.CharField(max_length=200)
     transactionId = models.CharField(max_length=200)
     paid_amount = models.CharField(max_length=200)
     is_paid = models.BooleanField(default=False)
     status = models.CharField(max_length=50,choices=STATUS_CHOICES,default='Pending')
     staff_status = models.CharField(max_length=50,choices=STATUS_CHOICES,default='Pending')
-
     name = models.CharField(max_length=200)
     addressline = models.CharField(max_length=200)
     locality = models.CharField(max_length=200)
@@ -113,6 +110,13 @@ class Booking(BaseModel):
 
     class Meta:
         ordering = ['-uid']
+
+
+class BookingProduct(BaseModel):
+    booking = models.ForeignKey(Booking,on_delete=models.CASCADE,related_name="booking_product")
+    product = models.ForeignKey(Product,on_delete=models.SET_NULL,null=True,blank=True)
+    quantity = models.PositiveIntegerField(default=1)
+    # status = models.CharField(max_length=50,choices=STATUS_CHOICES,default='Pending')
 
 
 class RejectReason(BaseModel):

@@ -37,10 +37,12 @@ import json
 
 
 def send_push_notification(push_token,title,message_body):
-    message = messaging.Message(
-        notification=messaging.Notification(title=title, body=message_body),
-        token=push_token,
-    )
-    response = messaging.send(message)
-    print('Successfully sent message:', response)
-
+    try:
+        message = messaging.Message(
+            notification=messaging.Notification(title=title, body=message_body),
+            token=push_token,
+        )
+        response = messaging.send(message)
+        print('Successfully sent message:', response)
+    except Exception as e:
+        print(e)

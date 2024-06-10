@@ -74,7 +74,7 @@
                             <script>
                                 function setDate(d) {
                                     console.log(d)              
-                                    window.location.href = window.location.origin+`/checkout?uid={{prod.uid}}&quantity={{qty}}&sdate=${d}`
+                                    window.location.href = window.location.origin+`/checkout?sdate=${d}`
                                 }
                                 function setTime(d) {
                                     console.log(d)
@@ -179,14 +179,14 @@
             </div>
             <!--  -->
             <div class="col-md-5 ">
-
+                {% for p in product_in_cart %}
                 <div class="border rounded  p-4">
                     <div class="d-flex bd-highlight">
                         <div class="p-2 flex-grow-1 bd-highlight">
-                            {% if prod.image %}
-                            <img style="width: 50px;" src="{{prod.image.url}}" alt="">
+                            {% if p.image %}
+                            <img style="width: 50px;" src="{{p.image.url}}" alt="">
                             {% endif %}
-                            {{prod.product_name}}
+                            {{p.product_name}}
                             <ul class="d-none ">
                                 <li></li>
                                 <li></li>
@@ -198,22 +198,22 @@
                         <div class=" wrapper-plus wrapper-pluss p-2 bd-highlight">
                             <span class="minus">X </span>&nbsp;
                             <span class="num">
-                                {{qty}}
+                                {{p.quantity}}
                             </span>
                             <!-- <span class="plus">+</span> -->
                         </div>
 
-                        <div class="p-2 bd-highlight">₹{{totalprice}}</div>
+                        <div class="p-2 bd-highlight">₹{{p.totalprice}}</div>
                     </div>
-                    <br>
-                    <hr>
-                    <div class="checkbox-wrapper-40">
+                   
+                    <!-- <div class="checkbox-wrapper-40">
                         <label>
                             <input type="checkbox" /> &nbsp;&nbsp;
                             <span class="">Avoid calling before reaching the location</span>
                         </label>
-                    </div>
+                    </div> -->
                 </div>
+                {% endfor %}
                 <div class="border rounded p-4 mt-3">
                     <div class="d-flex align-items-center">
                         <div class="flex-shrink-0">
@@ -298,7 +298,7 @@
                     <hr style="border: 1px solid lightgray;border-style: dotted;">
                     <div class="d-flex  justify-content-between  ">
                         <p><b>Total</b></p>
-                        <p><b>₹{{totalprice}}</b></p>
+                        <p><b>₹{{totalamount}}</b></p>
                     </div>
                     <hr>
                     <div>
@@ -327,7 +327,7 @@
 
                     <div class="d-flex justify-content-around align-items-center ">
                         <p><b>Amounts to pay</b></p>
-                        <p><b>₹{{totalprice}}</b></p>
+                        <p><b>₹{{totalamount}}</b></p>
                     </div>
                 </div>
 

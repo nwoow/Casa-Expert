@@ -24,23 +24,9 @@
                         <div class="details-project-inner">
                             <div class="d-flex">
                                 <div class="px-2">
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <div>
-                                                <img style="width: 100%; border-radius: 20px;"
-                                                    src="{{p.product.image.url}}" alt="image">
-                                            </div>
-
-                                        </div>
-                                        <div class="col-md-8">
-                                            
+                                    <div class="row">                                  
+                                        <div class="col-md-12">                                         
                                             <div class="row">
-                                                <div class="col-md-12">
-                                                    <p class="headPara" style="color: black; font-weight: bold;">
-                                                        {{p.product.product_name}}</p>
-                                                        <hr>
-                                                </div>
-
                                                 <div class="col-md-6">
                                                     <span style="color: black; font-weight: bold; margin-bottom: 10px;">Booking
                                                         ID :
@@ -73,6 +59,20 @@
                                                         {{p.status}}</span>
         
                                                 </div>
+                                                <hr>
+                                                {% for c in p.booking_product.all %}
+                                                <div class="col-md-6">
+                                                    <div class="d-flex">
+                                                        <div>
+                                                            <img style="width: 80px;" src="{{c.product.image.url}}" alt="">
+                                                        </div>
+                                                        <div class="mx-2">
+                                                            <p>{{c.product.product_name}}</p>
+                                                            <p>{{c.product.dis_price}}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                {% endfor %}
                                             </div>
                                            {% if p.status == 'Canceled' %}
                                             <span></span>
