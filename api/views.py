@@ -469,13 +469,11 @@ def time_slot(request,uid):
 
     for time_slot in time_slots:
         booking_count = Booking.objects.filter(
-            product__sub_category__uid=uid,
             booking_time=actual_date,
             time_slot=time_slot
         ).count()
         
         time_slot.available = booking_count < subcategory.no_of_slot
-
     serializer = TimeSlotMModelSerializers(time_slots, many=True)
     return Response({
         'status': 200,
