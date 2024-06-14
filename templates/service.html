@@ -34,13 +34,7 @@
                 <div class="widget-area " style="position: sticky; top: 100px;">
                     <div class="search widget-item">
                         <h2>{{subcategory.category_name}}</h2>
-                        <!-- <svg width="20px" height="100%" viewBox="0 0 20 20" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                    d="M18.333 10a8.333 8.333 0 11-16.667 0 8.333 8.333 0 0116.667 0zm-7.894-4.694A.476.476 0 009.999 5a.476.476 0 00-.438.306L8.414 8.191l-2.977.25a.48.48 0 00-.414.342.513.513 0 00.143.532l2.268 2.033-.693 3.039a.51.51 0 00.183.518.458.458 0 00.528.022L10 13.298l2.548 1.629a.458.458 0 00.527-.022.51.51 0 00.184-.518l-.693-3.04 2.268-2.032a.513.513 0 00.143-.532.48.48 0 00-.415-.342l-2.976-.25-1.147-2.885z"
-                                    fill="orange"></path>
-                            </svg> -->
-                        <!-- <span> 4.92 (12.6 M Bookings)</span> -->
+        
                     </div>
                     <div class="cat widget-item">
                         <h3>Select a services</h3>
@@ -236,21 +230,28 @@
                         {% if product_in_cart %}
                         <a href="{% url 'cart' %}">
                             <div class="related-inner">
-                                <div class="card text-center border border-success">
+                                <div class="card  border border-success">
                                     <div class="card-body">
                                         <h5 class="card-title">CART</h5>
                                         <hr>
                                         {% for p in product_in_cart %}
-                                            <div>
-                                                <div class="">
-                                                    <div>
-                                                        {{p.product_name}}
-                                                    </div>
-
+                                        <div class="d-flex">
+                                            <div class="d-flex align-items-center">
+                                                <img style="width: 50px;" src="{{p.image.url}}" alt="">
+                                            </div>
+                                            <div class="mx-2" style="width: 100%;">
+                                                <div class="d-flex justify-content-between" >
+                                                    {{p.product_name}}
+                                                    <a href="{% url 'deletesessioncart' p.uid %}" class="btn btn-danger" style="width: 25px;height: 30px;"><b>X</b></a>
+                                                </div>
+                                                <div class="d-flex justify-content-between">
+                                                    <div> {{p.quantity}} X {{p.dis_price}} </div>
+                                                    <div> {{p.totalprice}}</div>                                      
                                                 </div>
                                             </div>
-                                                              
-                                            <hr>
+                                            
+                                        </div>
+                                        <hr>
                                         {% endfor %}
                                         {% if user.is_authenticated %}
                                         <div class="">

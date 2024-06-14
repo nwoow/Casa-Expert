@@ -530,10 +530,10 @@ def orderlist(request):
                 'status': 400,
                 'message': "state is not valid"
             })
-        if data.get('product_uid') is None:
+        if data.get('product_list') is None:
             return Response({
                 'status': 400,
-                'message': "product_uid is not valid"
+                'message': "product_list is not valid"
             })
         if data.get('time_slot') is None:
             return Response({
@@ -545,11 +545,7 @@ def orderlist(request):
                 'status': 400,
                 'message': "booking_time is not valid"
             })
-        if data.get('quantity') is None:
-            return Response({
-                'status': 400,
-                'message': "quantity is not valid"
-            })
+
         try:
             address = Address(
                 user=request.user,
@@ -574,10 +570,8 @@ def orderlist(request):
             address.phone= data.get('phone')
             address.email = data.get('email')
             address.save()
-        product =Product.objects.get(uid= data.get('product_uid'))
         booking = Booking(
             user = request.user,
-            product = product,
             time_slot = TimeSlot.objects.get(uid =  data.get('time_slot')),
             booking_time = data.get('booking_time'),
             name = data.get('full_name'),
@@ -588,10 +582,16 @@ def orderlist(request):
             state = data.get('state'),
             phone = data.get('phone'),
             email = data.get('email'),
-            quantity = data.get('quantity'),
             paid_amount = product.dis_price
         )
         booking.save()
+        for p in data.get('product_list'):
+            bookingproduct = BookingProduct(
+                        booking= booking,
+                        product=p,
+                        quantity=p.quantity
+                    )
+            bookingproduct.save() 
         return Response({
             'status': 200,
             'orderuid': booking.uid
