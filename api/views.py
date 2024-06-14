@@ -545,6 +545,11 @@ def orderlist(request):
                 'status': 400,
                 'message': "booking_time is not valid"
             })
+        if data.get('paid_amount') is None:
+            return Response({
+                'status': 400,
+                'message': "paid_amount is not valid"
+            })
 
         try:
             address = Address(
@@ -582,14 +587,15 @@ def orderlist(request):
             state = data.get('state'),
             phone = data.get('phone'),
             email = data.get('email'),
-            paid_amount = product.dis_price
+            paid_amount = data.get('paid_amount')
         )
         booking.save()
         for p in data.get('product_list'):
+            print(type(p))
             bookingproduct = BookingProduct(
                         booking= booking,
-                        product=p,
-                        quantity=p.quantity
+                        product=Product.objects.get(uid=p['uid']),
+                        quantity=p['quantity']
                     )
             bookingproduct.save() 
         return Response({
