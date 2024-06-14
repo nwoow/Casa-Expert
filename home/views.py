@@ -115,7 +115,8 @@ def add_to_cart(request):
         try:
             psubcategory = Product.objects.get(uid=list(cart)[0])
         except Product.DoesNotExist:
-            psubcategory ={}
+            del request.session['cart']
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
         if product.sub_category == psubcategory.sub_category:
             print("hai")
             desc = cart.get(uid)
