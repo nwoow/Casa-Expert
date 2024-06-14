@@ -273,7 +273,8 @@ def updateprofile(request):
 
 @api_view(['GET'])
 def show_home_data(request):
-    most_booked_services = Product.objects.annotate(num_bookings=Count('booking_set'))
+    print('show home data')
+    most_booked_services = Product.objects.filter(is_publish=True).annotate(num_bookingproducts=Count('booking_product'))
     most_book_serializer = ProductModelSerializers(most_booked_services,many=True) 
     return Response({
             'status': 200,
@@ -288,7 +289,7 @@ def show_category(request):
         category = Category.objects.filter(is_publish=True).filter(city_service__city_name__iexact=address) 
         service  = Service.objects.filter(is_publish=True).filter(servicetype__category__city_service__city_name__iexact=address).distinct()
         city_booking = Booking.objects.filter(city=address)
-        most_booked_services = Product.objects.filter(is_publish=True).filter(booking_set__city__iexact = address).annotate(num_bookings=Count('booking_set')).order_by('-num_bookings')[:10]
+        most_booked_services = Product.objects.filter(is_publish=True).filter(booking_product__booking__city__iexact = address).annotate(num_bookingproducts=Count('booking_product')).order_by('-num_bookingproducts')[:10]
         most_book_serializer = ProductModelSerializers(most_booked_services,many=True)     
     else:
         category = Category.objects.all()   

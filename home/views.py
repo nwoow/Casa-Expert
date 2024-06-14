@@ -48,7 +48,7 @@ def home(request):
         category = Category.objects.filter(is_publish=True).filter(city_service__city_name__iexact=address)
         print("category",category)
         service = Service.objects.filter(is_publish=True).filter(servicetype__category__city_service__city_name__iexact=address).distinct()
-        most_booked_services = Product.objects.filter(is_publish=True)
+        most_booked_services = Product.objects.filter(is_publish=True).filter(booking_product__booking__city__iexact = address).annotate(num_bookingproducts=Count('booking_product')).order_by('-num_bookingproducts')[:10]
         if query:
             product = Product.objects.filter(is_publish=True).filter(sub_category__category__city_service__city_name__iexact=address).filter(product_name__icontains=query)
             context ={'category':category,"product":product}
@@ -60,7 +60,7 @@ def home(request):
         category = Category.objects.filter(is_publish=True).filter(city_service__city_name__iexact=address)
         print("category",category)
         service = Service.objects.filter(is_publish=True).filter(servicetype__category__city_service__city_name__iexact=address).distinct()
-        most_booked_services = Product.objects.filter(is_publish=True).filter(booking_set__city__iexact = address).annotate(num_bookings=Count('booking_set')).order_by('-num_bookings')[:10]
+        most_booked_services = Product.objects.filter(is_publish=True).filter(booking_product__booking__city__iexact = address).annotate(num_bookingproducts=Count('booking_product')).order_by('-num_bookingproducts')[:10]
         if query:
             product = Product.objects.filter(is_publish=True).filter(sub_category__category__city_service__city_name__iexact=address).filter(product_name__icontains=query)
             context ={'category':category,"product":product}
@@ -71,8 +71,7 @@ def home(request):
         category = Category.objects.filter(is_publish=True).filter(city_service__city_name__iexact=address)
         print("category",category)
         service = Service.objects.filter(is_publish=True).filter(servicetype__category__city_service__city_name__iexact=address).distinct()
-        # most_booked_services = Product.objects.filter(is_publish=True).filter(booking_set__city__iexact = address).annotate(num_bookings=Count('booking_set')).order_by('-num_bookings')[:10]
-        most_booked_services = Product.objects.filter(is_publish=True)
+        most_booked_services = Product.objects.filter(is_publish=True).filter(booking_product__booking__city__iexact = address).annotate(num_bookingproducts=Count('booking_product')).order_by('-num_bookingproducts')[:10]
         if query:
             product = Product.objects.filter(is_publish=True).filter(sub_category__category__city_service__city_name__iexact=address).filter(product_name__icontains=query)
             context ={'category':category,"product":product}

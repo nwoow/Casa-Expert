@@ -91,6 +91,7 @@ class Booking(BaseModel):
 
     class Meta:
         unique_together = ('time_slot', 'booking_time','assign_work',)
+        ordering = ['-uid']
 
     @property
     def all_staff(self):
@@ -107,14 +108,12 @@ class Booking(BaseModel):
         date_str = now().strftime('%Y%m%d')
         unique_id = uuid.uuid4().hex[:6].upper()
         return f'CA{date_str}{unique_id}'
-
-    class Meta:
-        ordering = ['-uid']
+  
 
 
 class BookingProduct(BaseModel):
-    booking = models.ForeignKey(Booking,on_delete=models.CASCADE,related_name="booking_product")
-    product = models.ForeignKey(Product,on_delete=models.SET_NULL,null=True,blank=True)
+    booking = models.ForeignKey(Booking,on_delete=models.CASCADE)
+    product = models.ForeignKey(Product,on_delete=models.SET_NULL,null=True,blank=True,related_name="booking_product")
     quantity = models.PositiveIntegerField(default=1)
     # status = models.CharField(max_length=50,choices=STATUS_CHOICES,default='Pending')
 
