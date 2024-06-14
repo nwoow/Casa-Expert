@@ -112,7 +112,10 @@ def add_to_cart(request):
     # if product.sub_category == 
     cart = request.session.get('cart')  
     if cart:
-        psubcategory = Product.objects.get(uid=list(cart)[0])
+        try:
+            psubcategory = Product.objects.get(uid=list(cart)[0])
+        except Product.DoesNotExist:
+            psubcategory ={}
         if product.sub_category == psubcategory.sub_category:
             print("hai")
             desc = cart.get(uid)
