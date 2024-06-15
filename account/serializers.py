@@ -21,24 +21,24 @@ class UserModelSerializers(serializers.ModelSerializer):
         fields ="__all__"
 
 
-class BookingProductSerializers(serializers.ModelSerializer):
-
+class BookingProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = BookingProduct
-        fields = "__all__"
+        fields = ['product', 'quantity']
+        depth = 1
 
 
 class BookingModelSerializers(serializers.ModelSerializer):
-    product_list = BookingProductSerializers(source='booking_product',
-        many=False,
-        read_only=True,
-    )
-    
+    booking_products = serializers.SerializerMethodField()
+
     class Meta:
         model = Booking
         fields = "__all__"
         depth = 1
 
+    def get_booking_products(self, obj):
+        booking_products = BookingProduct.objects.filter(booking=obj)
+        return BookingProductSerializer(booking_products, many=True).data
 
 class RejectReasonSerializers(serializers.ModelSerializer):
 
