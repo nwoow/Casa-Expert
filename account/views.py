@@ -278,13 +278,12 @@ def addtimeslot(request,uid):
     sub_cat = SubCategory.objects.get(uid=uid)
     if request.method=="POST":
         time = request.POST['time']
-
         ts = TimeSlot(
             service=sub_cat,
             start_time=time,end_time=time
         )
         ts.save()
-    timeslot = TimeSlot.objects.all()
+    timeslot = TimeSlot.objects.filter(service__uid =uid)
     context ={'timeslot':timeslot,'sub_cat':sub_cat}
     return render(request,'adminpannel/pages/addtimeslot.html',context)
 
