@@ -21,10 +21,15 @@ class UserModelSerializers(serializers.ModelSerializer):
         fields ="__all__"
 
 
+class BookingProductSerializers(serializers.ModelSerializer):
+
+    class Meta:
+        model = BookingProduct
+        fields = "__all__"
 
 
 class BookingModelSerializers(serializers.ModelSerializer):
-    product_list = AddressModelSerializers(source='booking_product',
+    product_list = BookingProductSerializers(source='booking_product',
         many=False,
         read_only=True,
     )
