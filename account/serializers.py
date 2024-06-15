@@ -24,6 +24,10 @@ class UserModelSerializers(serializers.ModelSerializer):
 
 
 class BookingModelSerializers(serializers.ModelSerializer):
+    product_list = AddressModelSerializers(source='booking_product',
+        many=False,
+        read_only=True,
+    )
     
     class Meta:
         model = Booking
