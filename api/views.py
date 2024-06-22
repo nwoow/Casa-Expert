@@ -476,8 +476,8 @@ def time_slot(request,uid):
         print(time_slot.start_time<=local_time_obj)
         print(str(actual_date)==current_date.strftime("%Y-%m-%d"))
         booking_count = Booking.objects.filter(booking_time=actual_date,time_slot=time_slot).count()  
-        if str(actual_date) < subcategory.no_of_slot:   
-            if requested_date ==current_date.strftime("%Y-%m-%d") and time_slot.start_time <= local_time_obj:
+        if booking_count < subcategory.no_of_slot:   
+            if str(actual_date) ==current_date.strftime("%Y-%m-%d") and time_slot.start_time <= local_time_obj:
                 time_slot.available = False
             else:
                 time_slot.available = True
