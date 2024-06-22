@@ -48,6 +48,9 @@ class TimeSlot(BaseModel):
     start_time = models.TimeField()
     end_time = models.TimeField()
 
+    class Meta:
+        ordering = ['start_time']
+
 
 class Service(BaseModel):
     service_name = models.CharField(max_length=100)

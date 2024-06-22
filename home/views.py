@@ -275,7 +275,7 @@ def checkout(request):
             del request.session['cart']
             print(booking)
             return redirect(paymenturl)
-    sdate = request.GET.get('sdate')   
+    sdate = request.GET.get('sdate') 
     cart = request.session.get('cart')  
     if cart:
         product = Product.objects.get(uid=list(cart)[0])
@@ -296,10 +296,20 @@ def checkout(request):
         for i in range(4)
     ]
     time_slot = TimeSlot.objects.filter(service=sub_cat)
+    
+    current_time_utc = timezone.now()
+    local_time = timezone.localtime(current_time_utc)
+    local_time_plus_2_hours = local_time + timedelta(hours=2)
+    local_time_str = local_time_plus_2_hours.strftime('%H:%M:%S')
+    local_time_obj = datetime.strptime(local_time_str, '%H:%M:%S').time()
     for t in time_slot:
+        print(type(local_time_obj))
         get_booking = Booking.objects.filter(time_slot__service=sub_cat).filter(booking_time =act_date).filter(time_slot=t).count()
         if get_booking < sub_cat.no_of_slot:
-            t.availble=True
+            if act_date ==current_date.strftime("%Y-%m-%d") and t.start_time <= local_time_obj :
+                t.availble=False
+            else:
+                t.availble=True        
         else:
             t.availble=False
     context = {"time_slot":time_slot,'next_four_days':next_four_days,'act_date':act_date}

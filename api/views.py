@@ -458,8 +458,7 @@ def time_slot(request,uid):
             return Response({'status': 400, 'error': 'Invalid date format. Use YYYY-MM-DD.'})
     else:
         actual_date = datetime.now().date()
-    print(actual_date)
-    
+    current_date = datetime.now().date()
     try:
         # Get all time slots for the given service
         time_slots = TimeSlot.objects.filter(service__uid=uid)
@@ -467,13 +466,24 @@ def time_slot(request,uid):
     except SubCategory.DoesNotExist:
         return Response({'status': 404, 'error': 'SubCategory not found.'})
 
+    current_time_utc = timezone.now()
+    local_time = timezone.localtime(current_time_utc)
+    local_time_plus_2_hours = local_time + timedelta(hours=2)
+    local_time_str = local_time_plus_2_hours.strftime('%H:%M:%S')
+    local_time_obj = datetime.strptime(local_time_str, '%H:%M:%S').time()
+    
     for time_slot in time_slots:
-        booking_count = Booking.objects.filter(
-            booking_time=actual_date,
-            time_slot=time_slot
-        ).count()
-        
-        time_slot.available = booking_count < subcategory.no_of_slot
+        print(time_slot.start_time<=local_time_obj)
+        print(requested_date==current_date.strftime("%Y-%m-%d"))
+        booking_count = Booking.objects.filter(booking_time=actual_date,time_slot=time_slot).count()  
+        if booking_count < subcategory.no_of_slot:   
+            if requested_date ==current_date.strftime("%Y-%m-%d") and time_slot.start_time <= local_time_obj:
+                time_slot.available = False
+            else:
+                time_slot.available = True
+        else:
+            time_slot.available = False
+        # time_slot.available = booking_count < subcategory.no_of_slot
     serializer = TimeSlotMModelSerializers(time_slots, many=True)
     return Response({
         'status': 200,
