@@ -10,6 +10,8 @@ from django.contrib import messages
 from . form import CityServiceModelForm
 from .sendnotification import send_push_notification
 from django.db import transaction, IntegrityError
+from django.contrib.auth.hashers import make_password
+from django.db.models import OuterRef, Subquery
 # Create your views here.
 
 def adminlogin(request):
@@ -26,7 +28,7 @@ def adminlogin(request):
         if user_obj:
             login(request, user_obj)
             messages.success(request, "login successfully")
-            if user_obj.is_staff == True:
+            if user_obj.is_superuser == True or user_obj.is_subadmin==True:
                 return redirect('dashboard')
             return redirect('/')
         messages.error(request, "Invalid Creadationls")
@@ -36,11 +38,13 @@ def adminlogin(request):
 
 @login_required(login_url="userlogin")
 def dashboard(request):
-    if request.user.is_superuser != True:
+    if (request.user.is_superuser == True) or (request.user.is_subadmin == True):
+        pass
+    else:
         return redirect('/')
     user_obj =request.user
-    if user_obj.is_staff != True:
-                return redirect('adminlogin')
+    # if user_obj.is_staff != True:
+    #             return redirect('adminlogin')
     pending_count = Booking.objects.filter(status='Pending',staff_status='Pending',is_paid=True).count()
     assign_work_count = Booking.objects.filter(status='Pending',staff_status='Pending',is_paid=True).count()
     staff_accepted_count = Booking.objects.filter(status='Pending',staff_status='Accepted',is_paid=True).count()
@@ -405,7 +409,10 @@ def new_account_req(request):
 
 
 def pending(request):
-    if request.user.is_superuser != True:
+    user = request.user
+    if (user.is_superuser == True) or (user.is_subadmin == True):
+        pass
+    else:
         return redirect('/')
     if request.method =="POST":
         booking_uid = request.POST['booking_uid']
@@ -420,13 +427,20 @@ def pending(request):
                 send_push_notification(staff_obj.expo_token,"CASAXPRT STAFF NOTIFICATION","A work assign to you please check app")
         except IntegrityError as e:
             messages.error(request,"Already assign work to user")
-    booking = Booking.objects.filter(staff_status="Pending").filter(status="Pending").filter(assign_work=None)
+    if user.is_subadmin:
+        all_service_area= user.subadmin_service_area.all().values('city_name')
+        booking = Booking.objects.filter(staff_status="Pending").filter(status="Pending").filter(assign_work=None).filter(city__in=Subquery(all_service_area))
+    else:
+        booking = Booking.objects.filter(staff_status="Pending").filter(status="Pending").filter(assign_work=None)
     context = {'booking':booking}
     return render(request,'adminpannel/ordersummery/pending.html',context)
 
 
 def assignwork(request):
-    if request.user.is_superuser != True:
+    user=request.user
+    if (user.is_superuser == True) or (user.is_subadmin == True):
+        pass
+    else:
         return redirect('/')
     if request.method =="POST":
         booking_uid = request.POST['booking_uid']
@@ -441,13 +455,21 @@ def assignwork(request):
             messages.success(request," assign work to user successfully")
         except IntegrityError as e:
             messages.error(request,"Already assign work to user")
-    booking = Booking.objects.filter(staff_status="Pending").filter(status="Pending").filter(assign_work__isnull=False)
+    if user.is_subadmin:
+        all_service_area= user.subadmin_service_area.all().values('city_name')
+        booking = booking = Booking.objects.filter(staff_status="Pending").filter(status="Pending").filter(assign_work__isnull=False).filter(city__in=Subquery(all_service_area))
+    else:
+        booking = booking = Booking.objects.filter(staff_status="Pending").filter(status="Pending").filter(assign_work__isnull=False)
+    
     context = {'booking':booking}
     return render(request,'adminpannel/ordersummery/assignwork.html',context)
 
 
 def accepted(request):
-    if request.user.is_superuser != True:
+    user=request.user
+    if (user.is_superuser == True) or (user.is_subadmin == True):
+        pass
+    else:
         return redirect('/')
     if request.method =="POST":
         booking_uid = request.POST['booking_uid']
@@ -463,13 +485,20 @@ def accepted(request):
             messages.success(request," assign work to user successfully")
         except IntegrityError as e:
             messages.error(request,"Already assign work to user")
-    booking = Booking.objects.filter(staff_status="Accepted").filter(status="Pending").filter(assign_work__isnull=False)
+    if user.is_subadmin:
+        all_service_area= user.subadmin_service_area.all().values('city_name')
+        booking = Booking.objects.filter(staff_status="Accepted").filter(status="Pending").filter(assign_work__isnull=False).filter(city__in=Subquery(all_service_area))
+    else:
+        booking = Booking.objects.filter(staff_status="Accepted").filter(status="Pending").filter(assign_work__isnull=False)
     context = {'booking':booking}
     return render(request,'adminpannel/ordersummery/accepted.html',context)
 
 
 def completed(request):
-    if request.user.is_superuser != True:
+    user =request.user
+    if (user.is_superuser == True) or (user.is_subadmin == True):
+        pass
+    else:
         return redirect('/')
     if request.method =="POST":
         booking_uid = request.POST['booking_uid']
@@ -484,13 +513,20 @@ def completed(request):
             messages.success(request," assign work to user successfully")
         except IntegrityError as e:
             messages.error(request,"Already assign work to user")
-    booking = Booking.objects.filter(staff_status="Completed").filter(status="Completed").filter(assign_work__isnull=False)
+    if user.is_subadmin:
+        all_service_area= user.subadmin_service_area.all().values('city_name')
+        booking = Booking.objects.filter(staff_status="Completed").filter(status="Completed").filter(assign_work__isnull=False).filter(city__in=Subquery(all_service_area))
+    else:
+        booking = Booking.objects.filter(staff_status="Completed").filter(status="Completed").filter(assign_work__isnull=False)
     context = {'booking':booking}
     return render(request,'adminpannel/ordersummery/completed.html',context)
 
 
 def staff_cancel(request):
-    if request.user.is_superuser != True:
+    user = request.user
+    if (user.is_superuser == True) or (user.is_subadmin == True):
+        pass
+    else:
         return redirect('/')
     if request.method =="POST":
         booking_uid = request.POST['booking_uid']
@@ -506,13 +542,30 @@ def staff_cancel(request):
             messages.success(request," assign work to user successfully")
         except IntegrityError as e:
             messages.error(request,"Already assign work to user")
-    booking = Booking.objects.filter(staff_status="Canceled").filter(status="Pending").filter(assign_work__isnull=False)
+    if user.is_subadmin:
+        all_service_area= user.subadmin_service_area.all().values('city_name')
+        booking = Booking.objects.filter(staff_status="Canceled").filter(status="Pending").filter(assign_work__isnull=False).filter(city__in=Subquery(all_service_area))
+    else:
+        booking = Booking.objects.filter(staff_status="Canceled").filter(status="Pending").filter(assign_work__isnull=False)
     context = {'booking':booking}
     return render(request,'adminpannel/ordersummery/staff-cancel.html',context)
 
 
+def allbooking(request):
+    user = request.user
+    if user.is_subadmin:
+        all_service_area= user.subadmin_service_area.all().values('city_name')
+        booking = Booking.objects.filter(city__in=Subquery(all_service_area))
+    else:
+        booking = Booking.objects.all()
+    context = {'booking':booking}
+    return render(request,'adminpannel/ordersummery/allbookings.html',context)
+
 def client_cancel(request):
-    if request.user.is_superuser != True:
+    user =request.user
+    if (user.is_superuser == True) or (user.is_subadmin == True):
+        pass
+    else:
         return redirect('/')
     if request.method =="POST":
         booking_uid = request.POST['booking_uid']
@@ -527,7 +580,11 @@ def client_cancel(request):
             messages.success(request," assign work to user successfully")
         except IntegrityError as e:
             messages.error(request,"Already assign work to user")
-    booking = Booking.objects.filter(staff_status="Canceled").filter(status="Canceled")
+    if user.is_subadmin:
+        all_service_area= user.subadmin_service_area.all().values('city_name')
+        booking = booking = Booking.objects.filter(staff_status="Canceled").filter(status="Canceled").filter(city__in=Subquery(all_service_area))
+    else:
+        booking = Booking.objects.filter(staff_status="Canceled").filter(status="Canceled")
     context = {'booking':booking}
     return render(request,'adminpannel/ordersummery/canceled.html',context)
 
@@ -565,6 +622,66 @@ def managestaff(request):
     return render(request,'adminpannel/pages/managestaff.html',context)
 
 
+def managesubadmin(request):
+    if request.user.is_superuser != True:
+        return redirect('/')
+    if request.method =="POST":
+        name = request.POST['name']
+        phone = request.POST['phone']
+        email = request.POST['email']
+        subadmin_obj =User.objects.filter(phone_number=phone).first()
+        if subadmin_obj:
+            subadmin_obj.is_subadmin=True
+            subadmin_obj.save()
+            return redirect('managesubadmin')
+        staff = User(
+            full_name = name,
+            phone_number = phone,
+            email = email,
+            is_subadmin=True
+        )
+        staff.save()
+        return redirect('managesubadmin')
+    staff = User.objects.filter(is_subadmin= True)
+    servicearea = CityService.objects.all()
+    context = {'staff':staff,'servicearea':servicearea}
+    return render(request,'adminpannel/pages/managesubadmin.html',context)
+
+
+def addservicearea(request):
+    if request.method=="POST":
+        uid = request.POST['uid']
+        city = request.POST['city']
+        servicearea = SubAdminServiceArea(
+            user = User.objects.get(id=uid),
+            city_name= city
+        )
+        servicearea.save()
+    return redirect('managesubadmin')
+
+
+def delservicearea(request,uid):
+    servicearea = SubAdminServiceArea.objects.get(uid=uid)
+    servicearea.delete()
+    return redirect('managesubadmin')
+
+
+def editsubadmin(request):
+    if request.method =="POST":
+        name = request.POST['name']
+        email = request.POST['email']
+        phone_number = request.POST['phone_number']
+        password = request.POST.get('password')
+
+        subadmin_obj =User.objects.filter(phone_number=phone_number).first()
+        subadmin_obj.full_name = name
+        subadmin_obj.email = email
+        if password:
+            subadmin_obj.password = make_password(password)
+        subadmin_obj.save()
+    return redirect('managesubadmin')
+
+
 def add_address(request):
     if request.user.is_superuser != True:
         return redirect('/')
@@ -575,7 +692,7 @@ def add_address(request):
         locality = request.POST['locality']
         city = request.POST['city']
         zipcode = request.POST['zipcode']
-        cat = request.POST['cat']
+        state = request.POST['state']
         phone = request.POST['phone']
         email = request.POST['email']
         try:
@@ -585,7 +702,7 @@ def add_address(request):
             address.locality = locality
             address.city = city
             address.zipcode = zipcode
-            address.cat = cat
+            address.state = state
             address.phone= phone
             address.email =email
             address.save()
@@ -593,12 +710,14 @@ def add_address(request):
             address= Address(
                 user=User.objects.get(id=uid),
                 name=name,addressline=addressline,locality=locality,city=city,zipcode=zipcode,
-                cat=cat,phone=phone,email=email
+                state=state,phone=phone,email=email
                 ) 
             address.save()
         user=User.objects.get(id=uid)  
         if user.is_staff==True: 
             return redirect('add_staff',uid)
+        if user.is_subadmin==True:
+            return redirect('managesubadmin')
         return redirect('viewuserdetails',uid)
 
 

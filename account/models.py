@@ -18,6 +18,7 @@ class User(AbstractUser):
     otp = models.CharField(max_length=6,null=True)
     otp_time = models.DateTimeField(blank=True,null=True)
     expo_token = models.TextField()
+    is_subadmin = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'phone_number'
     REQUIRED_FIELDS = ['full_name']
@@ -27,6 +28,11 @@ class User(AbstractUser):
 class StaffWorkType(BaseModel):
     user = models.ForeignKey(User, on_delete=models.CASCADE,related_name="staff_work_type")
     sub_category = models.ForeignKey(SubCategory,on_delete=models.CASCADE)
+
+
+class SubAdminServiceArea(BaseModel):
+    user = models.ForeignKey(User, on_delete=models.CASCADE,related_name="subadmin_service_area")
+    city_name = models.CharField(max_length = 180,unique=True)
 
 
 class Address(BaseModel):
@@ -108,14 +114,27 @@ class Booking(BaseModel):
         date_str = now().strftime('%Y%m%d')
         unique_id = uuid.uuid4().hex[:6].upper()
         return f'CA{date_str}{unique_id}'
-  
 
+
+BOOKING_CHOICES = (
+    ('Pending','Pending'),
+    ('Accepted','Accepted'),
+    ('Hold','Hold'),
+    ('Completed','Completed'),
+    ('Canceled','Canceled')
+)
 
 class BookingProduct(BaseModel):
     booking = models.ForeignKey(Booking,on_delete=models.CASCADE,related_name="booking_prod_det")
     product = models.ForeignKey(Product,on_delete=models.SET_NULL,null=True,blank=True,related_name="booking_product")
     quantity = models.PositiveIntegerField(default=1)
-    # status = models.CharField(max_length=50,choices=STATUS_CHOICES,default='Pending')
+    status = models.CharField(max_length=50,choices=STATUS_CHOICES,default='Pending')
+
+
+class BookingHistory(BaseModel):
+    booking = models.ForeignKey(Booking,on_delete=models.CASCADE,related_name="booking_history")
+    staff_status = models.CharField(max_length=50,choices=BOOKING_CHOICES,default='Pending')
+
 
 
 class RejectReason(BaseModel):

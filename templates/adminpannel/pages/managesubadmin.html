@@ -1,0 +1,217 @@
+{% extends 'adminpannel/base.html' %}
+
+{% block body %}
+{% include 'adminpannel/loader.html' %}
+<div id="main-wrapper">
+    <!-- header -->
+    {% include 'adminpannel/header.html' %}
+    <!-- #/ header -->
+    <!-- sidebar -->
+    {% include 'adminpannel/sidebar.html' %}
+    <!-- #/ sidebar -->
+    <div class="content-body">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 col-xl-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <form action="" method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <div class="row d-flex  align-items-end">
+                                    <div class="mx-2">
+                                        <label for="">Full Name</label>
+                                        <input type="text" class="form-control" name="name">
+                                    </div>
+                                    <div class="mx-2">
+                                        <label for="">Phone No</label>
+                                        <input type="text" class="form-control" name="phone">
+                                    </div>
+                                    <div class="mx-2">
+                                        <label for="">Email</label>
+                                        <input type="text" class="form-control" name="email">
+                                    </div>
+                                    <div class="d-flex align-items-end mx-2">
+
+                                        <button style="height: 40px;" type="submit" class="btn btn-dark">Submit</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="active-member">
+                                <div class="table-responsive">
+                                    <table class="table table-xs">
+                                        <thead>
+                                            <tr>
+                                                <th>User Name</th>
+                                                <th>Email Id</th>
+                                                <th>Mobile No</th>
+                                                <th>Status</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            {% for u in staff %}
+                                            <tr>
+                                                <td>{{u.full_name}}</td>
+                                                <td>{{u.email}}
+                                                </td>
+                                                <td>{{u.phone_number}}</td>
+                                                <td><i class="fa fa-circle-o text-success f-s-12 m-r-10"></i> Active
+                                                </td>
+                                                <td>
+                                                    <button type="button" class="btn btn-info" data-toggle="modal"
+                                                        data-target="#p{{u.id}}Modal">
+                                                        Edit Profile
+                                                    </button><button type="button" class="btn btn-warning"
+                                                        data-toggle="modal" data-target="#s{{u.id}}Modal">
+                                                        Service Area
+                                                    </button>
+
+                                                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                                                        data-target="#{{u.id}}Modal">
+                                                        Add Address
+                                                    </button>
+                                                    <a href="" class="btn btn-danger px-2"><b>X</b></a>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% include 'adminpannel/copywrite.html' %}
+</div>
+
+{% for u in staff %}
+<!-- Modal -->
+<div class="modal fade my-5" id="p{{u.id}}Modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Edit Profile</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="{% url 'editsubadmin' %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        <input type="hidden" value="{{u.id}}" name="uid">
+                        <input type="text" class="form-control my-2" value="{{u.full_name}}" placeholder="Full Name"
+                            name="name" required>
+                        <input type="text" class="form-control my-2" value="{{u.phone_number}}"
+                            placeholder="Phone Number" name="phone_number" readonly>
+                        <input type="text" class="form-control my-2" value="{{u.email}}" placeholder="Email"
+                            name="email" required>
+                        <input type="text" class="form-control my-2" value="" placeholder="Password" name="password">
+                    </div>
+                    <div class=" text-center my-2">
+                        <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade my-5" id="s{{u.id}}Modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Service Area</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="{% url 'addservicearea' %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        <input type="hidden" value="{{u.id}}" name="uid">
+                        <div class="d-flex p-2">
+                            <select name="city" id="" class="form-control" required>
+                                {% for s in servicearea %}
+                                <option value="{{s.city_name}}">{{s.city_name}}</option>
+                                {% endfor %}
+                            </select>
+                            <button type="submit" class="btn btn-primary">
+                                Add
+                            </button>
+                        </div>
+
+                        {%for a in u.subadmin_service_area.all %}
+                        <div class="d-flex justify-content-between p-2">
+                            <span>{{a.city_name}}</span>
+                            <a href="{% url 'delservicearea' a.uid %}" class="btn btn-danger p-2"><b>X</b></a>
+                        </div>
+                        {% endfor %}
+                    </div>
+    
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade my-5" id="{{u.id}}Modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Address</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="{% url 'add_address' %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        <input type="hidden" value="{{u.id}}" name="uid">
+                        <input type="text" class="form-control my-2" value="{{u.address.name}}" placeholder="Full Name"
+                            name="name" required>
+                        <input type="text" class="form-control my-2" value="{{u.address.addressline}}"
+                            placeholder="Address line" name="addressline" required>
+                        <input type="text" class="form-control my-2" value="{{u.address.locality}}"
+                            placeholder="Locality" name="locality" required>
+                        <input type="text" class="form-control my-2" value="{{u.address.city}}" placeholder="City"
+                            name="city" required>
+                        <input type="text" class="form-control my-2" value="{{u.address.zipcode}}" placeholder="Pincode"
+                            name="zipcode" required>
+                        <input type="text" class="form-control my-2" value="{{u.address.state}}" placeholder="State"
+                            name="state" required>
+                        <input type="text" class="form-control my-2" value="{{u.address.phone}}" placeholder="Phone"
+                            name="phone" required>
+                        <input type="text" class="form-control my-2" value="{{u.address.email}}" placeholder="Email ID"
+                            name="email" required>
+                    </div>
+                    <div class=" text-center my-2">
+                        <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+{% endblock body %}
