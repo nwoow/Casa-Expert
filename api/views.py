@@ -810,20 +810,27 @@ def staff_change_status(request):
             booking.staff_status = data.get('status')
             booking.notes = data.get('notes')
             booking.save()
-            bookinghistory = BookingHistory(
-                booking = booking,
-                staff_status = "Canceled",
-                assignto = booking.assign_work
-            )
-            bookinghistory.save()
             return Response({
                 'status': 200,
                 'message': "work status update successfully"
             })
 
         if data.get('status') == "StaffCancel":
+            if data.get('notes') is None:
+                return Response({
+                    'status': 400,
+                    'message': "notes is not valid"
+                })
             booking.staff_status = "Canceled"
+            booking.notes = data.get('notes')
             booking.save()
+
+            bookinghistory = BookingHistory(
+                booking = booking,
+                staff_status = "Canceled",
+                assignto = booking.assign_work
+            )
+            bookinghistory.save()
             return Response({
                 'status': 200,
                 'message': "work status update successfully"
