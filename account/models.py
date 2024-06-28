@@ -136,7 +136,8 @@ class BookingHistory(BaseModel):
     staff_status = models.CharField(max_length=50,choices=BOOKING_CHOICES,default='Pending')
     assignto = models.ForeignKey(User, on_delete=models.SET_NULL,null=True,blank=True,related_name='assigned_to')
     assignby = models.ForeignKey(User, on_delete=models.SET_NULL,null=True,blank=True,related_name='assigned_by')
-
+    class Meta:
+        ordering = ['-created_at']
 
 class RejectReason(BaseModel):
     title = models.TextField()

@@ -27,12 +27,25 @@
                                     {{booking.time_slot.start_time}}
                                 </div>
                                 <hr>
-
                             </div>
                         </div>
 
+                        <h6 style="font-weight: 500;">Work Assign History</h6>
+                        <div class="col-md-auto mb-4">
+                            {% for bh in booking.booking_history.all %}
+                            <div class=" px-3">
+                                <hr>
+                                <div class=" py-1">
+                                    Staff  : {{bh.staff_status.full_name}} <br> Mobile No : {{bh.staff_status.phone_number}}
+                                </div>
+                                <div>
+                                    Status : {{bh.staff_status}}
+                                </div>
+                                <hr>
+                            </div>
+                            {% endfor %}
+                        </div>
                     </div>
-
                 </div>
                 <div class="col-lg-8 col-xl-8">
                     <div class="card p-2">
