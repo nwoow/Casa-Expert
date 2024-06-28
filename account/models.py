@@ -101,7 +101,7 @@ class Booking(BaseModel):
 
     @property
     def all_staff(self):
-        return User.objects.filter(is_staff=True).filter(address__city=self.city).distinct()
+        return User.objects.filter(is_staff=True).filter(address__city=self.city).filter(staff_work_type__sub_category=self.time_slot.service).distinct()
 
     
     def save(self, *args, **kwargs):
@@ -138,6 +138,7 @@ class BookingHistory(BaseModel):
     assignby = models.ForeignKey(User, on_delete=models.SET_NULL,null=True,blank=True,related_name='assigned_by')
     class Meta:
         ordering = ['-created_at']
+
 
 class RejectReason(BaseModel):
     title = models.TextField()

@@ -432,6 +432,7 @@ def pending(request):
                 send_push_notification(staff_obj.expo_token,"CASAXPRT STAFF NOTIFICATION","A work assign to you please check app")
         except IntegrityError as e:
             messages.error(request,"Already assign work to user")
+            
     if user.is_subadmin:
         all_service_area= user.subadmin_service_area.all().values('city_name')
         booking = Booking.objects.filter(staff_status="Pending").filter(status="Pending").filter(assign_work=None).filter(city__in=Subquery(all_service_area))
