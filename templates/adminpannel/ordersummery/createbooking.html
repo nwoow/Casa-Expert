@@ -1,0 +1,119 @@
+{% extends 'adminpannel/base.html' %}
+
+{% block body %}
+{% include 'adminpannel/loader.html' %}
+<div id="main-wrapper">
+    <!-- header -->
+    {% include 'adminpannel/header.html' %}
+    <!-- #/ header -->
+    <!-- sidebar -->
+    {% include 'adminpannel/sidebar.html' %}
+    <!-- #/ sidebar -->
+    <div class="content-body">
+        <div class="container">
+            <div class="row">
+                {% include 'base/alerts.html' %}
+                <div class="col-lg-6 col-xl-6">
+                    <div class="card px-3 py-4">
+                        <label for="">Category</label>
+                        <select name="staff" id="category" class="form-control" onchange="getSubCat()" required>
+                            <option value="">--select category--</option>
+                            {% for c in category %}
+                            <option value="{{c.uid}}">{{c.category_name}}</option>
+                            {% endfor %}
+                        </select>
+                        <hr>
+                        <label for="">Sub Category</label>
+                        <select name="staff" id="subcategory" class="form-control" required>
+                            <option value="">--select sub category-</option>
+                            {% for c in category %}
+                            <option value="{{c.uid}}">{{c.category_name}}</option>
+                            {% endfor %}
+                        </select>
+
+                        <span href="" class="btn btn-success my-3" onclick="gonext()">Next</span>
+                    </div>
+                    <script>
+                        function gonext(){
+                            const sub_cat = document.getElementById('subcategory').value
+                            if (sub_cat){
+                            window.location.href = window.location.origin+`/accounts/select-data-time-slot/{{user_obj.phone_number}}/${sub_cat}`
+                        }
+                        }
+                    </script>
+                </div>
+                <div class="col-lg-6 col-xl-6">
+                    <div class="card p-5">
+                        <div class="text-center ">
+                            <h3>Add New Booking</h3>
+                        </div>
+                        <form action="" method="post">
+                            {% csrf_token %}
+                            <div class="">
+                                <div>
+                                    <input type="text" class="form-control" name="user"
+                                        value="{{user_obj.phone_number}}" placeholder="Phone Number" readonly>
+                                    <input type="text" class="form-control my-2" name="full_name"
+                                        value="{{user_obj.address.name}}" placeholder="Full Name">
+                                    <input type="text" class="form-control my-2"
+                                        value="{{user_obj.address.addressline}}" placeholder="Address line"
+                                        name="addressline" required>
+                                    <input type="text" class="form-control my-2" value="{{user_obj.address.locality}}"
+                                        placeholder="Locality" name="locality" required>
+                                    <input type="text" class="form-control my-2" value="{{user_obj.address.city}}"
+                                        placeholder="City" name="city" required>
+                                    <input type="text" class="form-control my-2" value="{{user_obj.address.zipcode}}"
+                                        placeholder="Pincode" name="zipcode" required>
+                                    <input type="text" class="form-control my-2" value="{{user_obj.address.state}}"
+                                        placeholder="State" name="state" required>
+                                    <input type="text" class="form-control my-2" value="{{user_obj.address.phone}}"
+                                        placeholder="Phone" name="phone" required>
+                                    <input type="text" class="form-control my-2" value="{{user_obj.address.email}}"
+                                        placeholder="Email ID" name="email" required>
+                                    <button type="submit" class="btn btn-primary">Add Address</button>
+
+                                </div>
+                                <!-- <select name="staff" id="" class="form-control">
+                                    <option value="">--select staff--</option>
+                                    {% for s in b.all_staff %}
+                                    <option value="{{s.id}}">{{s.phone_number}}-{{s.full_name}}-{{s.address.city}}
+                                    </option>
+                                    {% endfor %}
+                                </select> -->
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    {% include 'adminpannel/copywrite.html' %}
+</div>
+
+<script>
+    function getSubCat() {
+        const inputCategory = document.getElementById('category').value
+        document.getElementById("subcategory").length = 0
+        subcategory = document.getElementById('subcategory')
+        let request = new XMLHttpRequest();
+        request.open("GET", `/accounts/getsubcategory?cat=${inputCategory}`);
+        request.onreadystatechange = function () {
+            if (this.readyState === 4 && this.status === 200) {
+                const subcategorylist = JSON.parse(this.responseText)
+                console.log(subcategorylist)
+                subcategory.options[subcategory.options.length] = new Option("--Select--", "");
+                subcategorylist.map((items) => {
+                    subcategory.options[subcategory.options.length] = new Option(items.category_name, items.uid);
+                })
+            } else {
+                console.log('remove')
+            }
+        };
+        request.send();
+    }
+</script>
+
+
+{% endblock body %}

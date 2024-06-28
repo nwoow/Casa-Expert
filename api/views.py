@@ -810,6 +810,12 @@ def staff_change_status(request):
             booking.staff_status = data.get('status')
             booking.notes = data.get('notes')
             booking.save()
+            bookinghistory = BookingHistory(
+                booking = booking,
+                staff_status = "Canceled",
+                assignto = booking.assign_work
+            )
+            bookinghistory.save()
             return Response({
                 'status': 200,
                 'message': "work status update successfully"

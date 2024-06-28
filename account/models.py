@@ -97,7 +97,7 @@ class Booking(BaseModel):
 
     class Meta:
         unique_together = ('time_slot', 'booking_time','assign_work',)
-        ordering = ['-uid']
+        ordering = ['-created_at']
 
     @property
     def all_staff(self):
@@ -134,7 +134,8 @@ class BookingProduct(BaseModel):
 class BookingHistory(BaseModel):
     booking = models.ForeignKey(Booking,on_delete=models.CASCADE,related_name="booking_history")
     staff_status = models.CharField(max_length=50,choices=BOOKING_CHOICES,default='Pending')
-
+    assignto = models.ForeignKey(User, on_delete=models.SET_NULL,null=True,blank=True,related_name='assigned_to')
+    assignby = models.ForeignKey(User, on_delete=models.SET_NULL,null=True,blank=True,related_name='assigned_by')
 
 
 class RejectReason(BaseModel):

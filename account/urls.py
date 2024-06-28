@@ -37,6 +37,7 @@ urlpatterns = [
     path('completed',views.completed,name='completed'),
     path('staff-cancel',views.staff_cancel,name='staff_cancel'),
     path('client-cancel',views.client_cancel,name='client_cancel'),
+    
     path('allbooking',views.allbooking,name='allbooking'),
 
     path('newstaffaccount',views.newstaffaccount,name="newstaffaccount"),
@@ -58,4 +59,12 @@ urlpatterns = [
     path('addserviceproduct',views.addserviceproduct,name='addserviceproduct'),
     path('getallproduct',views.getallproduct,name='getallproduct'),
     path('delserviceproduct/<uid>',views.delserviceproduct,name='delserviceproduct'),
+
+    path('checkusernumber',views.checkusernumber,name='checkusernumber'),
+    path('addbooking/<num>',views.addbooking,name='addbooking'),
+    path('createbookingmanually/<mob>',views.createbookingmanually,name='createbookingmanually'),
+    path('getsubcategory',views.getsubcategory,name='getsubcategory'),
+    path('select-data-time-slot/<mob>/<subcat>',views.select_data_time_slot,name='select_data_time_slot'),
+    path('addbookingproduct/<uid>',views.addbookingproduct,name='addbookingproduct'),
+    path('delbookingproduct/<uid>',views.delbookingproduct,name='delbookingproduct'),
 ]

@@ -1,0 +1,81 @@
+{% extends 'adminpannel/base.html' %}
+
+{% block body %}
+{% include 'adminpannel/loader.html' %}
+<div id="main-wrapper">
+    <!-- header -->
+    {% include 'adminpannel/header.html' %}
+    <!-- #/ header -->
+    <!-- sidebar -->
+    {% include 'adminpannel/sidebar.html' %}
+    <!-- #/ sidebar -->
+    <div class="content-body">
+        <div class="container">
+            <div class="row">
+                {% include 'base/alerts.html' %}
+                <div class="col-lg-10 col-xl-10">
+                    <div class="card p-2">
+                        <h6 style="font-weight: 500;">Date</h6>
+                        <div class="col-md-auto mb-4">
+                            <div class="radio-input">
+                                {% for d in next_four_days %}
+                                {% if d.is_active %}
+                                <label onclick='setDate("{{d.date}}")'>
+                                    <input type="radio" id="value-1" name="value-radio" value="{{act_date}}" checked>
+                                    <span>{{d.date|date:"d-m-Y D"}}</span><br>
+                                </label>
+                                {% else %}
+                                <label onclick='setDate("{{d.date}}")'>
+                                    <input type="radio" id="value-1" name="value-radio" value="{{act_date}}">
+                                    <span>{{d.date|date:"d-m-Y D"}}</span>
+                                </label>
+                                {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <h6 style="font-weight: 500;">Time Slot</h6>
+                        <div class="col-md-auto mb-4">
+                            <div class="radio-input1">
+                                {% for t in time_slot %}
+                                {% if t.availble %}
+                                <label onclick='setTime("{{t.uid}}")'>
+                                    <input type="radio" id="value-2" name="value-radio1" value="value-2">
+                                    <span>{{t.start_time}}</span>
+                                </label>
+                                {% else %}
+                                <label class="alert-warning">
+                                    <span>{{t.start_time}}</span>
+                                </label>
+                                {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <form action="" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="phone" value="{{mob}}" required>
+                            <input type="hidden" name="booking_date" value="{{act_date}}" id="booking_date" required>
+                            <input type="hidden" name="time_slot" value="" id="time_slot" required>
+                            <div class="text-center">
+                                <button class="btn btn-warning">Place Order</button>
+                            </div>
+                        </form>
+
+                    </div>
+                    <script>
+                        function setDate(d) {
+                            console.log(d)
+                            window.location.href = window.location.origin + `/accounts/select-data-time-slot/{{mob}}/{{sub_cat.uid}}?sdate=${d}`
+                        }
+                        function setTime(d) {
+                            console.log(d)
+                            document.getElementById("time_slot").value = d
+                        }
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% include 'adminpannel/copywrite.html' %}
+</div>
+
+{% endblock body %}

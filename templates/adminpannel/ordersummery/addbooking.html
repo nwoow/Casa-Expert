@@ -1,0 +1,84 @@
+{% extends 'adminpannel/base.html' %}
+
+{% block body %}
+{% include 'adminpannel/loader.html' %}
+<div id="main-wrapper">
+    <!-- header -->
+    {% include 'adminpannel/header.html' %}
+    <!-- #/ header -->
+    <!-- sidebar -->
+    {% include 'adminpannel/sidebar.html' %}
+    <!-- #/ sidebar -->
+    <div class="content-body">
+        <div class="container">
+            <div class="row">
+                {% include 'base/alerts.html' %}
+                <div class="col-lg-6 col-xl-6">
+                    <div class="card p-5">
+                        <div class="text-center ">
+                            <h3>Add New Booking</h3>
+                        </div>
+                        <form action="" method="post">
+                            {% csrf_token %}
+                            <div class="">
+                                <div>
+                                    <input type="text" class="form-control" name="user"
+                                        value="{{user_obj.phone_number}}" placeholder="Phone Number" readonly>
+                                    <input type="text" class="form-control my-2" name="full_name"
+                                        value="{{user_obj.address.name}}" placeholder="Full Name">
+                                    <input type="text" class="form-control my-2"
+                                        value="{{user_obj.address.addressline}}" placeholder="Address line"
+                                        name="addressline" required>
+                                    <input type="text" class="form-control my-2" value="{{user_obj.address.locality}}"
+                                        placeholder="Locality" name="locality" required>
+                                    <input type="text" class="form-control my-2" value="{{user_obj.address.city}}"
+                                        placeholder="City" name="city" required>
+                                    <input type="text" class="form-control my-2" value="{{user_obj.address.zipcode}}"
+                                        placeholder="Pincode" name="zipcode" required>
+                                    <input type="text" class="form-control my-2" value="{{user_obj.address.state}}"
+                                        placeholder="State" name="state" required>
+                                    <input type="text" class="form-control my-2" value="{{user_obj.address.phone}}"
+                                        placeholder="Phone" name="phone" required>
+                                    <input type="text" class="form-control my-2" value="{{user_obj.address.email}}"
+                                        placeholder="Email ID" name="email" required>
+                                    <button type="submit" class="btn btn-primary">Add Address</button>
+                                    <a href="{% url 'createbookingmanually' user_obj.phone_number %}"
+                                        class="btn btn-warning">Create Booking</a>
+                                </div>
+                                <!-- <select name="staff" id="" class="form-control">
+                                    <option value="">--select staff--</option>
+                                    {% for s in b.all_staff %}
+                                    <option value="{{s.id}}">{{s.phone_number}}-{{s.full_name}}-{{s.address.city}}
+                                    </option>
+                                    {% endfor %}
+                                </select> -->
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+                <div class="col-lg-6 col-xl-6">
+
+                    <div class="card px-3">
+                        <hr>
+                        {% for b in booking %}
+                        <a href="{% url 'addbookingproduct' b.uid %}">
+                            <div class=" py-1">
+                                Inv : {{b.invoice_no}} | Date : {{b.created_at}}
+                            </div>
+                            <div>
+                                Booking Date : {{b.booking_time}} | Time Slot : {{b.time_slot.start_time}}
+                            </div>
+                        </a>
+                        <hr>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% include 'adminpannel/copywrite.html' %}
+</div>
+
+
+{% endblock body %}

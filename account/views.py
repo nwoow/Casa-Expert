@@ -12,6 +12,11 @@ from .sendnotification import send_push_notification
 from django.db import transaction, IntegrityError
 from django.contrib.auth.hashers import make_password
 from django.db.models import OuterRef, Subquery
+
+from django.utils import timezone
+from datetime import timedelta,datetime
+
+from home.helpers import convet_date,get_geo_location
 # Create your views here.
 
 def adminlogin(request):
@@ -36,7 +41,7 @@ def adminlogin(request):
     return render(request,'adminpannel/adminlogin.html')
 
 
-@login_required(login_url="userlogin")
+@login_required(login_url="adminlogin")
 def dashboard(request):
     if (request.user.is_superuser == True) or (request.user.is_subadmin == True):
         pass
@@ -66,7 +71,7 @@ def dashboard(request):
     return render(request,'adminpannel/index.html',context)
 
 
-@login_required(login_url="userlogin")
+@login_required(login_url="adminlogin")
 def addcategory(request):
     user_obj =request.user
     if request.user.is_superuser != True:
@@ -82,7 +87,7 @@ def addcategory(request):
 
 
 
-@login_required(login_url="userlogin")
+@login_required(login_url="adminlogin")
 def delcategory(request,uid):
     user_obj =request.user
     if request.user.is_superuser != True:
@@ -92,7 +97,7 @@ def delcategory(request,uid):
     return redirect('addcategory')
 
 
-@login_required(login_url="userlogin")
+@login_required(login_url="adminlogin")
 def addsubcategory(request):
     user_obj =request.user
     if request.user.is_superuser != True:
@@ -116,7 +121,7 @@ def addsubcategory(request):
     return render(request,'adminpannel/pages/addsubcategory.html',context)
 
 
-@login_required(login_url="userlogin")
+@login_required(login_url="adminlogin")
 def updatesubcategory(request):
     if request.method == "POST":
         sc_uid = request.POST['sc_uid']
@@ -139,7 +144,7 @@ def updatesubcategory(request):
 
 
 
-@login_required(login_url="userlogin")
+@login_required(login_url="adminlogin")
 def addsubcategoryimage(request):
     if request.user.is_superuser != True:
         return redirect('/')
@@ -154,7 +159,7 @@ def addsubcategoryimage(request):
         return redirect('addsubcategory')
 
 
-@login_required(login_url="userlogin")
+@login_required(login_url="adminlogin")
 def delsubcategory(request,uid):
     user_obj =request.user
     if request.user.is_superuser != True:
@@ -164,7 +169,7 @@ def delsubcategory(request,uid):
     return redirect('addsubcategory')
 
 
-@login_required(login_url="userlogin")
+@login_required(login_url="adminlogin")
 def delsubcategoryimage(request,uid):
     if request.user.is_superuser != True:
         return redirect('/')
@@ -173,7 +178,7 @@ def delsubcategoryimage(request,uid):
     return redirect('addsubcategory')
 
 
-@login_required(login_url="userlogin")
+@login_required(login_url="adminlogin")
 def addproduct(request):
     user_obj =request.user
     if request.user.is_superuser != True:
@@ -201,7 +206,7 @@ def addproduct(request):
     return render(request,'adminpannel/pages/addproduct.html',context)
 
 
-@login_required(login_url="userlogin")
+@login_required(login_url="adminlogin")
 def editproduct(request,uid):
     user_obj =request.user
     if request.user.is_superuser != True:
@@ -229,7 +234,7 @@ def editproduct(request,uid):
     return render(request,'adminpannel/pages/editproduct.html',context)
 
 
-@login_required(login_url="userlogin")
+@login_required(login_url="adminlogin")
 def addproductimage(request,uid):
     user_obj =request.user
     if request.user.is_superuser != True:
@@ -246,7 +251,7 @@ def addproductimage(request,uid):
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
-@login_required(login_url="userlogin")
+@login_required(login_url="adminlogin")
 def delproductimage(request,uid):
     user_obj =request.user
     if user_obj.is_staff != True:
@@ -256,7 +261,7 @@ def delproductimage(request,uid):
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
-@login_required(login_url="userlogin")
+@login_required(login_url="adminlogin")
 def delproduct(request,uid):
     user_obj =request.user
     if user_obj.is_staff != True:
@@ -268,7 +273,7 @@ def delproduct(request,uid):
 
 
 
-@login_required(login_url="userlogin")
+@login_required(login_url="adminlogin")
 def allproduct(request):
     user_obj =request.user
     if user_obj.is_staff != True:
@@ -334,7 +339,7 @@ def delcityservice(request,uid):
     return redirect('viewscityservice')
 
 
-@login_required(login_url="userlogin")
+@login_required(login_url="adminlogin")
 def change_status(request):
     change_type = request.GET.get('type')
     uid = request.GET.get('uid')
@@ -859,3 +864,153 @@ def getallproduct(request):
         prod = {}
     return JsonResponse(list(prod), safe=False)
 
+
+#Add Manually user 
+
+def checkusernumber(request):
+    if request.method =="POST":
+        phone_number = request.POST['phone_number']
+        user_obj,created = User.objects.get_or_create(phone_number=phone_number)
+        print(user_obj)
+        print(created)
+        return redirect('addbooking',phone_number)
+
+
+def addbooking(request,num):
+    if request.method == "POST":
+        name = request.POST['full_name']
+        saddress = request.POST['addressline']
+        locality = request.POST['locality']
+        city = request.POST['city']
+        zipcode = request.POST['zipcode']
+        state = request.POST['state']
+        phone = request.POST['phone']
+        email = request.POST['email']
+        try:
+            address=Address(user=User.objects.get(phone_number=num),name=name,addressline=saddress,locality=locality,city=city,zipcode=zipcode,
+                                 state=state,phone=phone,email=email)
+            address.save()
+        except IntegrityError as e:
+            address= Address.objects.get(user=User.objects.get(phone_number=num))
+            address.name = name
+            address.addressline = saddress
+            address.locality = locality
+            address.city = city
+            address.zipcode = zipcode
+            address.state = state
+            address.phone= phone
+            address.email =email
+            address.save()
+    cat = request.GET.get('category')
+    if cat:
+        sub_cat = SubCategory.objects.get()
+    try:
+        user_obj = User.objects.get(phone_number=num)
+    except User.DoesNotExist:
+        pass
+    booking = Booking.objects.filter(user = user_obj)[:5]
+    context = {'user_obj':user_obj,'booking':booking}
+    return render(request,'adminpannel/ordersummery/addbooking.html',context)
+
+
+def getsubcategory(request):
+    category = request.GET.get('cat')
+    print(category)
+    if category:
+        try:
+            subcategory = SubCategory.objects.filter(category__uid=category).values()
+            print(subcategory)
+        except ValueError:
+            # Handle the case where 'category' is not a valid integer
+            subcategory = {}
+    else:
+        subcategory = {}
+    return JsonResponse(list(subcategory), safe=False)
+
+
+def createbookingmanually(request,mob):
+    user_obj = User.objects.get(phone_number=mob)
+    if request.method =="POST":
+        pass
+    category = Category.objects.all()
+    context = {'category':category,'user_obj':user_obj}
+    return render(request,'adminpannel/ordersummery/createbooking.html',context)
+
+
+def select_data_time_slot(request,mob,subcat):
+    if request.method == "POST":
+        phone_number = request.POST['phone']
+        booking_date = request.POST['booking_date']
+        time_slot= request.POST['time_slot']
+        print(booking_date)
+        print(time_slot)
+        user_obj=User.objects.get(phone_number=phone_number)
+        booking= Booking(
+            user =user_obj ,
+            booking_time = booking_date,
+            time_slot=TimeSlot.objects.get(uid=time_slot),
+            is_paid=False,
+            name=user_obj.address.name,addressline=user_obj.address.addressline,locality=user_obj.address.locality,
+            city=user_obj.address.city,zipcode=user_obj.address.zipcode,
+            state=user_obj.address.state,phone=user_obj.address.phone,email=user_obj.address.email
+        )
+        booking.save()
+        return redirect('addbookingproduct',booking.uid)
+    try:
+        sub_cat = SubCategory.objects.get(uid=subcat)
+        sdate = request.GET.get('sdate')  
+        if sdate:
+            act_date = convet_date(sdate)
+        else:
+            current_date = datetime.now()
+            act_date = current_date.strftime("%Y-%m-%d") 
+        current_date = datetime.now().date()
+        next_four_days = [
+            {
+                'date': current_date + timedelta(days=i),
+                'is_active': str(current_date + timedelta(days=i)) == str(act_date)
+            }
+            for i in range(4)
+        ]
+        time_slot = TimeSlot.objects.filter(service=sub_cat)
+        current_time_utc = timezone.now()
+        local_time = timezone.localtime(current_time_utc)
+        local_time_plus_2_hours = local_time + timedelta(hours=2)
+        local_time_str = local_time_plus_2_hours.strftime('%H:%M:%S')
+        local_time_obj = datetime.strptime(local_time_str, '%H:%M:%S').time()
+        for t in time_slot:
+            print(type(local_time_obj))
+            get_booking = Booking.objects.filter(time_slot__service=sub_cat).filter(booking_time =act_date).filter(time_slot=t).count()
+            if get_booking < sub_cat.no_of_slot:
+                if act_date ==current_date.strftime("%Y-%m-%d") and t.start_time <= local_time_obj :
+                    t.availble=False
+                else:
+                    t.availble=True        
+            else:
+                t.availble=False
+        context={'next_four_days':next_four_days,"time_slot":time_slot,'sub_cat':sub_cat,'mob':mob,'act_date':act_date}
+        return render(request,'adminpannel/ordersummery/selectdateandtimeslot.html',context)
+    except SubCategory.DoesNotExist:
+        return redirect('createbookingmanually',mob)
+
+
+def addbookingproduct(request,uid):
+    booking = Booking.objects.get(uid=uid)
+    if request.method=="POST":
+        product_uid = request.POST['product']
+        book = BookingProduct(
+            booking=booking,
+            product = Product.objects.get(uid=product_uid),
+            quantity=1
+        )
+        book.save()
+    product =Product.objects.filter(sub_category__uid=booking.time_slot.service.uid)
+    context ={'booking':booking,'product':product}
+    return render(request,'adminpannel/ordersummery/addbookingproduct.html',context)
+
+
+def delbookingproduct(request,uid):
+    p = BookingProduct.objects.get(uid=uid)
+    buid= p.booking.uid
+    p.delete()
+    return redirect('addbookingproduct',buid)
