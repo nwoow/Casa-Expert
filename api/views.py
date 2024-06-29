@@ -940,10 +940,11 @@ def change_booked_product(request):
             quantity= data.get('quantity'),
             staff_work_status="Addons"
         )
+        
         bookingproduct.save()
         return Response({
                 'status': 200,
-                'message': "product added successfully"
+                'message': "product added successfully "
             })
 
 
