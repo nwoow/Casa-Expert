@@ -934,7 +934,7 @@ def change_booked_product(request):
                 'message': "product uid is not valid"
             })
         user =request.user
-        bookingproduct = Bookingproduct(
+        bookingproduct = BookingProduct(
             booking = Booking.objects.get(uid=data.get('uid')),
             product = Product.objects.get(uid=data.get('product_uid')),
             quantity= data.get('quantity'),
