@@ -912,6 +912,42 @@ def generate_booking(request):
             })
             
 
+@api_view(['POST'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+def change_booked_product(request):
+    if request.method=="POST":
+        data = request.data
+        if data.get('uid') is None:
+            return Response({
+                'status': 400,
+                'message': "uid is not valid"
+            })
+        if data.get('product_uid') is None:
+            return Response({
+                'status': 400,
+                'message': "product uid is not valid"
+            })
+        if data.get('quantity') is None:
+            return Response({
+                'status': 400,
+                'message': "product uid is not valid"
+            })
+        user =request.user
+        bookingproduct = Bookingproduct(
+            booking = Booking.objects.get(uid=data.get('uid')),
+            product = Product.objects.get(uid=data.get('product_uid')),
+            quantity= data.get('quantity'),
+            staff_work_status="Addons"
+        )
+        bookingproduct.save()
+        return Response({
+                'status': 200,
+                'message': "product added successfully"
+            })
+
+
+
         
         
 

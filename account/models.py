@@ -120,15 +120,19 @@ BOOKING_CHOICES = (
     ('Pending','Pending'),
     ('Accepted','Accepted'),
     ('Hold','Hold'),
+    ('Changed','Changed'),
     ('Completed','Completed'),
     ('Canceled','Canceled')
 )
+
+
 
 class BookingProduct(BaseModel):
     booking = models.ForeignKey(Booking,on_delete=models.CASCADE,related_name="booking_prod_det")
     product = models.ForeignKey(Product,on_delete=models.SET_NULL,null=True,blank=True,related_name="booking_product")
     quantity = models.PositiveIntegerField(default=1)
     status = models.CharField(max_length=50,choices=STATUS_CHOICES,default='Pending')
+    staff_work_status = models.CharField(max_length=50,null=True,blank=True)
 
 
 class BookingHistory(BaseModel):

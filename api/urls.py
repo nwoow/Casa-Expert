@@ -31,4 +31,6 @@ urlpatterns=[
     path('reject-reason/',views.reject_reason),
     path('generate-booking/',views.generate_booking),
 
+    path('change-booked-product',views.change_booked_product),
+
 ]
