@@ -948,6 +948,25 @@ def change_booked_product(request):
             })
 
 
+@api_view(['POST'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+def change_booked_product_status(request):
+    if request.method=="POST":
+        data = request.data
+        if data.get('uid') is None:
+            return Response({
+                'status': 400,
+                'message': "uid is not valid"
+            })
+
+        booking_product = BookingProduct.objects.get(uid =uid)
+        booking_product.status ="Changed"
+        booking_product.save()
+        return Response({
+                'status': 200,
+                'message': "product cancel successfully "
+            })
 
         
         
