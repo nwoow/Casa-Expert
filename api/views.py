@@ -960,7 +960,7 @@ def change_booked_product_status(request):
                 'message': "uid is not valid"
             })
 
-        booking_product = BookingProduct.objects.get(uid =uid)
+        booking_product = BookingProduct.objects.get(uid =data.get('uid'))
         # booking_product.status ="Changed"
         booking_product.delete()
         return Response({
