@@ -24,7 +24,7 @@ class UserModelSerializers(serializers.ModelSerializer):
 class BookingProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = BookingProduct
-        fields = ['product', 'quantity']
+        fields = ['product', 'quantity','uid']
         depth = 1
 
 
