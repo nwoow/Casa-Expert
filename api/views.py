@@ -961,8 +961,8 @@ def change_booked_product_status(request):
             })
 
         booking_product = BookingProduct.objects.get(uid =uid)
-        booking_product.status ="Changed"
-        booking_product.save()
+        # booking_product.status ="Changed"
+        booking_product.delete()
         return Response({
                 'status': 200,
                 'message': "product cancel successfully "
