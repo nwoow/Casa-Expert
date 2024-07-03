@@ -30,7 +30,7 @@ class BookingProductSerializer(serializers.ModelSerializer):
 
 class BookingModelSerializers(serializers.ModelSerializer):
     booking_products = serializers.SerializerMethodField()
-
+    payble_amount = serializers.SerializerMethodField()
     class Meta:
         model = Booking
         fields = "__all__"
@@ -39,6 +39,13 @@ class BookingModelSerializers(serializers.ModelSerializer):
     def get_booking_products(self, obj):
         booking_products = BookingProduct.objects.filter(booking=obj)
         return BookingProductSerializer(booking_products, many=True).data
+
+    def payble_amount_booking(self, obj):
+        booking = BookingProduct.objects.filter(booking=obj)
+        payble_amount =0
+        for b in booking:
+            payble_amount += b.product.dis_price
+        return BookingProductSerializer(payble_amount, many=True).data
 
 class RejectReasonSerializers(serializers.ModelSerializer):
 
