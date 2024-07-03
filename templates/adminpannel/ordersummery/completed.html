@@ -143,6 +143,21 @@
                         <b>Status : {{b.staff_status}}</b>
                     </div>
                 </div>
+
+                <div>
+                    {% for bh in b.booking_history.all %}
+                            <div class=" px-3">
+                                <hr>
+                                <div class=" py-1">
+                                    Staff  : {{bh.assignto.full_name}} <br> Mobile No : {{bh.assignto.phone_number}}
+                                </div>
+                                <div>
+                                    Status : {{bh.staff_status}}
+                                </div>
+                                <hr>
+                            </div>
+                    {% endfor %}
+                </div>
             </div>
         </div>
     </div>
