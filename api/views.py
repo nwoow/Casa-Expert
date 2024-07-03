@@ -945,7 +945,7 @@ def change_booked_product(request):
         )
         if not created:
             bookingproduct.quantity = data.get('quantity')
-        bookingproduct.save()
+            bookingproduct.save()
         return Response({
                 'status': 200,
                 'message': "product added successfully "
