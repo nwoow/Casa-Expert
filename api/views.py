@@ -935,21 +935,25 @@ def change_booked_product(request):
                 'message': "product uid is not valid"
             })
         user =request.user
-        bookingproduct,created = BookingProduct.objects.get_or_create(
-            booking = Booking.objects.get(uid=data.get('uid')),
-            product = Product.objects.get(uid=data.get('product_uid')),
-            defaults={
-                'quantity': data.get('quantity'),
-                'staff_work_status': "Addons"
-            }
-        )
-        if not created:
+        bp = BookingProduct.objects.filter(product__uid=data.get('product_uid'))
+        if bp.exists:
             bookingproduct.quantity = data.get('quantity')
             bookingproduct.save()
-        return Response({
-                'status': 200,
-                'message': "product added successfully "
-            })
+            return Response({
+                    'status': 200,
+                    'message': "product updated successfully "
+                })
+        else:
+            bookingproduct= BookingProduct(
+                booking = Booking.objects.get(uid=data.get('uid')),
+                product = Product.objects.get(uid=data.get('product_uid')),
+                quantity= data.get('quantity'),
+                staff_work_status= "Addons"
+            )
+            return Response({
+                    'status': 200,
+                    'message': "product added successfully "
+                })
 
 
 @api_view(['POST'])
