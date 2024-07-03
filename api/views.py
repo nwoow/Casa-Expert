@@ -938,8 +938,10 @@ def change_booked_product(request):
         bookingproduct,created = BookingProduct.objects.get_or_create(
             booking = Booking.objects.get(uid=data.get('uid')),
             product = Product.objects.get(uid=data.get('product_uid')),
-            quantity= data.get('quantity'),
-            staff_work_status="Addons"
+            defaults={
+                'quantity': data.get('quantity'),
+                'staff_work_status': "Addons"
+            }
         )
         if not created:
             bookingproduct.quantity = data.get('quantity')
