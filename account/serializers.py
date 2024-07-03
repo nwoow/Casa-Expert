@@ -45,7 +45,7 @@ class BookingModelSerializers(serializers.ModelSerializer):
         payble_amount =0
         for b in booking:
             payble_amount += b.product.dis_price
-        return BookingProductSerializer(payble_amount, many=True).data
+        return payble_amount
 
 class RejectReasonSerializers(serializers.ModelSerializer):
 
