@@ -891,7 +891,7 @@ def generate_booking(request):
         if data.get('paymenttype')=="cod":
             booking.transactionId = "cod"
             booking.merchantTransactionId="cod"
-            booking.paid_amount="cod"
+            booking.paid_amount="COD"
             booking.save()
             return Response({
                 'status': 200,
@@ -935,13 +935,14 @@ def change_booked_product(request):
                 'message': "product uid is not valid"
             })
         user =request.user
-        bookingproduct = BookingProduct(
+        bookingproduct,created = BookingProduct.objects.get_or_create(
             booking = Booking.objects.get(uid=data.get('uid')),
             product = Product.objects.get(uid=data.get('product_uid')),
             quantity= data.get('quantity'),
             staff_work_status="Addons"
         )
-        
+        if not created:
+            bookingproduct.quantity = data.get('quantity')
         bookingproduct.save()
         return Response({
                 'status': 200,

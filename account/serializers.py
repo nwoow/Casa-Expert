@@ -45,7 +45,7 @@ class BookingModelSerializers(serializers.ModelSerializer):
         booking = BookingProduct.objects.filter(booking=obj)
         payble_amount =0
         for b in booking:
-            payble_amount += b.product.dis_price
+            payble_amount += b.product.dis_price * b.quantity
         return payble_amount
 
     
