@@ -717,7 +717,7 @@ def staff_status_work(request):
                 'status': 400,
                 'message': "status is not valid"
             })
-    booking = Booking.objects.filter(assign_work=user).filter(staff_status=data.get('status'))
+    booking = Booking.objects.filter(assign_work=user).filter(staff_status=data.get('status')).order_by('booking_time')
     booking_serializer = BookingModelSerializers(booking,many=True)
     return Response({
             'status': 200,
