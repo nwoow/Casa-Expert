@@ -935,7 +935,9 @@ def change_booked_product(request):
                 'message': "product uid is not valid"
             })
         user =request.user
-        bp = BookingProduct.objects.filter(product__uid=data.get('product_uid')).first()
+        booking =Booking.objects.get(uid=data.get('uid'))
+        product = Product.objects.get(uid=data.get('product_uid'))
+        bp = BookingProduct.objects.filter(booking=booking,product=product).first()
         if bp:
             bp.quantity = data.get('quantity')
             bp.save()
@@ -945,8 +947,8 @@ def change_booked_product(request):
                 })
         else:
             bookingproduct= BookingProduct(
-                booking = Booking.objects.get(uid=data.get('uid')),
-                product = Product.objects.get(uid=data.get('product_uid')),
+                booking = booking,
+                product = product,
                 quantity= data.get('quantity'),
                 staff_work_status= "Addons"
             )
