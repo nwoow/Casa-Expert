@@ -891,6 +891,7 @@ def generate_booking(request):
         if data.get('paymenttype')=="cod":
             booking.transactionId = "cod"
             booking.merchantTransactionId="cod"
+            booking.paid_amount="cod"
             booking.save()
             return Response({
                 'status': 200,
