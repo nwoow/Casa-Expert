@@ -911,7 +911,19 @@ def generate_booking(request):
                 'message': "payment generated",
                 'paymenttype': "unpaid"
             })
-            
+
+
+
+@api_view(['GET'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+def get_booked_product(request,uid):
+    booking_product = BookingProduct.objects.filter(booking__uid=uid)
+    serializer = BookingProductSerializer(booking_product,many=True)
+    return Response({
+                'status': 200,
+                'product':serializer.data
+            })
 
 @api_view(['POST'])
 @authentication_classes([JWTAuthentication])
