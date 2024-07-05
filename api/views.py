@@ -918,12 +918,20 @@ def generate_booking(request):
 @authentication_classes([JWTAuthentication])
 @permission_classes([IsAuthenticated])
 def get_booked_product(request,uid):
-    booking_product = BookingProduct.objects.filter(booking__uid=uid)
-    serializer = BookingProductSerializer(booking_product,many=True)
-    return Response({
-                'status': 200,
-                'product':serializer.data
-            })
+    if booking_product.exists():
+        serializer = BookingProductSerializer(booking_product, many=True)
+        service = Booking.objects.get(uid=booking_product[0].booking.uid)
+        service_serializer = BookingModelSerializer(service, many=False)
+        return Response({
+            'status': 200,
+            'product': serializer.data,
+            'service': service_serializer.data
+        })
+    else:
+        return Response({
+            'status': 404,
+            'message': 'No booking products found for the given UID.'
+        })
 
 @api_view(['POST'])
 @authentication_classes([JWTAuthentication])
