@@ -131,7 +131,7 @@ def staff_login(request):
         if user_obj.is_staff == False:
             return Response({
             'status': 400,
-            'message': "Please check mobile no."
+            'message': "Please check mobile no"
         })
         user_obj.otp =send_otp_to_phone(data.get('phone_number'))
         user_obj.otp_time = timezone.localtime(timezone.now())
@@ -789,7 +789,6 @@ def staff_change_status(request):
                     }) 
                 else:
                     booking.status = data.get('status')
-                    booking.staff_status = data.get('status')
                     booking.is_otp_verified = True
                     booking.save()
             else:
@@ -813,7 +812,7 @@ def staff_change_status(request):
             booking.save()
             return Response({
                 'status': 200,
-                'message': "work status updated successfully"
+                'message': "work status update successfully"
             })
 
         if data.get('status') == "StaffCancel":
