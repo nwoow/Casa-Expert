@@ -131,7 +131,7 @@ def staff_login(request):
         if user_obj.is_staff == False:
             return Response({
             'status': 400,
-            'message': "Please check mobile no and password"
+            'message': "Please check mobile no."
         })
         user_obj.otp =send_otp_to_phone(data.get('phone_number'))
         user_obj.otp_time = timezone.localtime(timezone.now())

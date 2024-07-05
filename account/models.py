@@ -32,7 +32,7 @@ class StaffWorkType(BaseModel):
 
 class SubAdminServiceArea(BaseModel):
     user = models.ForeignKey(User, on_delete=models.CASCADE,related_name="subadmin_service_area")
-    city_name = models.CharField(max_length = 180,unique=True)
+    city_name = models.CharField(max_length = 180)
 
 
 class Address(BaseModel):
