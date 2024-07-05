@@ -789,6 +789,7 @@ def staff_change_status(request):
                     }) 
                 else:
                     booking.status = data.get('status')
+                    booking.staff_status = data.get('status')
                     booking.is_otp_verified = True
                     booking.save()
             else:
@@ -812,7 +813,7 @@ def staff_change_status(request):
             booking.save()
             return Response({
                 'status': 200,
-                'message': "work status update successfully"
+                'message': "work status updated successfully"
             })
 
         if data.get('status') == "StaffCancel":
