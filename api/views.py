@@ -918,6 +918,7 @@ def generate_booking(request):
 @authentication_classes([JWTAuthentication])
 @permission_classes([IsAuthenticated])
 def get_booked_product(request,uid):
+    booking_product = BookingProduct.objects.filter(booking__uid=uid)
     if booking_product.exists():
         serializer = BookingProductSerializer(booking_product, many=True)
         service = Booking.objects.get(uid=booking_product[0].booking.uid)
