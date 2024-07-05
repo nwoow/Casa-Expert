@@ -922,7 +922,7 @@ def get_booked_product(request,uid):
     if booking_product.exists():
         serializer = BookingProductSerializer(booking_product, many=True)
         service = Booking.objects.get(uid=booking_product[0].booking.uid)
-        service_serializer = BookingModelSerializer(service, many=False)
+        service_serializer = BookingModelSerializers(service, many=False)
         return Response({
             'status': 200,
             'product': serializer.data,
