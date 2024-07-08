@@ -881,7 +881,7 @@ def staff_change_status(request):
             booking.staff_status = data.get('status')
             booking.status = data.get('status')
             booking.save()
-            send_push_notification_user(booking.user.expo_token,"Service Completed","Your Service is complete We hope you are satisfied with our service.")
+            send_push_notification_user(booking.user.expo_token_user,"Service Completed","Your Service is complete We hope you are satisfied with our service.")
             return Response({
                 'status': 200,
                 'message': "work status update successfully"
