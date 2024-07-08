@@ -31,7 +31,7 @@ class BookingProductSerializer(serializers.ModelSerializer):
 class BookingModelSerializers(serializers.ModelSerializer):
     booking_products = serializers.SerializerMethodField()
     payble_amount = serializers.SerializerMethodField()
-
+    formatted_start_time = serializers.SerializerMethodField()
     class Meta:
         model = Booking
         fields = "__all__"
@@ -47,6 +47,11 @@ class BookingModelSerializers(serializers.ModelSerializer):
         for b in booking:
             payble_amount += b.product.dis_price * b.quantity
         return payble_amount
+    
+    def get_formatted_start_time(self, obj):
+        if obj.time_slot and obj.time_slot.start_time:
+            return obj.time_slot.start_time.strftime('%I:%M %p')
+        return None
 
     
 
