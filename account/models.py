@@ -18,6 +18,7 @@ class User(AbstractUser):
     otp = models.CharField(max_length=6,null=True)
     otp_time = models.DateTimeField(blank=True,null=True)
     expo_token = models.TextField()
+    expo_token_user = models.TextField()
     is_subadmin = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'phone_number'

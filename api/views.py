@@ -175,6 +175,32 @@ def set_message_token(request):
         }) 
 
 
+@api_view(['GET','POST'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+def set_message_token_user(request):
+    data =request.data
+    if request.method=="POST":
+        if data.get('token') is None:
+            return Response({
+                'status': 400,
+                'message': "token is not valid"
+            })
+        user = request.user
+        userdata = User.objects.get(phone_number = user.phone_number) 
+        userdata.expo_token_user = data.get('token')
+        userdata.save() 
+        return Response({
+            'status': 200,
+            'message': "token is saved successfully"
+        }) 
+    user = request.user  
+    return Response({
+            'status': 200,
+            'token': user.expo_token_user
+        }) 
+
+
 @api_view(['POST'])
 def verify_otp(request):
     data = request.data

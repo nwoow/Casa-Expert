@@ -6,6 +6,7 @@ urlpatterns=[
     path('user-login/',views.user_login,name='user_login'),
     path('staff-login/',views.staff_login,name='staff_login'),
     path('set-message-token/',views.set_message_token),
+    path('set_message_token_user',views.set_message_token_user),
     path('verify-otp/',views.verify_otp,name='verify_otp'),
     path('profile/',views.profile),
     path('updateprofile/',views.updateprofile),
