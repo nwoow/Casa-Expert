@@ -113,6 +113,11 @@
                             <div>Email : {{b.email}}</div>
 
                         </div>
+                        <div>
+                            <span>
+                                <a href="{% url 'add-staff' b.assign_work.id %}">Staff Name : {{b.assign_work.full_name}} Mobile : {{b.assign_work.phone_number}}</a>
+                            </span>
+                        </div>
                         <div class="col-md-12">
                             Notes : {{b.notes}}
                         </div>
