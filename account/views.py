@@ -430,7 +430,7 @@ def pending(request):
             messages.success(request," assign work to user successfully")
             if staff_obj.expo_token:
                 send_push_notification(staff_obj.expo_token,"New Service Assignment","You have been assign to a new service,Please confirm your availability")
-                send_push_notification_user(user.expo_token_user,"Service Booking Confirmed",'Your service booking is confirmed. We look forword to serving you!')
+                send_push_notification_user(booking.user.expo_token_user,"Service Booking Confirmed",'Your service booking is confirmed. We look forword to serving you!')
         except IntegrityError as e:
             messages.error(request,"Already another work assign to staff at this date and time")
             
