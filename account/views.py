@@ -488,7 +488,7 @@ def accepted(request):
             booking.staff_status = "Pending"
             booking.save()
             if staff_obj.expo_token:
-                send_push_notification(staff_obj.expo_token,"CASAXPRT STAFF NOTIFICATION","A work assign to you please check app")
+                send_push_notification(staff_obj.expo_token,"New Service Assignment","You have been assign to a new service,Please confirm your availability")
             messages.success(request," assign work to user successfully")
         except IntegrityError as e:
             messages.error(request,"Already assign work to user")
@@ -516,7 +516,7 @@ def completed(request):
             booking.assign_work = User.objects.get(id =staff)
             booking.save()
             if staff_obj.expo_token:
-                send_push_notification(staff_obj.expo_token,"CASAXPRT STAFF NOTIFICATION","A work assign to you please check app")
+                send_push_notification(staff_obj.expo_token,"New Service Assignment","You have been assign to a new service,Please confirm your availability")
             messages.success(request," assign work to user successfully")
         except IntegrityError as e:
             messages.error(request,"Already assign work to user")
@@ -545,7 +545,7 @@ def staff_cancel(request):
             booking.staff_status = "Pending"
             booking.save()
             if staff_obj.expo_token:
-                send_push_notification(staff_obj.expo_token,"CASAXPRT STAFF NOTIFICATION","A work assign to you please check app")
+                send_push_notification(staff_obj.expo_token,"New Service Assignment","You have been assign to a new service,Please confirm your availability")
             messages.success(request," assign work to user successfully")
         except IntegrityError as e:
             messages.error(request,"Already assign work to user")
@@ -583,7 +583,7 @@ def client_cancel(request):
             booking.assign_work = User.objects.get(id =staff)
             booking.save()
             if staff_obj.expo_token:
-                send_push_notification(staff_obj.expo_token,"CASAXPRT STAFF NOTIFICATION","A work assign to you please check app")
+                send_push_notification(staff_obj.expo_token,"New Service Assignment","You have been assign to a new service,Please confirm your availability")
             messages.success(request," assign work to user successfully")
         except IntegrityError as e:
             messages.error(request,"Already assign work to user")

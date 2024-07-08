@@ -819,6 +819,7 @@ def staff_change_status(request):
                     booking.status = data.get('status')
                     booking.is_otp_verified = True
                     booking.save()
+                    send_push_notification_user(booking.user.expo_token_user,"Work Progress",'Your Service In Progress..')
             else:
                 return Response({
                     'status':400,
