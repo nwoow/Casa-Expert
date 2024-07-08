@@ -8,7 +8,7 @@ from home.models import Estimate,Contact,NewAccount
 from django.contrib.auth import login,logout,authenticate
 from django.contrib import messages
 from . form import CityServiceModelForm
-from .sendnotification import send_push_notification
+from .sendnotification import send_push_notification,send_push_notification_user
 from django.db import transaction, IntegrityError
 from django.contrib.auth.hashers import make_password
 from django.db.models import OuterRef, Subquery
@@ -429,9 +429,10 @@ def pending(request):
             booking.save()
             messages.success(request," assign work to user successfully")
             if staff_obj.expo_token:
-                send_push_notification(staff_obj.expo_token,"CASAXPRT STAFF NOTIFICATION","A work assign to you please check app")
+                send_push_notification(staff_obj.expo_token,"New Service Assignment","You have been assign to a new service,Please confirm your availability")
+                send_push_notification_user(user.expo_token,"Service Booking Confirmed",'Your service booking is confirmed. We look forword to serving you!')
         except IntegrityError as e:
-            messages.error(request,"Already assign work to user")
+            messages.error(request,"Already another work assign to staff at this date and time")
             
     if user.is_subadmin:
         all_service_area= user.subadmin_service_area.all().values('city_name')

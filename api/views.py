@@ -17,6 +17,8 @@ from datetime import timedelta,datetime
 from django.db.models import Q
 from django.db import IntegrityError
 from django.db.models import Count
+from account.sendnotification import send_push_notification,send_push_notification_user
+
 # Create your views here.
 
 
@@ -640,7 +642,7 @@ def cancel_booking(request):
         if time_diff <= delta:
             return Response({
                 'status':400,
-                'message':'Cancelation time expired'
+                'message':'Cancellation Time Expired'
             })      
         booking.status = 'Canceled'
         booking.staff_status = 'Canceled'
@@ -740,7 +742,7 @@ def send_staff_work_otp(request):
         booking.save()
         return Response({
             'status': 200,
-            'message': "Otp sended to your mobile no, Valid only 10 minutes"
+            'message': "Otp sended to your Mobile No. Valid only 10 minutes"
         })
     except Booking.DoesNotExist:
         return Response({
@@ -852,6 +854,7 @@ def staff_change_status(request):
             booking.staff_status = data.get('status')
             booking.status = data.get('status')
             booking.save()
+            send_push_notification_user(booking.user.expo_token,"Service Completed","Your Service is complete We hope you are satisfied with our service.")
             return Response({
                 'status': 200,
                 'message': "work status update successfully"
@@ -859,7 +862,7 @@ def staff_change_status(request):
 
         return Response({
                 'status': 400,
-                'message': "some thing wrong"
+                'message': "Something Wrong"
             })       
 
 
@@ -896,7 +899,7 @@ def generate_booking(request):
             return Response({
                 'status': 200,
                 'message': "order successfully",
-                'paymenttype': "cash on delevery"
+                'paymenttype': "Cash on delivery"
             }) 
         else:
             if data.get('merchantid') is None:
@@ -997,7 +1000,7 @@ def change_booked_product_status(request):
         booking_product.delete()
         return Response({
                 'status': 200,
-                'message': "product cancel successfully "
+                'message': "Product Cancel Successfully "
             })
 
         
